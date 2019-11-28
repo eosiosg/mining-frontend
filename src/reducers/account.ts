@@ -1,5 +1,5 @@
-import { UserInfoActionTypes } from "../typings/featurre/user";
-import * as ActionConstant from '../actions/user/constants'
+import { UserInfoActionTypes } from "../typings/feature/user";
+import * as ActionConstant from '../actions/account/constants'
 import {AccountInfo} from '../typings/api/api'
 // 5 hook types to reducers
 const userReducerDefaultState: AccountInfo = {

@@ -1,4 +1,4 @@
-import * as ActionTypes from '../../actions/user/constants'
+import * as ActionTypes from '../../actions/account/constants'
 import {AccountInfo} from '../api/api'
 // 1 add app specific types
 

@@ -1,4 +1,4 @@
-import { AppAction } from '../../typings/featurre';
+import { AppAction } from '../../typings/feature';
 import { Dispatch } from "redux";
 import { AppState } from "../../store/configureStore";
 import * as ActionTyps from './constants';

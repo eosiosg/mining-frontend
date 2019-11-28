@@ -1,5 +1,5 @@
-import { ExpenseActionTypes } from "../typings/featurre/Expense";
-import { Expense } from "../typings/featurre/Expense";
+import { ExpenseActionTypes } from "../typings/feature/Expense";
+import { Expense } from "../typings/feature/Expense";
 // 5 hook types to reducers
 const expensesReducerDefaultState: Expense[] = [
   {

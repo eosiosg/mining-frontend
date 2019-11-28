@@ -1,6 +1,6 @@
 import uuid from "uuid";
-import { Expense } from '../../typings/featurre/Expense';
-import { AppAction } from '../../typings/featurre';
+import { Expense } from '../../typings/feature/Expense';
+import { AppAction } from '../../typings/feature';
 import { Dispatch } from "redux";
 import { AppState } from "../../store/configureStore";
 import * as ActionTyps from './constants';

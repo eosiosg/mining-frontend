@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { startEditExpense, startRemoveExpense } from "../actions/expense/effects";
-import { getUserInfo, setUserInfo } from "../actions/user/effects";
-import { Expense } from "../typings/featurre/Expense";
+import { getUserInfo, setUserInfo } from "../actions/account/effects";
+import { Expense } from "../typings/feature/Expense";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
-import { AppAction } from "../typings/featurre";
+import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
 
-import { accountCtrl } from '../api/backendAPI/homepage';
+import { accountCtrl } from '../api/backendAPI';
 import styles from './style.module.scss'
 
 interface HomePageProps {
@@ -16,8 +16,6 @@ interface HomePageProps {
   color?: string;
   title?: string;
 }
-
-interface HomePageState {}
 
 type Props = HomePageProps & LinkDispatchProps & LinkStateProps;
 
