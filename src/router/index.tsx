@@ -1,7 +1,7 @@
 import React from "react";
 import { Router, Route, Switch, Link, NavLink } from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
-import HomeContainer from "../containers/HomeContainer";
+import HomeContainer from "../pages/HomeContainer";
 
 export const history = createHistory();
 

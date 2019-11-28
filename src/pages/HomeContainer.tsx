@@ -1,5 +1,5 @@
 import React from 'react';
-import HomeComponent from '../components/HomePage'
+import HomeComponent from '../feature/HomePage'
 
 export class HomePage extends React.Component<{}> {
 

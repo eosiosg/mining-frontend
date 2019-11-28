@@ -1,4 +1,4 @@
-import * as ActionTypes from '../src/actions/expense/constants'
+import * as ActionTypes from '../../actions/expense/constants'
 // 2 create action types
 
 export interface SetExpenseAction {

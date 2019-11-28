@@ -1,13 +1,12 @@
-import { AppAction } from '../../../types';
+import { AppAction } from '../../typings/featurre';
 import { Dispatch } from "redux";
 import { AppState } from "../../store/configureStore";
 import * as ActionTyps from './constants';
-import { UserType } from '../../../types/user';
-
+import {AccountInfo} from '../../typings/api/api'
 // 4 hook up types to redux actions
-export const setUserInfo = (userInfo: UserType): AppAction => ({
+export const setUserInfo = (accountInfo: AccountInfo): AppAction => ({
   type: ActionTyps.GET_USER_INFO_SUCCESS,
-  data: userInfo
+  data: accountInfo
 });
 
 
@@ -15,7 +14,7 @@ export const setUserInfo = (userInfo: UserType): AppAction => ({
 export const getUserInfo = () => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     dispatch(
-      setUserInfo({name: 'mytestalice1'})
+      setUserInfo({accountName: 'mytestalice1'})
     );
   };
 };

@@ -1,13 +1,11 @@
-import * as ActionTypes from '../src/actions/user/constants'
-
+import * as ActionTypes from '../../actions/user/constants'
+import {AccountInfo} from '../api/api'
 // 1 add app specific types
-export interface UserType {
-    name?: string;
-}
+
 
 export interface SetUserInfoAction {
   type: typeof ActionTypes.GET_USER_INFO_SUCCESS;
-  data: UserType;
+  data: AccountInfo;
 }
 
 export type UserInfoActionTypes = SetUserInfoAction;

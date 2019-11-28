@@ -1,14 +1,14 @@
-import { UserInfoActionTypes } from "../../types/user";
-import { UserType } from "../../types/user";
+import { UserInfoActionTypes } from "../typings/featurre/user";
 import * as ActionConstant from '../actions/user/constants'
+import {AccountInfo} from '../typings/api/api'
 // 5 hook types to reducers
-const userReducerDefaultState: UserType = {
+const userReducerDefaultState: AccountInfo = {
 }
 
 export default (
   state = userReducerDefaultState, 
   action: UserInfoActionTypes
-  ): UserType => {
+  ): AccountInfo => {
   switch (action.type) {
     case ActionConstant.GET_USER_INFO_SUCCESS:
       return {

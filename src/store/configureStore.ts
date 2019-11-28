@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk, { ThunkMiddleware } from "redux-thunk";
-import { AppAction } from "../../types";
+import { AppAction } from "../typings/featurre";
 import {routerMiddleware} from 'react-router-redux'
  import {rootReducer} from '../reducers/index';
 import {createBrowserHistory} from 'history'
