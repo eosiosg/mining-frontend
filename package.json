@@ -44,6 +44,7 @@
     "nicer-log": "^0.3.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.2.1",
+    "portable-fetch": "^3.0.0",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
     "postcss-normalize": "7.0.1",
@@ -64,6 +65,7 @@
     "terser-webpack-plugin": "1.2.3",
     "ts-pnp": "1.1.2",
     "typescript": "3.4.5",
+    "url": "^0.11.0",
     "url-loader": "1.1.2",
     "webpack": "4.29.6",
     "webpack-dev-server": "3.2.1",
@@ -100,6 +102,7 @@
     "px2rem-loader": "^0.1.9",
     "raw-loader": "^0.5.1"
   },
+  "proxy": "http://13.250.41.73:18080",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",

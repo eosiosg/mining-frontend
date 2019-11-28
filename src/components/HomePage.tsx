@@ -6,6 +6,8 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../../types/actions";
 import { bindActionCreators } from "redux";
+
+import { accountCtrl } from '../api/backendAPI/homepage';
 import styles from './style.module.scss'
 interface HomePageProps {
   id?: string;
@@ -23,6 +25,10 @@ export class HomePage extends React.Component<Props, HomePageState> {
   onRemove = (id: string) => {
     this.props.startRemoveExpense(id);
   };
+  componentDidMount() {
+    accountCtrl.getAccountInfoUsingGET('123123', {})
+    .then(res => console.log(res))
+  }
   render() {
     const { expenses } = this.props;
     return (
