@@ -1,2 +1,3 @@
 import {ExpenseActionTypes} from './Expense'
-export type AppAction = ExpenseActionTypes;
+import {UserInfoActionTypes} from './user'
+export type AppAction = ExpenseActionTypes | UserInfoActionTypes;

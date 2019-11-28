@@ -1,6 +1,6 @@
 import uuid from "uuid";
 import { Expense } from '../../../types/Expense';
-import { AppAction } from '../../../types/actions';
+import { AppAction } from '../../../types';
 import { Dispatch } from "redux";
 import { AppState } from "../../store/configureStore";
 import * as ActionTyps from './constants';

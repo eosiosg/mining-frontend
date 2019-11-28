@@ -1,5 +1,9 @@
-import expensesReducer from './expenses'
 import {combineReducers} from 'redux'
+import {routerReducer} from 'react-router-redux'
+import expensesReducer from './expenses'
+import userInfoReducer from './user'
 export const rootReducer = combineReducers({
-  expenses: expensesReducer
+  router: routerReducer,
+  expenses: expensesReducer,
+  userInfo: userInfoReducer
 });

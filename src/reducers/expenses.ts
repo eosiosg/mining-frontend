@@ -1,4 +1,4 @@
-import { ExpenseActionTypes } from "../../types/actions";
+import { ExpenseActionTypes } from "../../types/Expense";
 import { Expense } from "../../types/Expense";
 // 5 hook types to reducers
 const expensesReducerDefaultState: Expense[] = [
