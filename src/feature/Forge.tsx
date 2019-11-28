@@ -13,9 +13,7 @@ import { getUserInfo } from "../actions/account/effects";
 import { ForgeInfo } from "../typings/api";
 
 interface ForgePageProps {
-  id?: string;
-  color?: string;
-  title?: string;
+
 }
 
 type Props = ForgePageProps & LinkDispatchProps & LinkStateProps;

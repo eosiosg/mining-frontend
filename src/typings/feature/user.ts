@@ -1,5 +1,5 @@
 import * as ActionTypes from '../../actions/account/constants'
-import {AccountInfo} from '../api/api'
+import {AccountInfo, PageMinerInfo} from '../api/api'
 // 1 add app specific types
 
 
@@ -8,4 +8,11 @@ export interface SetUserInfoAction {
   data: AccountInfo;
 }
 
-export type UserInfoActionTypes = SetUserInfoAction;
+export interface SetActiveMinerInfoAction {
+  type: typeof ActionTypes.GET_ACTIVE_MINER_LIST;
+  data: PageMinerInfo
+}
+
+export type UserInfoActionTypes = 
+  | SetUserInfoAction
+  | SetActiveMinerInfoAction;

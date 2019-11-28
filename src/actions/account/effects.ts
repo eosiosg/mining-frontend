@@ -2,7 +2,7 @@ import { AppAction } from '../../typings/feature';
 import { Dispatch } from "redux";
 import { AppState } from "../../store/configureStore";
 import * as ActionTyps from './constants';
-import {AccountInfo} from '../../typings/api/api'
+import {AccountInfo, PageMinerInfo} from '../../typings/api/api'
 // 4 hook up types to redux actions
 export const setUserInfo = (accountInfo: AccountInfo): AppAction => ({
   type: ActionTyps.GET_USER_INFO_SUCCESS,
@@ -18,3 +18,8 @@ export const getUserInfo = () => {
     );
   };
 };
+
+export const setMinerList = (minerContent: PageMinerInfo): AppAction => ({
+  type: ActionTyps.GET_ACTIVE_MINER_LIST,
+  data: minerContent
+})
