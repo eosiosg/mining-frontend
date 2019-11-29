@@ -15,6 +15,7 @@ import { AppAction } from "../typings/feature";
 import { ThunkDispatch } from "redux-thunk";
 import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
+import MeContainer from "../pages/Me";
 
 export const history = createHistory();
 
@@ -36,9 +37,11 @@ const AppRouter: React.FC<Props> = (props) => {
           <ul>
             <li>
               <Link to="/soldminer">销毁矿机</Link>
-              <Link to="/">首页</Link>
+              </li>
+              <li><Link to="/">首页</Link></li>
+              <li><Link to="/me">个人中心</Link></li>
 
-            </li>
+            
           </ul>
         </div>
         <div>
@@ -48,6 +51,7 @@ const AppRouter: React.FC<Props> = (props) => {
             </Route>
             <Route path="/home" component={HomeContainer} />
             <Route path="/soldminer" component={SoldMinerContainer} />
+            <Route path="/me" component={MeContainer} />
           </Switch>
         </div>
       </Router>
