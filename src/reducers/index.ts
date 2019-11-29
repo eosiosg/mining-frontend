@@ -6,7 +6,6 @@ import forgeInfoReducer from './forge'
 import activeMinerReducer from './activeMiner'
 import soldMinerReducer from './soldMiner'
 export const rootReducer = combineReducers({
-  router: routerReducer,
   expenses: expensesReducer,
   accountInfo: accountInfoReducer,
   forgeInfo: forgeInfoReducer,

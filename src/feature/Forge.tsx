@@ -20,12 +20,6 @@ type Props = ForgePageProps & LinkDispatchProps & LinkStateProps;
 
 const ForgePage: React.FC<Props> = (props) => {
   useEffect(() => {
-    if(!props.userName) {
-      props.getUserInfo();
-    }
-    
-  },[props.userName])
-  useEffect(() => {
     if (!props.userName) return;
     poolCtrl.getForgeInfoUsingGET()
     .then(res => props.dispatch(setForgeInfo(res)));

@@ -3,11 +3,11 @@ import thunk, { ThunkMiddleware } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import {routerMiddleware} from 'react-router-redux'
  import {rootReducer} from '../reducers/index';
-import {createBrowserHistory} from 'history'
+ import createHistory from "history/createBrowserHistory";
 // hook up types to redux store
 
 export type AppState = ReturnType<typeof rootReducer>; // 3 create app state types
-export const history = createBrowserHistory();
+export const history = createHistory();
 
 export const store = createStore(
   rootReducer, 

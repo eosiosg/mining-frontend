@@ -27,12 +27,6 @@ const HomePage: React.FC<Props> = (props) => {
     props.startRemoveExpense(id);
   };
   useEffect(() => {
-    if(!props.userName) {
-      props.getUserInfo();
-    }
-    
-  },[props.userName])
-  useEffect(() => {
     if (!props.userName) return;
     accountCtrl.getAccountInfoUsingGET(props.userName, {})
     .then(res => props.dispatch(setUserInfo(res)));

@@ -58,7 +58,7 @@
     "react-dom": "^16.8.6",
     "react-infinite-scroller": "^1.2.4",
     "react-redux": "^7.0.3",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^5.1.2",
     "react-router-redux": "^4.0.8",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
@@ -99,7 +99,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.149",
     "@types/react-redux": "^7.0.9",
-    "@types/react-router-dom": "^4.3.3",
+    "@types/react-router-dom": "^5.1.3",
     "@types/react-router-redux": "^5.0.18",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",

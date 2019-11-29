@@ -61,6 +61,7 @@ const MinerList: React.FC<Props> = (props) => {
           </div>
         ))}
     </InfiniteScroll>
+    {isEnd && "我室友底线的"}
     </div>
   );
 }
