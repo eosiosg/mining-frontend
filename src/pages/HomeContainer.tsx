@@ -7,7 +7,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
-import styles from './homepage.module.scss'
+import styles from '../styles/homepage.module.scss'
 // export class HomePage extends React.Component<{}> {
 const HomePage: React.FC<{}> = () => {
   let { path, url } = useRouteMatch();
@@ -22,11 +22,8 @@ const HomePage: React.FC<{}> = () => {
           </li>
         </ul>
         <Switch>
-          <Route exact path={path}>
-            <HomeComponent />
-          </Route>
           <Route path={`${path}/mine`}>
-            <HomeComponent />
+            <HomeComponent title={'hehe'}/>
           </Route>
           <Route path={`${path}/forge`}>
             <ForgeComponent />

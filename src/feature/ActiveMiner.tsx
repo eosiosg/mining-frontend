@@ -9,7 +9,7 @@ import { setActiveMinerList } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
 import { MinerInfo, Pageable } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
-import styles from './listItem.module.scss';
+import styles from '../styles/listItem.module.scss';
 
 interface MinerListPageProps {
 

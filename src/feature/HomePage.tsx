@@ -7,9 +7,16 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
+import linkStyles from '../styles/homepage.module.scss'
+import { 
+  useRouteMatch,
+  NavLink,
+  Switch,
+  Route
+} from 'react-router-dom'
 
 import { accountCtrl } from '../api/backendAPI';
-import styles from './style.module.scss'
+import styles from '../styles/style.module.scss'
 
 interface HomePageProps {
   id?: string;
@@ -20,58 +27,47 @@ interface HomePageProps {
 type Props = HomePageProps & LinkDispatchProps & LinkStateProps;
 
 const HomePage: React.FC<Props> = (props) => {
-  const onEdit = (expense: Expense) => {
-    props.startEditExpense(expense);
-  };
-  const onRemove = (id: string) => {
-    props.startRemoveExpense(id);
-  };
+  let { path, url } = useRouteMatch();
   useEffect(() => {
     if (!props.userName) return;
     accountCtrl.getAccountInfoUsingGET(props.userName, {})
     .then(res => props.dispatch(setUserInfo(res)));
   }, [props.userName])
-  const { expenses } = props;
   return (
     <div>
+      <ul>
+          <li>
+            <NavLink to={`${url}`} activeClassName={linkStyles.selected}>简介</NavLink>
+          </li>
+          <li>
+            <NavLink to={`${url}/recenttrade`} activeClassName={linkStyles.selected}>最近交易</NavLink>
+          </li>
+        </ul>
       <h1 className={styles.fontColor}>{props.title}</h1>
-      <div>
-        {expenses.map(expense => (
-          <div>
-            <p>{expense.description}</p>
-            <p>{expense.amount}</p>
-            <p>{expense.note}</p>
-            <button onClick={() => onRemove(expense.id)}>
-              Remov1e Expense
-            </button>
-            <button onClick={() => onEdit(expense)}>Edit Expense</button>
-          </div>
-        ))}
-      </div>
+      <Switch>
+          <Route exact path={`${path}`}>
+            简介
+          </Route>
+          <Route path={`${path}/recenttrade`}>
+            最近交易
+          </Route>
+        </Switch>
     </div>
   );
 }
 
 interface LinkStateProps {
-  expenses:  Expense[];
   userName?: string;
 }
 
 interface LinkDispatchProps {
-  startEditExpense: (expense: Expense) => void;
-  startRemoveExpense: (id: string) => void;
-  getUserInfo: () => void;
   dispatch: (action: AppAction) => void
 }
 const mapStateToProps = (state: AppState, props: HomePageProps): LinkStateProps => ({
-  expenses: state.expenses,
   userName: state.accountInfo.accountName
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any,AppAction>, props: HomePageProps): LinkDispatchProps => ({
-  startEditExpense: bindActionCreators(startEditExpense, dispatch),
-  startRemoveExpense: bindActionCreators(startRemoveExpense, dispatch),
-  getUserInfo: bindActionCreators(getUserInfo, dispatch),
   dispatch: dispatch
 });
 
