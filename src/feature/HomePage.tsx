@@ -14,7 +14,6 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
-
 import { accountCtrl } from '../api/backendAPI';
 import styles from '../styles/style.module.scss'
 

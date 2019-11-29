@@ -8,11 +8,13 @@ import {
   Route
 } from 'react-router-dom'
 import styles from '../styles/homepage.module.scss'
+import HeaderBar from '../components/HeaderBar';
 // export class HomePage extends React.Component<{}> {
 const HomePage: React.FC<{}> = () => {
   let { path, url } = useRouteMatch();
     return (
       <div>
+        <HeaderBar title="首页" hasMe/>
         <ul>
           <li>
             <NavLink to={`${url}/mine`} activeClassName={styles.selected}>挖矿</NavLink>
