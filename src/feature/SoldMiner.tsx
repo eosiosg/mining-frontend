@@ -5,7 +5,7 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
-import { setActiveMinerList } from "../actions/account/effects";
+import { setSoldMinerList } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
 import { MinerInfo, Pageable } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
@@ -36,15 +36,15 @@ const MinerList: React.FC<Props> = (props) => {
 
   const loadData = () => {
     if (!props.userName || isEnd) return;
-    accountCtrl.getActiveMinerUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
+    accountCtrl.getSoldMinerUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
     .then(res => {
-      props.dispatch(setActiveMinerList(res));
+      props.dispatch(setSoldMinerList(res));
       setIsEnd(props.totalPages
         ? props.pageInfo!.pageNumber!+1 > props.totalPages 
         : false )
     });
   }
-  const { activeMinerList } = props;
+  const { soldMinerList } = props;
 
   return (
     <div>
@@ -54,10 +54,9 @@ const MinerList: React.FC<Props> = (props) => {
         hasMore={!isEnd}
         loader={<div className="loader" key={0}>Loading ...</div>}
     >
-        {activeMinerList.map((miner, index) => (
+        {soldMinerList.map((miner, index) => (
           <div key={miner.minerId} className={styles.itemContainer}>
             <span>{miner.minerId}</span>
-            <span>{miner.pow}</span>
             <span>{miner.totalRewardInEos}</span>
           </div>
         ))}
@@ -68,7 +67,7 @@ const MinerList: React.FC<Props> = (props) => {
 
 interface LinkStateProps {
   userName?: string;
-  activeMinerList: MinerInfo[];
+  soldMinerList: MinerInfo[];
   pageInfo: Pageable;
   totalPages?: number;
 }
@@ -78,9 +77,9 @@ interface LinkDispatchProps {
 }
 const mapStateToProps = (state: AppState, props: MinerListPageProps): LinkStateProps => ({
   userName: state.accountInfo.accountName,
-  activeMinerList: state.activeMiner.content,
-  pageInfo: state.activeMiner.pageable,
-  totalPages: state.activeMiner.totalPages
+  soldMinerList: state.soldMiner.content,
+  pageInfo: state.soldMiner.pageable,
+  totalPages: state.soldMiner.totalPages
 
 });
 

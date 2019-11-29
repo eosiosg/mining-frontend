@@ -4,10 +4,12 @@ import expensesReducer from './expenses'
 import accountInfoReducer from './account'
 import forgeInfoReducer from './forge'
 import activeMinerReducer from './activeMiner'
+import soldMinerReducer from './soldMiner'
 export const rootReducer = combineReducers({
   router: routerReducer,
   expenses: expensesReducer,
   accountInfo: accountInfoReducer,
   forgeInfo: forgeInfoReducer,
-  activeMiner: activeMinerReducer
+  activeMiner: activeMinerReducer,
+  soldMiner: soldMinerReducer,
 });

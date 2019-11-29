@@ -19,7 +19,12 @@ export const getUserInfo = () => {
   };
 };
 
-export const setMinerList = (minerContent: PageMinerInfo): AppAction => ({
+export const setActiveMinerList = (minerContent: PageMinerInfo): AppAction => ({
   type: ActionTyps.GET_ACTIVE_MINER_LIST,
+  data: minerContent
+})
+
+export const setSoldMinerList = (minerContent: PageMinerInfo): AppAction => ({
+  type: ActionTyps.GET_SOLD_MINER_LIST,
   data: minerContent
 })

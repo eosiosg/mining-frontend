@@ -13,6 +13,12 @@ export interface SetActiveMinerInfoAction {
   data: PageMinerInfo
 }
 
+export interface SetSoldMinerInfoAction {
+  type: typeof ActionTypes.GET_SOLD_MINER_LIST;
+  data: PageMinerInfo
+}
+
 export type UserInfoActionTypes = 
   | SetUserInfoAction
-  | SetActiveMinerInfoAction;
+  | SetActiveMinerInfoAction
+  | SetSoldMinerInfoAction;

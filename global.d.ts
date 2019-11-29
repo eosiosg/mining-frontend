@@ -1,3 +1,5 @@
+declare module 'react-infinite-scroller';
+
 declare module '*.scss' {
   type classNames = {
     [key: string]: string;
