@@ -27,6 +27,7 @@ const RecentTrades: React.FC<Props> = (props) => {
 
   return (
     <div>
+      
         {recentTradeList.map((trade, index) => (
           <div key={index} className={styles.itemContainer}>
             <span>{trade.tradeTimestamp}</span>
