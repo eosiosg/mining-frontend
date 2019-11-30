@@ -1,7 +1,7 @@
 // 熔币
 // 倒计时那玩意
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
@@ -11,7 +11,8 @@ import { setForgeInfo } from "../actions/pool/effects";
 import { poolCtrl } from '../api/backendAPI';
 import { getUserInfo } from "../actions/account/effects";
 import { ForgeInfo } from "../typings/api";
-
+import { timeDiff } from "../util/time";
+import _ from 'lodash';
 interface ForgePageProps {
 
 }
@@ -19,15 +20,36 @@ interface ForgePageProps {
 type Props = ForgePageProps & LinkDispatchProps & LinkStateProps;
 
 const ForgePage: React.FC<Props> = (props) => {
+  const [timer, setTimer] = useState<number[]>([]);
+  const timerRef = useRef(timer);
+  timerRef.current = timer;
   useEffect(() => {
     if (!props.userName) return;
     poolCtrl.getForgeInfoUsingGET()
-    .then(res => props.dispatch(setForgeInfo(res)));
-  }, [props.userName])
+    .then(res => {
+      props.dispatch(setForgeInfo(res));
+    });
+  }, [props.userName]);
+
+  useEffect(() => {
+    console.log('lala')
+    if (!props.userName) return;
+    let intervalId: number | undefined;
+    if (props.forgeInfo.endTimestamp) {
+      intervalId = window.setInterval(() => setTimer(timeDiff(new Date().valueOf(), props.forgeInfo.endTimestamp!)), 1000);
+    }
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    }
+  }, [props.userName, props.forgeInfo.endTimestamp]);
+  
   const { forgeInfo } = props;
   return (
     <div>
       {JSON.stringify(forgeInfo)}
+      <p>{timer.join('  ')}</p>
     </div>
   );
 }
