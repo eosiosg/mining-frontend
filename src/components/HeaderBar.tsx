@@ -10,7 +10,9 @@ const HeaderBar: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.left}>{props.hasGoback && <span onClick={() => props.history.goBack()}>back</span>}</div>
+      <div className={styles.left}>
+        {props.hasGoback && <span onClick={() => props.history.goBack()}>back</span>}
+      </div>
       <div>{props.title}</div>
       <div className={styles.right}>
         {props.hasMe && <Link to='/me'>me</Link>}

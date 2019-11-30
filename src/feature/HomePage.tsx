@@ -8,6 +8,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
 import linkStyles from '../styles/homepage.module.scss'
+import NavBar from '../components/navLink';
 import { 
   useRouteMatch,
   NavLink,
@@ -16,6 +17,7 @@ import {
 } from 'react-router-dom'
 import { accountCtrl } from '../api/backendAPI';
 import styles from '../styles/style.module.scss'
+import navStyles from '../styles/navLink.module.scss'
 
 interface HomePageProps {
   id?: string;
@@ -34,23 +36,30 @@ const HomePage: React.FC<Props> = (props) => {
   }, [props.userName])
   return (
     <div>
-      <ul>
-          <li>
-            <NavLink to={`${url}`} activeClassName={linkStyles.selected}>简介</NavLink>
-          </li>
-          <li>
-            <NavLink to={`${url}/recenttrade`} activeClassName={linkStyles.selected}>最近交易</NavLink>
-          </li>
-        </ul>
-      <h1 className={styles.fontColor}>{props.title}</h1>
+      <NavBar 
+        noBottomBorder={true}
+        routes={[
+          {
+            url: url,
+            exact: true,
+            display: "简介"
+          },
+          {
+            url: `${url}/recenttrade`,
+            exact: true,
+            display: "最近交易"
+          }
+        ]}
+      />
+    <h1 className={styles.fontColor}>{props.title}</h1>
       <Switch>
-          <Route exact path={`${path}`}>
-            简介
-          </Route>
-          <Route path={`${path}/recenttrade`}>
-            最近交易
-          </Route>
-        </Switch>
+        <Route exact path={`${path}`}>
+          简介
+        </Route>
+        <Route path={`${path}/recenttrade`}>
+          最近交易
+        </Route>
+      </Switch>
     </div>
   );
 }
