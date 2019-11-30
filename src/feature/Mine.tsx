@@ -7,7 +7,6 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
-import linkStyles from '../styles/homepage.module.scss'
 import NavBar from '../components/navLink';
 import { 
   useRouteMatch,
@@ -20,6 +19,7 @@ import styles from '../styles/homepage.module.scss'
 import ContentWrapper from "components/blockContent";
 import { AccountInfo } from "typings/api";
 import TextInput from "components/inputElement";
+import Rules from "./rules";
 
 interface HomePageProps {
   id?: string;
@@ -76,27 +76,49 @@ const HomePage: React.FC<Props> = (props) => {
           <span>{props.accountInfo.eosBalance}，</span>
           <span>{props.accountInfo.bosBalance}</span>
         </div>
+        {/*todo: slider here*/}
+        <span className={styles.estimate}>*预计收益增加</span>
+        <div className={styles.btnWrapper}>
+          <button onClick={() => alert('挖')}>立刻挖矿</button>
+        </div>
+
+        <div className={styles.warnning}>
+          <div>
+            <span>*预计到期收益只是估计值，不作为最终收益标准。</span><br/>
+            <span>*投资有风险。请谨慎购买。</span>
+          </div>
+        </div>
+        
       </ContentWrapper>
-       
-      <NavBar 
-        noBottomBorder={true}
-        routes={[
-          {
-            url: url,
-            exact: true,
-            display: "简介"
-          },
-          {
-            url: `${url}/recenttrade`,
-            exact: true,
-            display: "最近交易"
-          }
-        ]}
-      />
+      <div className={styles.info}>
+        <NavBar 
+          noBottomBorder={true}
+          routes={[
+            {
+              url: url,
+              exact: true,
+              display: "规则"
+            },
+            {
+              url: `${url}/recenttrade`,
+              exact: true,
+              display: "最近交易"
+            }
+          ]}
+          gap={5}
+        />
+      </div>
+      
    
       <Switch>
         <Route exact path={`${path}`}>
-          简介
+          <div style={{
+            marginTop: `${(13/37.5).toFixed(8)}rem`
+          }}>
+          <ContentWrapper>
+            <Rules />
+          </ContentWrapper>
+          </div>
         </Route>
         <Route path={`${path}/recenttrade`}>
           最近交易

@@ -13,16 +13,23 @@ type Props = {
     url: string;
     display: string;
   }>
+  gap?: number;
 }
 const NavBar: React.FC<Props> = ({
   routes,
-  noBottomBorder
+  noBottomBorder,
+  gap
 }) => {
   return (
     
       <ul className={navStyles.linkContainer}>
         {routes.map((route, index) => (
-          <li className={noBottomBorder ? navStyles.noBottomBorder : ''}>
+          <li 
+            className={noBottomBorder ? navStyles.noBottomBorder : ''}
+            style={{
+              marginRight: !!gap ? `${(gap/37.5).toFixed(8)}rem` : ""
+            }}
+          >
             <NavLink exact={route.exact} key={index} to={route.url} activeClassName={navStyles.selected}>{route.display}</NavLink>
           </li>
         ))}
