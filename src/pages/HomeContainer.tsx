@@ -1,5 +1,5 @@
 import React from 'react';
-import HomeComponent from '../feature/HomePage'
+import MineComponent from '../feature/Mine'
 import ForgeComponent from '../feature/Forge'
 import { 
   useRouteMatch,
@@ -9,23 +9,34 @@ import {
 } from 'react-router-dom'
 import styles from '../styles/homepage.module.scss'
 import HeaderBar from '../components/HeaderBar';
+import NavBar from '../components/navLink';
+import ContentWrapper from 'components/blockContent';
+
 // export class HomePage extends React.Component<{}> {
 const HomePage: React.FC<{}> = () => {
   let { path, url } = useRouteMatch();
     return (
       <div>
         <HeaderBar title="首页" hasMe/>
-        <ul>
-          <li>
-            <NavLink to={`${url}/mine`} activeClassName={styles.selected}>挖矿</NavLink>
-          </li>
-          <li>
-            <NavLink to={`${url}/forge`} activeClassName={styles.selected}>熔币</NavLink>
-          </li>
-        </ul>
+          <ContentWrapper>
+            <NavBar
+              routes={[
+                {
+                  url: `${url}/mine`,
+                  exact: true,
+                  display: "挖矿"
+                },
+                {
+                  url: `${url}/forge`,
+                  exact: true,
+                  display: "熔币"
+                }
+              ]}
+            />
+          </ContentWrapper>
         <Switch>
           <Route path={`${path}/mine`}>
-            <HomeComponent title={'hehe'}/>
+            <MineComponent title={'hehe'}/>
           </Route>
           <Route path={`${path}/forge`}>
             <ForgeComponent />

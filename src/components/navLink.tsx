@@ -19,12 +19,13 @@ const NavBar: React.FC<Props> = ({
   noBottomBorder
 }) => {
   return (
-    <ul className={navStyles.linkContainer}>
-      {routes.map((route, index) => (
-        <li className={noBottomBorder ? navStyles.noBottomBorder : ''}>
-          <NavLink exact={route.exact} key={index} to={route.url} activeClassName={navStyles.selected}>{route.display}</NavLink>
-        </li>
-      ))}
+    
+      <ul className={navStyles.linkContainer}>
+        {routes.map((route, index) => (
+          <li className={noBottomBorder ? navStyles.noBottomBorder : ''}>
+            <NavLink exact={route.exact} key={index} to={route.url} activeClassName={navStyles.selected}>{route.display}</NavLink>
+          </li>
+        ))}
       </ul>
   )
 }

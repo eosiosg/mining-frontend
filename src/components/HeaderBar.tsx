@@ -13,7 +13,7 @@ const HeaderBar: React.FC<Props> = (props) => {
       <div className={styles.left}>
         {props.hasGoback && <span onClick={() => props.history.goBack()}>back</span>}
       </div>
-      <div>{props.title}</div>
+      <span>{props.title}</span>
       <div className={styles.right}>
         {props.hasMe && <Link to='/me'>me</Link>}
         </div>

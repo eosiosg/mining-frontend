@@ -1,3 +1,68 @@
-.selected {
-  color: red;
+.accountInfo {
+  margin-top: 13px;
+
+  // banner reward
+  .banner {
+    line-height:173px;
+    background:linear-gradient(300deg,rgba(81,25,251,1) 0%,rgba(82,255,234,1) 100%);
+    border-radius:10px;
+    text-align: center;
+
+    .content {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+      p {
+        &.title {
+          font-size: 20px;
+          font-weight: 500;
+          line-height: 28px;
+        }
+        &.totleEos {
+          margin-top: 13px;
+          font-size: 30px;
+          font-weight: 500;
+          line-height: 42px;
+        }
+        &.minerPrice {
+          margin-top: 5px;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 17px;
+          color: #D8D8D8;
+        }
+      }
+    }
+  }
+
+  // miner reward
+  .minerReward {
+    font-size: 14px;
+    font-weight: 500;
+    .content {
+      display: flex;
+      height: 65px;
+      align-items: center;
+      position: relative;
+      text-align: center;
+      .block {
+        width: 50%;
+        p {
+          text-align: left;
+          display: inline-block;  
+          span {
+            display: inline-block;
+            padding: 2px 0;
+          }
+        }
+      }
+      .sep {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        height: 100%;
+        border-left: 1px solid #D8D8D8;
+      }
+    }
+  }
 }
