@@ -9,7 +9,7 @@ import { exact } from 'prop-types';
 type Props = {
   noBottomBorder?: boolean;
   routes: Array<{
-    exact: boolean;
+    exact?: boolean;
     url: string;
     display: string;
   }>

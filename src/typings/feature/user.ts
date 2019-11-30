@@ -1,5 +1,5 @@
 import * as ActionTypes from '../../actions/account/constants'
-import {AccountInfo, PageMinerInfo} from '../api/api'
+import {AccountInfo, PageMinerInfo, MinerTradeInfo} from '../api/api'
 // 1 add app specific types
 
 
@@ -18,7 +18,13 @@ export interface SetSoldMinerInfoAction {
   data: PageMinerInfo
 }
 
+export interface SetRecentTradeInfoAction {
+  type: typeof ActionTypes.GET_RECENT_TRADE_LIST,
+  data: MinerTradeInfo[]
+}
+
 export type UserInfoActionTypes = 
   | SetUserInfoAction
   | SetActiveMinerInfoAction
-  | SetSoldMinerInfoAction;
+  | SetSoldMinerInfoAction
+  | SetRecentTradeInfoAction;

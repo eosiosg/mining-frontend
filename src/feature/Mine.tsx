@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { startEditExpense, startRemoveExpense } from "../actions/expense/effects";
-import { getUserInfo, setUserInfo } from "../actions/account/effects";
-import { Expense } from "../typings/feature/Expense";
+import { setUserInfo } from "../actions/account/effects";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
-import { bindActionCreators } from "redux";
 import NavBar from '../components/navLink';
 import { 
   useRouteMatch,
@@ -20,7 +17,7 @@ import ContentWrapper from "components/blockContent";
 import { AccountInfo } from "typings/api";
 import TextInput from "components/inputElement";
 import Rules from "./rules";
-
+import RecentTrades from './RecentTrade'
 interface HomePageProps {
   id?: string;
   color?: string;
@@ -121,7 +118,7 @@ const HomePage: React.FC<Props> = (props) => {
           </div>
         </Route>
         <Route path={`${path}/recenttrade`}>
-          最近交易
+          <RecentTrades />
         </Route>
       </Switch>
     </div>

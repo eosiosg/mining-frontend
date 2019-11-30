@@ -23,12 +23,10 @@ const HomePage: React.FC<{}> = () => {
               routes={[
                 {
                   url: `${url}/mine`,
-                  exact: true,
                   display: "挖矿"
                 },
                 {
                   url: `${url}/forge`,
-                  exact: true,
                   display: "熔币"
                 }
               ]}

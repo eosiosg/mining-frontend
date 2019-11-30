@@ -2,7 +2,7 @@ import { AppAction } from '../../typings/feature';
 import { Dispatch } from "redux";
 import { AppState } from "../../store/configureStore";
 import * as ActionTyps from './constants';
-import {AccountInfo, PageMinerInfo} from '../../typings/api/api'
+import {AccountInfo, PageMinerInfo, MinerTradeInfo} from '../../typings/api/api'
 // 4 hook up types to redux actions
 export const setUserInfo = (accountInfo: AccountInfo): AppAction => ({
   type: ActionTyps.GET_USER_INFO_SUCCESS,
@@ -27,4 +27,9 @@ export const setActiveMinerList = (minerContent: PageMinerInfo): AppAction => ({
 export const setSoldMinerList = (minerContent: PageMinerInfo): AppAction => ({
   type: ActionTyps.GET_SOLD_MINER_LIST,
   data: minerContent
+})
+
+export const setRecentTradeList = (MinerTradeInfo: MinerTradeInfo[]): AppAction => ({
+  type: ActionTyps.GET_RECENT_TRADE_LIST,
+  data: MinerTradeInfo
 })
