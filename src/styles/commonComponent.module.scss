@@ -1,0 +1,29 @@
+.inputContainer {
+  
+  background: #FFFFFF;
+  border-radius: 5px;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  .inputHtml {
+    box-sizing: border-box;
+    line-height: 1;
+    width: 100%;
+    font-size: 16px;;
+    padding: 10px 16px;
+    display: inline-block;
+    text-align: center;
+    &.affix {
+      padding-right: 30px;
+    }
+  }
+  .prefixEle {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #302F2F;
+    font-weight: 500;
+  }
+
+}

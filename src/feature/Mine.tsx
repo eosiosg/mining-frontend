@@ -19,6 +19,7 @@ import { accountCtrl } from '../api/backendAPI';
 import styles from '../styles/homepage.module.scss'
 import ContentWrapper from "components/blockContent";
 import { AccountInfo } from "typings/api";
+import TextInput from "components/inputElement";
 
 interface HomePageProps {
   id?: string;
@@ -63,6 +64,17 @@ const HomePage: React.FC<Props> = (props) => {
               </div>
             </div>
           </div>
+        </div>
+        <TextInput
+          prefix={<InputPrefix />}
+          value={'adasdf123'}
+          onchange={(value) => console.log(value)}
+          fontSize={12}
+        />
+        <div className={styles.balance}>
+          账户余额：
+          <span>{props.accountInfo.eosBalance}，</span>
+          <span>{props.accountInfo.bosBalance}</span>
         </div>
       </ContentWrapper>
        
@@ -115,3 +127,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(HomePage);
+
+const InputPrefix: React.FC<{}> = (props) => <span>个</span>
