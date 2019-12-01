@@ -10,7 +10,7 @@ import { accountCtrl } from '../api/backendAPI';
 import { MinerInfo, Pageable } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from '../styles/listItem.module.scss';
-
+import classnames from 'classnames'
 interface MinerListPageProps {
 
 }
@@ -54,14 +54,18 @@ const MinerList: React.FC<Props> = (props) => {
         hasMore={!isEnd}
         loader={<div className="loader" key={0}>Loading ...</div>}
     >
-        {soldMinerList.map((miner, index) => (
-          <div key={miner.minerId} className={styles.itemContainer}>
-            <span>{miner.minerId}</span>
-            <span>{miner.totalRewardInEos}</span>
-          </div>
-        ))}
+      <div className={classnames(styles.itemContainer, styles.listHeader)}>
+        <span>矿机ID</span>
+        <span>累计收益</span>
+      </div>
+      {soldMinerList.map((miner, index) => (
+        <div key={miner.minerId} className={styles.itemContainer}>
+          <span>{miner.minerId}</span>
+          <span>{miner.totalRewardInEos}</span>
+        </div>
+      ))}
     </InfiniteScroll>
-    {isEnd && "我室友底线的"}
+    {isEnd && "我是有底线的"}
     </div>
   );
 }

@@ -2,18 +2,20 @@ import React from 'react';
 import classnames from 'classnames';
 import styles from '../styles/commonComponent.module.scss';
 type Props = {
-  value: string;
-  onchange: (value: string) => void;
+  value: number | string;
+  onchange: (value: number | string) => void;
   prefix: React.ReactNode;
   fontSize: number;
   alignLeft?: boolean;
+  placeholder?: string;
 }
 const TextInput: React.FC<Props> = ({
   value,
   onchange,
   prefix,
   fontSize,
-  alignLeft
+  alignLeft,
+  placeholder
 }) => {
   const onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -25,6 +27,7 @@ const TextInput: React.FC<Props> = ({
         className={classnames(styles.inputHtml, {[styles.affix]: !!prefix})} 
         type="text" 
         value={value} 
+        placeholder={placeholder}
         style={{
           fontSize: `${(fontSize/37.5).toFixed(8)}rem`,
           textAlign: !!alignLeft ? "left" : undefined

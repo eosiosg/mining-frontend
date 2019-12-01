@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { setUserInfo } from "../actions/account/effects";
 import { AppState } from "../store/configureStore";
@@ -30,6 +30,7 @@ type Props = HomePageProps & LinkDispatchProps & LinkStateProps;
 
 const HomePage: React.FC<Props> = (props) => {
   let { path, url } = useRouteMatch();
+  const [buyMinerCount, setBuyMinerCount] = useState<number | string>('');
   useEffect(() => {
     if (!props.userName) return;
     accountCtrl.getAccountInfoUsingGET(props.userName, {})
@@ -68,9 +69,10 @@ const HomePage: React.FC<Props> = (props) => {
         </div>
         <TextInput
           prefix={<InputPrefix />}
-          value={'adasdf123'}
-          onchange={(value) => console.log(value)}
+          value={buyMinerCount}
+          onchange={(value) => setBuyMinerCount(value)}
           fontSize={12}
+          placeholder="输入购买矿机数量"
         />
         <div className={styles.balance}>
           账户余额：

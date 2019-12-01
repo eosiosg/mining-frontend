@@ -32,6 +32,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     forgePageInfo,
     userName
   } = props;
+  const [bosCount, setBosCount] = useState<number | string>("");
   let { path, url } = useRouteMatch();
   const [timer, setTimer] = useState<number[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(true);
@@ -53,7 +54,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     let intervalId: number | undefined;
     if (endTime) {
       intervalId = window.setInterval(() => 
-        setTimer(timeDiff(new Date("2019-11-28").valueOf(), endTime)), 1000);
+        setTimer(timeDiff(new Date().valueOf(), endTime)), 1000);
     }
     return () => {
       if (intervalId) {
@@ -89,9 +90,10 @@ const ForgePageContainer: React.FC<Props> = (props) => {
         </div>
         <TextInput
           prefix={<InputPrefix />}
-          value={'adasdf123'}
-          onchange={(value) => console.log(value)}
+          value={bosCount}
+          onchange={(value) => setBosCount(value)}
           fontSize={12}
+          placeholder="输入BOS数量"
         />
         <div className={styles.balance}>
           当前已投入：

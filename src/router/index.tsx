@@ -16,6 +16,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import MeContainer from "../pages/Me";
+import { NoPage } from "pages/NoPage";
 
 export const history = createHistory();
 
@@ -33,17 +34,6 @@ const AppRouter: React.FC<Props> = (props) => {
     <div>
       
       <Router history={history}>
-        <div>页面
-          <ul>
-            <li>
-              <Link to="/soldminer">销毁矿机</Link>
-              </li>
-              <li><Link to="/">首页</Link></li>
-              <li><Link to="/me">个人中心</Link></li>
-
-            
-          </ul>
-        </div>
         <div>
           <Switch>
             <Route exact path="/">
@@ -52,6 +42,7 @@ const AppRouter: React.FC<Props> = (props) => {
             <Route path="/home" component={HomeContainer} />
             <Route path="/soldminer" component={SoldMinerContainer} />
             <Route path="/me" component={MeContainer} />
+            <Route component={NoPage} />
           </Switch>
         </div>
       </Router>

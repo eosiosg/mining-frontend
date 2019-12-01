@@ -34,7 +34,7 @@ const HomePage: React.FC<{}> = () => {
           </ContentWrapper>
         <Switch>
           <Route path={`${path}/mine`}>
-            <MineComponent title={'hehe'}/>
+            <MineComponent />
           </Route>
           <Route path={`${path}/forge`}>
             <ForgeComponent />

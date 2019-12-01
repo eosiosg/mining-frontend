@@ -2,19 +2,28 @@
   font-size: 16px;
   justify-content: space-between;
   align-items: center;
-  line-height: 20px;
+  line-height: 40px;
   text-align: center;
   position: relative;
+  padding: 15px 0;
   .left {
     position: absolute;
     top: 50%;
-    left: 0;
+    left: 22px;
     transform: translate(0, -50%);
   }
   .right {
     position: absolute;
     top: 50%;
-    right: 0;
+    right: 22px;
     transform: translate(0, -50%);
+    width: 20px;
+    line-height: 0;
+    svg {
+      path {
+        color: #FFFFFF;
+        fill: currentColor;
+      }
+    }
   }
 }

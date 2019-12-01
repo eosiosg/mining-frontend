@@ -9,10 +9,8 @@ import MeInfo from 'feature/MeInfo'
 
 type Props = {} & RouteComponentProps
 const MeContainer: React.FC<Props> = (props) => {
-    console.log(props)
     return (
       <div>
-        
         <HeaderBar title="首页" hasMe hasGoback/>
         <MeInfo />
         <ActiveMiner />
