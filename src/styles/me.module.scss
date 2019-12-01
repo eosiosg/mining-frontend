@@ -1,0 +1,55 @@
+.accountName {
+  font-size:14px;
+  font-weight:400;
+  color:rgba(82,166,241,1);
+  line-height:22px;
+  margin: 11px 0 17px;
+}
+.infoPanel {
+  box-sizing: border-box;
+  padding: 11px 20px;
+  width: 319px;
+  margin: 0 auto;
+  min-height: 142px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.minerReward {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 23px 0;
+  color:#102956;
+  .content {
+    display: flex;
+    height: 65px;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    .block {
+      width: 50%;
+      .contentWrapper {
+        display: inline-block;  
+        span {
+          display: inline-block;
+          padding: 2px 0;
+          font-size:14px;
+          font-weight:300;
+        }
+        p {
+          padding: 10px 0;
+          font-size:22px;
+          font-weight:500;
+        }
+      }
+    }
+    .sep {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      height: 100%;
+      border-left: 1px solid #D8D8D8;
+    }
+  }
+}
