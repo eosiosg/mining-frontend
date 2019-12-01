@@ -18,6 +18,8 @@ import { AccountInfo } from "typings/api";
 import TextInput from "components/inputElement";
 import Rules from "./rules";
 import RecentTrades from './RecentTrade'
+import { ReactComponent as Holder } from '../static/no-activity.svg';
+
 interface HomePageProps {
   id?: string;
   color?: string;
@@ -47,6 +49,7 @@ const HomePage: React.FC<Props> = (props) => {
           <div className={styles.minerReward}>
             <div className={styles.content}>
               <div className={styles.block}>
+              <Holder />
                 <p>
                   <span>矿机数量</span><br/>
                   <span>{props.accountInfo.minerCount}个</span>
@@ -54,6 +57,7 @@ const HomePage: React.FC<Props> = (props) => {
               </div>
               <div className={styles.sep}></div>
               <div className={styles.block}>
+              <Holder />
                 <p>
                   <span>昨日收益</span><br/>
                   <span>+{props.accountInfo.lastReward}</span>

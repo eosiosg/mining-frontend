@@ -48,6 +48,15 @@
       text-align: center;
       .block {
         width: 50%;
+        svg {
+          width: 38px;
+          height: 34px;
+          margin-right: 8px;
+          path {
+            color: #80E9FC;
+            fill: currentColor;
+        }
+        }
         p {
           text-align: left;
           display: inline-block;  
