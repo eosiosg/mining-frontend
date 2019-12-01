@@ -151,4 +151,4 @@ export default connect(
   mapDispatchToProps
 )(HomePage);
 
-const InputPrefix: React.FC<{}> = (props) => <span>个</span>
+const InputPrefix: React.FC<{}> = (props) => <span style={{padding: '8px'}}>个</span>

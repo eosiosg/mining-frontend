@@ -9,7 +9,7 @@ import recentTradeReducer from './setRecentTrade'
 export const rootReducer = combineReducers({
   expenses: expensesReducer,
   accountInfo: accountInfoReducer,
-  forgeInfo: forgeInfoReducer,
+  forge: forgeInfoReducer,
   activeMiner: activeMinerReducer,
   soldMiner: soldMinerReducer,
   recentTrade: recentTradeReducer

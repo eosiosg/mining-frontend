@@ -7,49 +7,144 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
-import { setForgeInfo } from "../actions/pool/effects";
+import { setForgeInfo, setForgePageInfo } from "../actions/pool/effects";
 import { poolCtrl } from '../api/backendAPI';
 import { getUserInfo } from "../actions/account/effects";
-import { ForgeInfo } from "../typings/api";
+import { ForgeInfo, ForgePage } from "../typings/api";
 import { timeDiff } from "../util/time";
 import _ from 'lodash';
+import { Switch, Route, useRouteMatch } from "react-router-dom";
+import ContentWrapper from "components/blockContent";
+import styles from '../styles/homepage.module.scss'
+import TextInput from "components/inputElement";
+import NavBar from "components/navLink";
+import Rules from "./rules";
+import RecentTrades from './RecentTrade'
+
 interface ForgePageProps {
 
 }
 
 type Props = ForgePageProps & LinkDispatchProps & LinkStateProps;
 
-const ForgePage: React.FC<Props> = (props) => {
+const ForgePageContainer: React.FC<Props> = (props) => {
+  const { 
+    forgePageInfo,
+    userName
+  } = props;
+  let { path, url } = useRouteMatch();
   const [timer, setTimer] = useState<number[]>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
   const timerRef = useRef(timer);
   timerRef.current = timer;
+
   useEffect(() => {
-    if (!props.userName) return;
-    poolCtrl.getForgeInfoUsingGET()
+    if (!userName) return;
+    setIsFetching(true)
+    poolCtrl.getForgePageUsingGET(userName)
     .then(res => {
-      props.dispatch(setForgeInfo(res));
+      props.dispatch(setForgePageInfo(res));
+      setIsFetching(false)
     });
   }, [props.userName]);
 
+  const endTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.endTimestamp : 0;
   useEffect(() => {
-    console.log('lala')
-    if (!props.userName) return;
     let intervalId: number | undefined;
-    if (props.forgeInfo.endTimestamp) {
-      intervalId = window.setInterval(() => setTimer(timeDiff(new Date().valueOf(), props.forgeInfo.endTimestamp!)), 1000);
+    if (endTime) {
+      intervalId = window.setInterval(() => 
+        setTimer(timeDiff(new Date("2019-11-28").valueOf(), endTime)), 1000);
     }
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
       }
     }
-  }, [props.userName, props.forgeInfo.endTimestamp]);
+  }, [endTime]);
   
-  const { forgeInfo } = props;
+  if (isFetching) return null;
+  console.log(timer)
   return (
     <div>
-      {JSON.stringify(forgeInfo)}
-      <p>{timer.join('  ')}</p>
+      <ContentWrapper>
+        <div className={styles.campaign}>
+          <div className={styles.timerBlock}>
+            {timer.some(number => number> -1) &&
+              <div className={styles.timer}>
+                <p className={styles.title}>距离本轮结束</p>
+                <p>{timer[0]}天</p>
+                <p>{`${timer[1]}:${timer[2]}:${timer[3]}`}</p>
+              </div>}
+          </div>
+          
+          <div className={styles.poolInfo}>
+            <p>熔币池总额</p>
+            <div className={styles.poolBalance}>
+              <span>{forgePageInfo.forgeInfo!.totalEos}</span>
+              <span>{forgePageInfo.forgeInfo!.totalBos}</span>
+            </div>
+            <p className={styles.estimateReward}>预计本轮收益 +{forgePageInfo.estimatedEos}</p>
+          </div>
+
+        </div>
+        <TextInput
+          prefix={<InputPrefix />}
+          value={'adasdf123'}
+          onchange={(value) => console.log(value)}
+          fontSize={12}
+        />
+        <div className={styles.balance}>
+          当前已投入：
+          <span>{forgePageInfo.myBosInForge}，</span>
+          <span>{forgePageInfo.accountInfo!.bosBalance}</span>
+        </div>
+        {/*todo: slider here*/}
+        <div className={styles.btnWrapper}>
+          <button onClick={() => alert('挖')}>立刻投入</button>
+        </div>
+
+        <div className={styles.warnning}>
+          <div>
+            <span>*预计到期收益只是估计值，不作为最终收益标准。</span><br/>
+            <span>*投入熔池里的BOS不可找回，请谨慎投入。</span>
+          </div>
+        </div>
+        
+      </ContentWrapper>
+      <div className={styles.info}>
+        <NavBar 
+          noBottomBorder={true}
+          routes={[
+            {
+              url: url,
+              exact: true,
+              display: "规则"
+            },
+            {
+              url: `${url}/recenttrade`,
+              exact: true,
+              display: "最近交易"
+            }
+          ]}
+          gap={5}
+        />
+      </div>
+      
+   
+      <Switch>
+        <Route exact path={`${path}`}>
+          <div style={{
+            marginTop: `${(13/37.5).toFixed(8)}rem`
+          }}>
+          <ContentWrapper>
+            <Rules />
+          </ContentWrapper>
+          </div>
+        </Route>
+        <Route path={`${path}/recenttrade`}>
+          <RecentTrades />
+        </Route>
+      </Switch>
     </div>
   );
 }
@@ -57,6 +152,8 @@ const ForgePage: React.FC<Props> = (props) => {
 interface LinkStateProps {
   userName?: string;
   forgeInfo: ForgeInfo;
+  forgePageInfo: ForgePage;
+
 }
 
 interface LinkDispatchProps {
@@ -65,7 +162,8 @@ interface LinkDispatchProps {
 }
 const mapStateToProps = (state: AppState, props: ForgePageProps): LinkStateProps => ({
   userName: state.accountInfo.accountName,
-  forgeInfo: state.forgeInfo
+  forgeInfo: state.forge.forgeInfo,
+  forgePageInfo: state.forge.forgePageInfo
 
 });
 
@@ -77,4 +175,6 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any,AppAction>, props: 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ForgePage);
+)(ForgePageContainer);
+
+const InputPrefix: React.FC<{}> = (props) => <span style={{padding: '8px'}}>BOS</span>

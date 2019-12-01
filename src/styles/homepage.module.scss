@@ -122,7 +122,7 @@
 }
 
 .warnning {
-  margin-top: 6px;
+  margin-top: 18px;
   line-height:14px;
   font-size:10px;
   font-weight:500;
@@ -140,4 +140,64 @@
   font-weight:500;
   color:rgba(255,255,255,1);
   line-height:14px;
+  padding-bottom: 25px;
+}
+
+// forge page campaign
+.timerBlock {
+  height: 171px;
+  width: 171px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  text-align: center;
+  border-radius: 50%;
+  overflow: hidden;
+  font-size: 22px;
+  font-weight: 500;
+  color: #102956;
+  position: relative;
+  .timer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 92px;
+    margin: 43px auto auto auto;
+    .title {
+      font-size: 14px;
+      font-weight: 400;
+    }
+    p {
+      line-height: 1;
+      margin: 10px;
+    }
+
+  }
+}
+
+.poolInfo {
+  line-height:28px;
+    font-size:20px;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+  p {
+    text-align: center;
+    margin: 29px 0 17px;
+  }
+  .poolBalance {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 17px;
+    span {
+      padding: 0 10px;
+    }
+  }
+  .estimateReward {
+    margin: 17px 0 19px;
+    font-size:12px;
+    font-weight:500;
+    color:#D8D8D8;
+    line-height:17px;
+  }
 }

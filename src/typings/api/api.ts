@@ -147,6 +147,12 @@ export interface ForgeInfo {
      * @memberof ForgeInfo
      */
     totalEos?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgeInfo
+     */
+    totalBos?: string;
 }
 
 /**
