@@ -13,7 +13,15 @@ export const store = createStore(
   rootReducer, 
   compose(
     applyMiddleware(routerMiddleware(history), thunk as ThunkMiddleware<AppState, AppAction>),
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+    ...(window.__REDUX_DEVTOOLS_EXTENSION__
+      ? [
+          // @ts-ignore
+          window.__REDUX_DEVTOOLS_EXTENSION__({
+            trace: true,
+            traceLimit: 25,
+          }),
+        ]
+      : []),
   )
   
 );
