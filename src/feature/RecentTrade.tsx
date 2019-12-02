@@ -29,15 +29,16 @@ const RecentTrades: React.FC<Props> = (props) => {
     <div>
       
         {recentTradeList.map((trade, index) => (
-          <div key={index} className={styles.itemContainer}>
-            <span>{trade.tradeTimestamp}</span>
-            <span>{trade.account}</span>
-            <span 
-              className={classnames({
-                [styles.buy]: trade.buy
-              })}
-            >{trade.tradeEos}</span>
-          </div>
+         
+            <div key={index} className={styles.itemContainer}>
+              <span>{trade.tradeTimestamp}</span>
+              <span>{trade.account}</span>
+              <span 
+                className={classnames({
+                  [styles.buy]: trade.buy
+                })}
+              >{trade.tradeEos}</span>
+            </div>
         ))}
     </div>
   );

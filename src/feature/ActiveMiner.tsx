@@ -11,6 +11,8 @@ import { MinerInfo, Pageable } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from '../styles/listItem.module.scss';
 import classnames from 'classnames'
+import { Link } from "react-router-dom";
+
 interface MinerListPageProps {
 
 }
@@ -60,11 +62,13 @@ const MinerList: React.FC<Props> = (props) => {
             <span>累计收益</span>
         </div>
         {activeMinerList.map((miner, index) => (
-          <div key={miner.minerId} className={styles.itemContainer}>
-            <span>{miner.minerId}</span>
-            <span>{miner.pow}</span>
-            <span className={classnames({[styles.buy]: !miner.sold})}>+{miner.totalRewardInEos}</span>
-          </div>
+          <Link to={`/home/mine/${miner.minerId}`}>
+            <div key={miner.minerId} className={styles.itemContainer}>
+              <span>{miner.minerId}</span>
+              <span>{miner.pow}</span>
+              <span className={classnames({[styles.buy]: !miner.sold})}>+{miner.totalRewardInEos}</span>
+            </div>
+          </Link>
         ))}
     </InfiniteScroll>
     </div>

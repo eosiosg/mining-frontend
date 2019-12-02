@@ -19,7 +19,7 @@ import TextInput from "components/inputElement";
 import Rules from "./rules";
 import RecentTrades from './RecentTrade'
 import { ReactComponent as Holder } from '../static/no-activity.svg';
-
+import MinerDetail from '../feature/MinerDetail'
 interface HomePageProps {
   id?: string;
   color?: string;
@@ -124,7 +124,10 @@ const HomePage: React.FC<Props> = (props) => {
           </div>
         </Route>
         <Route path={`${path}/recenttrade`}>
-          <RecentTrades />
+          <RecentTrades  />
+        </Route>
+        <Route path={`${path}/:minerId`}>
+          <MinerDetail />
         </Route>
       </Switch>
     </div>

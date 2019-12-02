@@ -23,17 +23,6 @@ const MinerList: React.FC<Props> = (props) => {
       ? props.pageInfo!.pageNumber! > props.totalPages 
       : false  
   )
-  // useEffect(() => {
-  //   if (!props.userName || isEnd) return;
-  //   accountCtrl.getActiveMinerUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
-  //   .then(res => {
-  //     props.dispatch(setMinerList(res));
-  //     setIsEnd(props.totalPages
-  //       ? props.pageInfo!.pageNumber!+1 > props.totalPages 
-  //       : false )
-  //   });
-  // }, [props.userName])
-
   const loadData = () => {
     if (!props.userName || isEnd) return;
     accountCtrl.getSoldMinerUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)

@@ -39,6 +39,7 @@ const HomePage: React.FC<{}> = () => {
           <Route path={`${path}/forge`}>
             <ForgeComponent />
           </Route>
+          
         </Switch>
         {/* <ActiveMiner /> */}
         {/* <SoldMiner /> */}
