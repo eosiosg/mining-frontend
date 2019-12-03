@@ -18,7 +18,7 @@ import * as portableFetch from "portable-fetch";
 import { Configuration } from "./configuration";
 
 // const BASE_PATH = "http://13.250.41.73:18080".replace(/\/+$/, "");
-const BASE_PATH = "".replace(/\/+$/, "");
+const BASE_PATH = "/api".replace(/\/+$/, "");
 
 /**
  *
