@@ -20,3 +20,15 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br>
 App is ready to be deployed!
+
+## Docker deploy
+
+### docker build
+
+docker build . -t reactdocker
+
+### start the docker
+
+docker run -it -d -p 80:80 --name rdocker reactdocker
+
+now the server lisen on ::80

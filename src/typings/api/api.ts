@@ -18,7 +18,7 @@ import * as portableFetch from "portable-fetch";
 import { Configuration } from "./configuration";
 
 // const BASE_PATH = "http://13.250.41.73:18080".replace(/\/+$/, "");
-const BASE_PATH = "".replace(/\/+$/, "");
+const BASE_PATH = "/api".replace(/\/+$/, "");
 
 /**
  *
@@ -1509,7 +1509,7 @@ export const PoolControllerApiFetchParamCreator = function (configuration?: Conf
             if (account === null || account === undefined) {
                 throw new RequiredError('account','Required parameter account was null or undefined when calling getForgePageUsingGET.');
             }
-            const localVarPath = `/pool/forgePage/{account`
+            const localVarPath = `/pool/forgePage/account`
                 .replace(`{${"account"}}`, encodeURIComponent(String(account)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
