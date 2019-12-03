@@ -12,6 +12,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import styles from '../styles/listItem.module.scss';
 import classnames from 'classnames'
 import { Link } from "react-router-dom";
+import { Sticky } from "componentDecorator/stickyComponent";
 
 interface MinerListPageProps {
 
@@ -56,11 +57,13 @@ const MinerList: React.FC<Props> = (props) => {
         hasMore={!isEnd}
         loader={<div className="loader" key={0}>Loading ...</div>}
     >
+        <Sticky sides={{top: 0}}>
         <div className={classnames(styles.itemContainer, styles.listHeader)}>
             <span>矿机ID</span>
             <span>算力</span>
             <span>累计收益</span>
         </div>
+        </Sticky>
         {activeMinerList.map((miner, index) => (
           <Link to={`/miner/${miner.minerId}`}>
             <div key={miner.minerId} className={styles.itemContainer}>

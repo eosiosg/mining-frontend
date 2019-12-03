@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import listStyles from '../styles/listItem.module.scss';
 import { Pageable, MinerRewardDetail } from 'typings/api';
 import { useParams } from 'react-router-dom';
+import { Sticky } from 'componentDecorator/stickyComponent';
 type Props = LinkDispatchProps & LinkStateProps;
 
 export const MinerRewardDetailPage: React.FC<Props> = (props) => {
@@ -47,10 +48,12 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
         hasMore={!isEnd}
         loader={<div className="loader" key={0}>Loading ...</div>}
     >
-      <div className={classnames(listStyles.itemContainer, listStyles.listHeader)}>
-        <span>时间</span>
-        <span>收益</span>
-      </div>
+      <Sticky sides={{top: 0}}>
+        <div className={classnames(listStyles.itemContainer, listStyles.listHeader)}>
+          <span>时间</span>
+          <span>收益</span>
+        </div>
+      </Sticky>
       {rewardList.map((reward, index) => (
         <a href={reward.link} target="_blank">
         <div key={index} className={listStyles.itemContainer}>
