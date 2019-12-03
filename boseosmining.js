@@ -10,6 +10,8 @@ let bostestnet_endpoint = 'http://3.0.56.177:8883'
 let contract = 'mytest111111'
 let alice = 'mytestalice1'
 let bob = 'mytestbob111'
+let bostoken_contract = 'mytestcoin12'
+let eostoken_contract = 'mytestcoin11'
 
 
 function EOSCreator () {
@@ -28,6 +30,50 @@ function EOSCreator () {
 
 
 eos = EOSCreator()
+
+const transfereos = (from, to, quantity, memo) => {
+  eos.transaction({
+    actions: [
+      {
+        account: eostoken_contract,
+        name: 'transfer',
+        authorization: [{
+          actor: from,
+          permission: 'active',
+        }],
+        data: {
+          from: from,
+          to: to,
+          quantity: quantity,
+          memo: memo,
+        }
+      }
+    ]
+  })
+}
+
+const transferbos = (from, to, quantity, memo) => {
+  eos.transaction({
+    actions: [
+      {
+        account: bostoken_contract,
+        name: 'transfer',
+        authorization: [{
+          actor: from,
+          permission: 'active',
+        }],
+        data: {
+          from: from,
+          to: to,
+          quantity: quantity,
+          memo: memo,
+        }
+      }
+    ]
+  })
+}
+
+
 
 const buyminer = (buyer, count, channel) => {
   eos.transaction({
@@ -127,8 +173,10 @@ const undelegatech = (from, channel, quantity) => {
   })
 }
 
+transfereos(alice, contract, "100.0000 EOS", "")
+transferbos(alice, contract, "100.0000 BOS", "")
 // buyminer(alice, 10, bob);
 // sellminer(alice, [500])
 // meltbos(alice, "100.0000 BOS")
 // delegatech(alice, bob, "200.0000 BOS")
-undelegatech(alice, bob, "200.0000 BOS")
+// undelegatech(alice, bob, "200.0000 BOS")
