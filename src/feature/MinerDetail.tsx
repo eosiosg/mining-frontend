@@ -31,7 +31,7 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
       setRewardList(rewardList.concat(res.content!))
       setPageInfo({
         pageSize: 40,
-        pageNumber: res.pageable!.pageNumber,
+        pageNumber: res.pageable!.pageNumber!+1,
         totalPages: res.totalPages
       })
       setIsEnd(pageInfo.totalPages

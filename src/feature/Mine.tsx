@@ -126,9 +126,7 @@ const HomePage: React.FC<Props> = (props) => {
         <Route path={`${path}/recenttrade`}>
           <RecentTrades  />
         </Route>
-        <Route path={`${path}/:minerId`}>
-          <MinerDetail />
-        </Route>
+        
       </Switch>
     </div>
   );

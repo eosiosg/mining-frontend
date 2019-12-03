@@ -62,7 +62,7 @@ const MinerList: React.FC<Props> = (props) => {
             <span>累计收益</span>
         </div>
         {activeMinerList.map((miner, index) => (
-          <Link to={`/home/mine/${miner.minerId}`}>
+          <Link to={`/miner/${miner.minerId}`}>
             <div key={miner.minerId} className={styles.itemContainer}>
               <span>{miner.minerId}</span>
               <span>{miner.pow}</span>

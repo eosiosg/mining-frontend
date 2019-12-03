@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import MeContainer from "../pages/Me";
 import { NoPage } from "pages/NoPage";
+import { MinerRewardDetailPage } from "pages/MinerReward";
 
 export const history = createHistory();
 
@@ -42,6 +43,7 @@ const AppRouter: React.FC<Props> = (props) => {
             <Route path="/home" component={HomeContainer} />
             <Route path="/soldminer" component={SoldMinerContainer} />
             <Route path="/me" component={MeContainer} />
+            <Route path={'/miner/:minerId'} component={MinerRewardDetailPage} />
             <Route component={NoPage} />
           </Switch>
         </div>
