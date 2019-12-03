@@ -1509,7 +1509,7 @@ export const PoolControllerApiFetchParamCreator = function (configuration?: Conf
             if (account === null || account === undefined) {
                 throw new RequiredError('account','Required parameter account was null or undefined when calling getForgePageUsingGET.');
             }
-            const localVarPath = `/pool/forgePage/{account`
+            const localVarPath = `/pool/forgePage/account`
                 .replace(`{${"account"}}`, encodeURIComponent(String(account)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
