@@ -35,7 +35,7 @@ const RecentTrades: React.FC<Props> = (props) => {
               <span>{trade.account}</span>
               <span 
                 className={classnames({
-                  [styles.buy]: trade.buy
+                  [styles.buy]: !trade.buy
                 })}
               >{trade.tradeEos}</span>
             </div>
