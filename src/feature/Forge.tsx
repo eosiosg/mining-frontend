@@ -20,6 +20,7 @@ import TextInput from "components/inputElement";
 import NavBar from "components/navLink";
 import Rules from "./rules";
 import RecentTrades from './RecentTrade'
+import { Sticky } from "componentDecorator/stickyComponent";
 
 interface ForgePageProps {
 
@@ -52,7 +53,9 @@ const ForgePageContainer: React.FC<Props> = (props) => {
   const endTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.endTimestamp : 0;
   useEffect(() => {
     let intervalId: number | undefined;
+    
     if (endTime) {
+      setTimer(timeDiff(new Date().valueOf(), endTime))
       intervalId = window.setInterval(() => 
         setTimer(timeDiff(new Date().valueOf(), endTime)), 1000);
     }
@@ -63,8 +66,6 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     }
   }, [endTime]);
   
-  if (isFetching) return null;
-  console.log(timer)
   return (
     <div>
       <ContentWrapper>
@@ -81,8 +82,8 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           <div className={styles.poolInfo}>
             <p>熔币池总额</p>
             <div className={styles.poolBalance}>
-              <span>{forgePageInfo.forgeInfo!.totalEos}</span>
-              <span>{forgePageInfo.forgeInfo!.totalBos}</span>
+              <span>{!isFetching && forgePageInfo.forgeInfo!.totalEos} </span>
+              <span>{!isFetching && forgePageInfo.forgeInfo!.totalBos} </span>
             </div>
             <p className={styles.estimateReward}>预计本轮收益 +{forgePageInfo.estimatedEos}</p>
           </div>
@@ -97,8 +98,8 @@ const ForgePageContainer: React.FC<Props> = (props) => {
         />
         <div className={styles.balance}>
           当前已投入：
-          <span>{forgePageInfo.myBosInForge}，</span>
-          <span>{forgePageInfo.accountInfo!.bosBalance}</span>
+          <span>{!isFetching && forgePageInfo.myBosInForge}，</span>
+          <span>{!isFetching && forgePageInfo.accountInfo!.bosBalance}</span>
         </div>
         {/*todo: slider here*/}
         <div className={styles.btnWrapper}>
@@ -113,6 +114,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
         </div>
         
       </ContentWrapper>
+      <Sticky sides={{top: 0}}>
       <div className={styles.info}>
         <NavBar 
           noBottomBorder={true}
@@ -131,7 +133,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           gap={5}
         />
       </div>
-      
+      </Sticky>
    
       <Switch>
         <Route exact path={`${path}`}>

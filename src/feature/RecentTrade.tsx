@@ -7,7 +7,8 @@ import { AppAction } from "../typings/feature";
 import { setRecentTradeList } from "../actions/account/effects";
 import { accountCtrl, poolCtrl } from '../api/backendAPI';
 import { MinerInfo, Pageable, MinerTradeInfo } from "../typings/api";
-import styles from '../styles/listItem.module.scss';
+import listStyles from '../styles/listItem.module.scss';
+import styles from '../styles/homepage.module.scss'
 import classnames from 'classnames'
 interface MinerListPageProps {
 
@@ -26,16 +27,16 @@ const RecentTrades: React.FC<Props> = (props) => {
   const { recentTradeList } = props;
 
   return (
-    <div>
+    <div className={styles.recentTrade}>
       
         {recentTradeList.map((trade, index) => (
          
-            <div key={index} className={styles.itemContainer}>
+            <div key={index} className={listStyles.itemContainer}>
               <span>{trade.tradeTimestamp}</span>
               <span>{trade.account}</span>
               <span 
                 className={classnames({
-                  [styles.buy]: !trade.buy
+                  [listStyles.buy]: !trade.buy
                 })}
               >{trade.tradeEos}</span>
             </div>

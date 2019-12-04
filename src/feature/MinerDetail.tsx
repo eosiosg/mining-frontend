@@ -1,3 +1,4 @@
+// 单个矿机的收益详情
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
 import { AppAction } from 'typings/feature';
@@ -7,13 +8,18 @@ import { accountCtrl } from 'api/backendAPI';
 import InfiniteScroll from 'react-infinite-scroller';
 import classnames from 'classnames'
 import listStyles from '../styles/listItem.module.scss';
-import { Pageable, MinerRewardDetail } from 'typings/api';
+import { Pageable, MinerRewardDetail, MinerInfo } from 'typings/api';
 import { useParams } from 'react-router-dom';
 import { Sticky } from 'componentDecorator/stickyComponent';
+import meStyle from 'styles/me.module.scss'
 type Props = LinkDispatchProps & LinkStateProps;
 
 export const MinerRewardDetailPage: React.FC<Props> = (props) => {
+  const { minerInfoList } =props;
   let { minerId } = useParams<{minerId: string}>();
+
+  // minerSummary 是收益总结
+  const minerSummary = minerInfoList.find((miner) => miner.minerId == minerId);
   const [rewardList, setRewardList] = useState<MinerRewardDetail[]>([])
   const [pageInfo, setPageInfo] = useState<Pageable & {totalPages?: number}>({
     pageSize: 40,
@@ -42,6 +48,15 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
   }
   return (
     <div>
+      <div className={classnames(meStyle.infoPanel, meStyle.wrapper, meStyle.panelMargin)}>
+        <div className={classnames(meStyle.inlineBlock)}>
+          <p className={classnames(meStyle.accountName, meStyle.summaryPageAccount)}>
+            矿机ID: {minerId}
+          </p>
+          {minerSummary && <p className={meStyle.eosReward}>{minerSummary.totalRewardInEos}</p>}
+          {minerSummary && <p className={meStyle.cnyReward}>{minerSummary.totalRewardInCny}</p>}
+        </div>
+      </div>
       <InfiniteScroll
         pageStart={pageInfo.pageNumber}
         loadMore={loadData}
@@ -58,7 +73,7 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
         <a href={reward.link} target="_blank">
         <div key={index} className={listStyles.itemContainer}>
           <span>{reward.rewardTimestamp}</span>
-          <span>{reward.reward}</span>
+          <span className={classnames(listStyles.buy)}>{`+${reward.reward}`}</span>
         </div>
         </a>
       ))}
@@ -70,6 +85,7 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
 
 interface LinkStateProps {
   userName?: string;
+  minerInfoList: MinerInfo[]
   // minerRewardList: MinerRewardDetail[];
   // minerId: 
   // pageInfo: Pageable;
@@ -81,6 +97,7 @@ interface LinkDispatchProps {
 }
 const mapStateToProps = (state: AppState): LinkStateProps => ({
   userName: state.accountInfo.accountName,
+  minerInfoList: state.activeMiner.content,
   // minerRewardList: state.minerReward.content,
   // pageInfo: state.minerReward.pageable,
   // totalPages: state.minerReward.totalPages

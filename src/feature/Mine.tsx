@@ -20,6 +20,7 @@ import Rules from "./rules";
 import RecentTrades from './RecentTrade'
 import { ReactComponent as Holder } from '../static/no-activity.svg';
 import MinerDetail from '../feature/MinerDetail'
+import { Sticky } from "componentDecorator/stickyComponent";
 interface HomePageProps {
   id?: string;
   color?: string;
@@ -93,26 +94,26 @@ const HomePage: React.FC<Props> = (props) => {
         </div>
         
       </ContentWrapper>
-      <div className={styles.info}>
-        <NavBar 
-          noBottomBorder={true}
-          routes={[
-            {
-              url: url,
-              exact: true,
-              display: "规则"
-            },
-            {
-              url: `${url}/recenttrade`,
-              exact: true,
-              display: "最近交易"
-            }
-          ]}
-          gap={5}
-        />
-      </div>
-      
-   
+      <Sticky sides={{top: 0}}>
+        <div className={styles.info}>
+          <NavBar 
+            noBottomBorder={true}
+            routes={[
+              {
+                url: url,
+                exact: true,
+                display: "规则"
+              },
+              {
+                url: `${url}/recenttrade`,
+                exact: true,
+                display: "最近交易"
+              }
+            ]}
+            gap={5}
+          />
+        </div>
+      </Sticky>
       <Switch>
         <Route exact path={`${path}`}>
           <div style={{

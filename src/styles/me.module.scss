@@ -5,6 +5,9 @@
   line-height:22px;
   margin: 11px 0 17px;
 }
+.wrapper {
+  text-align: center;
+}
 .infoPanel {
   box-sizing: border-box;
   padding: 11px 20px;
@@ -15,6 +18,34 @@
   border-radius: 12px;
   overflow: hidden;
 }
+.panelMargin {
+  margin: 20px auto 50px;
+}
+.inlineBlock {
+  margin-top: 18px;
+  display: inline-block;
+  
+}
+.summaryPageAccount {
+  text-align: left;
+  color: #2F2C2C;
+  margin: 0;
+  font-weight: 500;
+}
+.eosReward {
+  font-size:35px;
+  font-weight:500;
+  color:rgba(98,192,37,1);
+  line-height:49px;
+}
+.cnyReward {
+  height:22px;
+  font-size:16px;
+  font-weight:500;
+  color:rgba(51,49,49,1);
+  line-height:22px;
+}
+
 
 .minerReward {
   font-size: 14px;
