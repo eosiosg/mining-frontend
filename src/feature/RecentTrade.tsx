@@ -10,6 +10,7 @@ import { MinerInfo, Pageable, MinerTradeInfo } from "../typings/api";
 import listStyles from '../styles/listItem.module.scss';
 import styles from '../styles/homepage.module.scss'
 import classnames from 'classnames'
+import { timeFormat } from "util/time";
 interface MinerListPageProps {
 
 }
@@ -32,7 +33,7 @@ const RecentTrades: React.FC<Props> = (props) => {
         {recentTradeList.map((trade, index) => (
          
             <div key={index} className={listStyles.itemContainer}>
-              <span>{trade.tradeTimestamp}</span>
+              <span>{timeFormat(trade.tradeTimestamp)}</span>
               <span>{trade.account}</span>
               <span 
                 className={classnames({

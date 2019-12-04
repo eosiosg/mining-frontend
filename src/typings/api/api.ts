@@ -341,6 +341,12 @@ export interface MinerTradeInfo {
      * @memberof MinerTradeInfo
      */
     tradeTimestamp?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MinerTradeInfo
+     */
+    link?: string;
 }
 
 /**

@@ -12,6 +12,8 @@ import InfiniteScroll from 'react-infinite-scroller';
 import styles from '../styles/listItem.module.scss';
 import classnames from 'classnames'
 import { Sticky } from "componentDecorator/stickyComponent";
+import { Link } from "react-router-dom";
+import { EndFlag, Loader } from "components/loadingHolder";
 interface MinerListPageProps {
 
 }
@@ -30,7 +32,7 @@ const MinerList: React.FC<Props> = (props) => {
     .then(res => {
       props.dispatch(setSoldMinerList(res));
       setIsEnd(props.totalPages
-        ? props.pageInfo!.pageNumber!+1 > props.totalPages 
+        ? props.pageInfo!.pageNumber!+1 >= props.totalPages 
         : false )
     });
   }
@@ -42,7 +44,7 @@ const MinerList: React.FC<Props> = (props) => {
         pageStart={props.pageInfo.pageNumber}
         loadMore={loadData}
         hasMore={!isEnd}
-        loader={<div className="loader" key={0}>Loading ...</div>}
+        loader={<Loader />}
     >
       <Sticky sides={{top: 0}}>
         <div className={classnames(styles.itemContainer, styles.listHeader)}>
@@ -51,13 +53,15 @@ const MinerList: React.FC<Props> = (props) => {
         </div>
       </Sticky>
       {soldMinerList.map((miner, index) => (
+        <Link to={{pathname: `/miner/${miner.minerId}`, state: {from: 'soldMiner'}}}>
         <div key={miner.minerId} className={styles.itemContainer}>
           <span>{miner.minerId}</span>
           <span>{miner.totalRewardInEos}</span>
         </div>
+        </Link>
       ))}
     </InfiniteScroll>
-    {isEnd && "我是有底线的"}
+    {isEnd && <EndFlag />}
     </div>
   );
 }

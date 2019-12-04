@@ -18,6 +18,7 @@ import { AppState } from "../store/configureStore";
 import MeContainer from "../pages/Me";
 import { NoPage } from "pages/NoPage";
 import { MinerRewardDetailPage } from "pages/MinerReward";
+import MinerTradeContainer from "pages/MinerTradePage";
 
 export const history = createHistory();
 
@@ -44,6 +45,7 @@ const AppRouter: React.FC<Props> = (props) => {
             <Route path="/soldminer" component={SoldMinerContainer} />
             <Route path="/me" component={MeContainer} />
             <Route path={'/miner/:minerId'} component={MinerRewardDetailPage} />
+            <Route path={'/minertrade'} component={MinerTradeContainer} />
             <Route component={NoPage} />
           </Switch>
         </div>

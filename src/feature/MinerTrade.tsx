@@ -1,3 +1,4 @@
+// 最近交易 个人中心
 // 个人中心下面矿机列表
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -5,15 +6,16 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
-import { setActiveMinerList } from "../actions/account/effects";
+import { setMinerTrade } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
-import { MinerInfo, Pageable } from "../typings/api";
+import { MinerInfo, Pageable, MinerTradeInfo } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from '../styles/listItem.module.scss';
 import classnames from 'classnames'
 import { Link } from "react-router-dom";
 import { Sticky } from "componentDecorator/stickyComponent";
-import { EndFlag, Loader } from "components/loadingHolder";
+import { timeFormat } from "util/time";
+import { Loader, EndFlag } from "components/loadingHolder";
 
 interface MinerListPageProps {
 
@@ -21,34 +23,24 @@ interface MinerListPageProps {
 
 type Props = MinerListPageProps & LinkDispatchProps & LinkStateProps;
 
-const MinerList: React.FC<Props> = (props) => {
+const MinerTrade: React.FC<Props> = (props) => {
   const [isEnd, setIsEnd] = useState(
     props.totalPages
       ? props.pageInfo!.pageNumber! > props.totalPages 
       : false  
   )
-  // useEffect(() => {
-  //   if (!props.userName || isEnd) return;
-  //   accountCtrl.getActiveMinerUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
-  //   .then(res => {
-  //     props.dispatch(setMinerList(res));
-  //     setIsEnd(props.totalPages
-  //       ? props.pageInfo!.pageNumber!+1 > props.totalPages 
-  //       : false )
-  //   });
-  // }, [props.userName])
 
   const loadData = () => {
     if (!props.userName || isEnd) return;
-    accountCtrl.getActiveMinerUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
+    accountCtrl.getMinerTradeUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
     .then(res => {
-      props.dispatch(setActiveMinerList(res));
+      props.dispatch(setMinerTrade(res));
       setIsEnd(props.totalPages
         ? props.pageInfo!.pageNumber!+1 >= props.totalPages 
         : false )
     });
   }
-  const { activeMinerList } = props;
+  const { minerTrade } = props;
 
   return (
     <div>
@@ -60,19 +52,24 @@ const MinerList: React.FC<Props> = (props) => {
     >
         <Sticky sides={{top: 0}}>
         <div className={classnames(styles.itemContainer, styles.listHeader)}>
-            <span>矿机ID</span>
-            <span>算力</span>
-            <span>累计收益</span>
+            <span>时间</span>
+            <span>交易数量（个）</span>
+            <span>金额</span>
         </div>
         </Sticky>
-        {activeMinerList.map((miner, index) => (
-          <Link to={{pathname: `/miner/${miner.minerId}`, state: {from: 'activeMiner'}}}>
-            <div key={miner.minerId} className={styles.itemContainer}>
-              <span>{miner.minerId}</span>
-              <span>{miner.pow}</span>
-              <span className={classnames({[styles.buy]: !miner.sold})}>+{miner.totalRewardInEos}</span>
+        {minerTrade.map((miner, index) => (
+          <a href={miner.link} target="_blank" key={index}>
+            <div className={styles.itemContainer}>
+              <span>{timeFormat(miner.tradeTimestamp)}</span>
+              {miner.buy ? <span>买入{miner.tradeAmount}个</span> : <span>卖出{miner.tradeAmount}个</span>}
+              <span>
+                <div className={styles.multilineWrapper}>
+                <p>{miner.tradeEos}</p>
+                <p>{miner.tradeBos}</p>
+                </div>
+              </span>
             </div>
-          </Link>
+          </a>
         ))}
     </InfiniteScroll>
     {isEnd && <EndFlag />}
@@ -82,7 +79,7 @@ const MinerList: React.FC<Props> = (props) => {
 
 interface LinkStateProps {
   userName?: string;
-  activeMinerList: MinerInfo[];
+  minerTrade: MinerTradeInfo[];
   pageInfo: Pageable;
   totalPages?: number;
 }
@@ -92,9 +89,9 @@ interface LinkDispatchProps {
 }
 const mapStateToProps = (state: AppState, props: MinerListPageProps): LinkStateProps => ({
   userName: state.accountInfo.accountName,
-  activeMinerList: state.activeMiner.content,
-  pageInfo: state.activeMiner.pageable,
-  totalPages: state.activeMiner.totalPages
+  minerTrade: state.pageMinerTrade.content,
+  pageInfo: state.pageMinerTrade.pageable,
+  totalPages: state.pageMinerTrade.totalPages
 
 });
 
@@ -105,4 +102,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any,AppAction>, props: 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MinerList);
+)(MinerTrade);

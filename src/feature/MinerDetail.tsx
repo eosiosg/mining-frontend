@@ -9,17 +9,24 @@ import InfiniteScroll from 'react-infinite-scroller';
 import classnames from 'classnames'
 import listStyles from '../styles/listItem.module.scss';
 import { Pageable, MinerRewardDetail, MinerInfo } from 'typings/api';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { Sticky } from 'componentDecorator/stickyComponent';
 import meStyle from 'styles/me.module.scss'
+import { timeFormat } from 'util/time';
+import { EndFlag, Loader } from 'components/loadingHolder';
 type Props = LinkDispatchProps & LinkStateProps;
 
 export const MinerRewardDetailPage: React.FC<Props> = (props) => {
-  const { minerInfoList } =props;
+  const { minerInfoList, soldMinerList } = props;
   let { minerId } = useParams<{minerId: string}>();
-
+  const location = useLocation();
   // minerSummary 是收益总结
-  const minerSummary = minerInfoList.find((miner) => miner.minerId == minerId);
+  const infoList = location.state.from == 'soldMiner'
+                    ? soldMinerList
+                    : location.state.from == 'activeMiner'
+                      ? minerInfoList : []
+
+  const minerSummary = infoList.find((miner) => miner.minerId == minerId);
   const [rewardList, setRewardList] = useState<MinerRewardDetail[]>([])
   const [pageInfo, setPageInfo] = useState<Pageable & {totalPages?: number}>({
     pageSize: 40,
@@ -30,9 +37,10 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
       ? pageInfo.pageNumber! > pageInfo.totalPages 
       : false  
   )
-  
+  const [isFetching, setIsFetching] = useState(false);
   const loadData = () => {
-    if (!props.userName || isEnd) return;
+    if (!props.userName || isFetching || isEnd) return;
+    setIsFetching(true)
     accountCtrl.getMinerRewardDetailInfoUsingGET(props.userName, parseInt(minerId, 10), pageInfo.pageNumber!, pageInfo.pageSize)
     .then(res => {
       setRewardList(rewardList.concat(res.content!))
@@ -41,9 +49,10 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
         pageNumber: res.pageable!.pageNumber!+1,
         totalPages: res.totalPages
       })
-      setIsEnd(pageInfo.totalPages
-        ? pageInfo.pageNumber!+1 > pageInfo.totalPages
+      setIsEnd(res.totalPages! > -1
+        ? res.pageable!.pageNumber!+1 >= res.totalPages!
         : false )
+      setIsFetching(false);
     });
   }
   return (
@@ -61,7 +70,7 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
         pageStart={pageInfo.pageNumber}
         loadMore={loadData}
         hasMore={!isEnd}
-        loader={<div className="loader" key={0}>Loading ...</div>}
+        loader={<Loader />}
     >
       <Sticky sides={{top: 0}}>
         <div className={classnames(listStyles.itemContainer, listStyles.listHeader)}>
@@ -72,20 +81,21 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
       {rewardList.map((reward, index) => (
         <a href={reward.link} target="_blank">
         <div key={index} className={listStyles.itemContainer}>
-          <span>{reward.rewardTimestamp}</span>
+          <span>{timeFormat(reward.rewardTimestamp)}</span>
           <span className={classnames(listStyles.buy)}>{`+${reward.reward}`}</span>
         </div>
         </a>
       ))}
     </InfiniteScroll>
-    {isEnd && "我是有底线的"}
+    {isEnd && <EndFlag />}
     </div>
   );
 }
 
 interface LinkStateProps {
   userName?: string;
-  minerInfoList: MinerInfo[]
+  minerInfoList: MinerInfo[],
+  soldMinerList: MinerInfo[],
   // minerRewardList: MinerRewardDetail[];
   // minerId: 
   // pageInfo: Pageable;
@@ -98,6 +108,7 @@ interface LinkDispatchProps {
 const mapStateToProps = (state: AppState): LinkStateProps => ({
   userName: state.accountInfo.accountName,
   minerInfoList: state.activeMiner.content,
+  soldMinerList: state.soldMiner.content
   // minerRewardList: state.minerReward.content,
   // pageInfo: state.minerReward.pageable,
   // totalPages: state.minerReward.totalPages

@@ -43,7 +43,7 @@ const MeInfo: React.FC<Props> = (props) => {
     </div>
     <div className={styles.actions}>
         <span className={styles.history}>
-          <span><Link to="/traderecord">交易记录</Link></span>
+          <span><Link to="/minertrade">交易记录</Link></span>
           <span style={{paddingLeft: '20px'}}><Link to="/soldminer">已销毁矿机</Link></span>
         </span>
         <span className={styles.tradeItem}>
