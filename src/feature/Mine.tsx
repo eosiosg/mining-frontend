@@ -7,7 +7,6 @@ import { AppAction } from "../typings/feature";
 import NavBar from '../components/navLink';
 import { 
   useRouteMatch,
-  NavLink,
   Switch,
   Route
 } from 'react-router-dom'
@@ -18,8 +17,8 @@ import { AccountInfo } from "typings/api";
 import TextInput from "components/inputElement";
 import Rules from "./rules";
 import RecentTrades from './RecentTrade'
-import { ReactComponent as Holder } from '../static/no-activity.svg';
-import MinerDetail from '../feature/MinerDetail'
+import { ReactComponent as MineSVG } from '../static/svg/mine3.svg';
+import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
 import { Sticky } from "componentDecorator/stickyComponent";
 interface HomePageProps {
   id?: string;
@@ -51,7 +50,7 @@ const HomePage: React.FC<Props> = (props) => {
           <div className={styles.minerReward}>
             <div className={styles.content}>
               <div className={styles.block}>
-              <Holder />
+              <MineSVG />
                 <p>
                   <span>矿机数量</span><br/>
                   <span>{props.accountInfo.minerCount}个</span>
@@ -59,7 +58,7 @@ const HomePage: React.FC<Props> = (props) => {
               </div>
               <div className={styles.sep}></div>
               <div className={styles.block}>
-              <Holder />
+              <BenefitSVG />
                 <p>
                   <span>昨日收益</span><br/>
                   <span>+{props.accountInfo.lastReward}</span>
@@ -155,4 +154,4 @@ export default connect(
   mapDispatchToProps
 )(HomePage);
 
-const InputPrefix: React.FC<{}> = (props) => <span style={{padding: '8px'}}>个</span>
+const InputPrefix: React.FC<{}> = (props) => <span style={{padding: '8px'}}>台</span>

@@ -1,7 +1,6 @@
 import { UserInfoActionTypes } from "../typings/feature/user";
 import * as ActionConstant from '../actions/account/constants'
-import {AccountInfo, PageMinerInfo, MinerInfo, MinerTradeInfo} from '../typings/api/api'
-import _ from 'lodash';
+import {MinerTradeInfo} from '../typings/api/api'
 // 5 hook types to reducers
 type StateType = MinerTradeInfo[];
 const minerTradeListState: StateType = []

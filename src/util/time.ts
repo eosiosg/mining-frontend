@@ -19,19 +19,7 @@ export function timeDiff (from: number, to: number): number[] {
   })
   return res;
 }
-enum Time {
-  YYYY,
-  MM,
-  DD,
-  hh,
-  mm,
-  ss
-}
-type extract = Extract<Date, 'getFullYear'>
-function timeFieldMap(date: Date, t: Time) {
 
-
-}
 export function timeFormat(time: number | undefined) {
   if(typeof time ==='undefined') return '';
   const date = new Date(time)

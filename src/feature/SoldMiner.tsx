@@ -1,10 +1,9 @@
 // 个人中心下面矿机列表
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
-import { bindActionCreators } from "redux";
 import { setSoldMinerList } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
 import { MinerInfo, Pageable } from "../typings/api";

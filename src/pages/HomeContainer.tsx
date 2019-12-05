@@ -3,11 +3,9 @@ import MineComponent from '../feature/Mine'
 import ForgeComponent from '../feature/Forge'
 import { 
   useRouteMatch,
-  NavLink,
   Switch,
   Route
 } from 'react-router-dom'
-import styles from '../styles/homepage.module.scss'
 import HeaderBar from '../components/HeaderBar';
 import NavBar from '../components/navLink';
 import ContentWrapper from 'components/blockContent';

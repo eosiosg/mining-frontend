@@ -8,7 +8,9 @@ import styles from '../styles/me.module.scss'
 import { Link } from 'react-router-dom';
 import { accountCtrl } from 'api/backendAPI';
 import { setUserInfo } from 'actions/account/effects';
-import { ReactComponent as Holder } from '../static/no-activity.svg';
+import { ReactComponent as RewardSVG } from '../static/svg/reward3.svg';
+import { ReactComponent as MineSVG } from '../static/svg/mine3.svg';
+import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
 type Props = LinkDispatchProps & LinkStateProps;
 
 const MeInfo: React.FC<Props> = (props) => {
@@ -54,19 +56,25 @@ const MeInfo: React.FC<Props> = (props) => {
 
       <div className={styles.itemContainer}>
             <div className={styles.items}>
-              <Holder />
+            <div>
+              <MineSVG />
               <p>矿机数量</p>
               <p>{accountInfo.minerCount}个</p>
               </div>
+              </div>
             <div className={styles.items}>
-              <Holder />
+            <div>
+              <BenefitSVG />
               <p>昨日收益</p>
               <p>{accountInfo.lastReward}</p>
+              </div>
             </div>
             <div className={styles.items}>
-              <Holder />
+              <div>
+              <RewardSVG />
               <p>累计收益</p>
               <p>{accountInfo.totalReward}</p>
+              </div>
             </div>
            
       </div>

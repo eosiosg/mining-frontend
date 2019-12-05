@@ -25,6 +25,7 @@ const NavBar: React.FC<Props> = ({
       <ul className={navStyles.linkContainer}>
         {routes.map((route, index) => (
           <li 
+            key={route.url}
             className={noBottomBorder ? navStyles.noBottomBorder : ''}
             style={{
               marginRight: !!gap ? `${(gap/37.5).toFixed(8)}rem` : ""

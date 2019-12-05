@@ -5,8 +5,8 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { setRecentTradeList } from "../actions/account/effects";
-import { accountCtrl, poolCtrl } from '../api/backendAPI';
-import { MinerInfo, Pageable, MinerTradeInfo } from "../typings/api";
+import { poolCtrl } from '../api/backendAPI';
+import {MinerTradeInfo } from "../typings/api";
 import listStyles from '../styles/listItem.module.scss';
 import styles from '../styles/homepage.module.scss'
 import classnames from 'classnames'

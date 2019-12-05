@@ -21,12 +21,12 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
   let { minerId } = useParams<{minerId: string}>();
   const location = useLocation();
   // minerSummary 是收益总结
-  const infoList = location.state.from == 'soldMiner'
+  const infoList = location.state.from === 'soldMiner'
                     ? soldMinerList
-                    : location.state.from == 'activeMiner'
+                    : location.state.from === 'activeMiner'
                       ? minerInfoList : []
 
-  const minerSummary = infoList.find((miner) => miner.minerId == minerId);
+  const minerSummary = infoList.find((miner) => miner.minerId === minerId);
   const [rewardList, setRewardList] = useState<MinerRewardDetail[]>([])
   const [pageInfo, setPageInfo] = useState<Pageable & {totalPages?: number}>({
     pageSize: 40,

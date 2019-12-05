@@ -1,18 +1,16 @@
 // 最近交易 个人中心
 // 个人中心下面矿机列表
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
-import { bindActionCreators } from "redux";
 import { setMinerTrade } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
-import { MinerInfo, Pageable, MinerTradeInfo } from "../typings/api";
+import {Pageable, MinerTradeInfo } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from '../styles/listItem.module.scss';
 import classnames from 'classnames'
-import { Link } from "react-router-dom";
 import { Sticky } from "componentDecorator/stickyComponent";
 import { timeFormat } from "util/time";
 import { Loader, EndFlag } from "components/loadingHolder";

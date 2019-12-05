@@ -3,9 +3,7 @@ import {
   Router, 
   Route, 
   Switch, 
-  Redirect,
-  Link, 
-  NavLink } from "react-router-dom";
+  Redirect } from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
 import HomeContainer from "../pages/HomeContainer";
 import SoldMinerContainer from "../pages/SoldMinerContainer";
@@ -19,6 +17,7 @@ import MeContainer from "../pages/Me";
 import { NoPage } from "pages/NoPage";
 import { MinerRewardDetailPage } from "pages/MinerReward";
 import MinerTradeContainer from "pages/MinerTradePage";
+import TopupPage from "pages/topupPage";
 
 export const history = createHistory();
 
@@ -41,11 +40,15 @@ const AppRouter: React.FC<Props> = (props) => {
             <Route exact path="/">
               <Redirect to="/home/mine" />
             </Route>
+            <Route exact path="/topup">
+              <Redirect to={`/topup/eos`} />
+            </Route>
             <Route path="/home" component={HomeContainer} />
             <Route path="/soldminer" component={SoldMinerContainer} />
             <Route path="/me" component={MeContainer} />
             <Route path={'/miner/:minerId'} component={MinerRewardDetailPage} />
             <Route path={'/minertrade'} component={MinerTradeContainer} />
+            <Route path={'/topup'} component={TopupPage} />
             <Route component={NoPage} />
           </Switch>
         </div>
