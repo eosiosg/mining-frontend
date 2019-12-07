@@ -55,7 +55,7 @@ const MinerList: React.FC<Props> = (props) => {
         <Link to={{pathname: `/miner/${miner.minerId}`, state: {from: 'soldMiner'}}}>
         <div key={miner.minerId} className={styles.itemContainer}>
           <span>{miner.minerId}</span>
-          <span>{miner.totalRewardInEos}</span>
+          <span className={classnames({[styles.buy]: miner.sold})}>+{miner.totalRewardInEos}</span>
         </div>
         </Link>
       ))}

@@ -63,7 +63,7 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
             矿机ID: {minerId}
           </p>
           {minerSummary && <p className={meStyle.eosReward}>{minerSummary.totalRewardInEos}</p>}
-          {minerSummary && <p className={meStyle.cnyReward}>{minerSummary.totalRewardInCny}</p>}
+          {minerSummary && <p className={meStyle.cnyReward}>&asymp;{minerSummary.totalRewardInCny}</p>}
         </div>
       </div>
       <InfiniteScroll

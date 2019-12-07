@@ -8,6 +8,7 @@ type Props = {
   fontSize: number;
   alignLeft?: boolean;
   placeholder?: string;
+  disabled?: boolean | undefined;
 }
 const TextInput: React.FC<Props> = ({
   value,
@@ -15,7 +16,8 @@ const TextInput: React.FC<Props> = ({
   prefix,
   fontSize,
   alignLeft,
-  placeholder
+  placeholder,
+  disabled
 }) => {
   const onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -28,6 +30,7 @@ const TextInput: React.FC<Props> = ({
         type="text" 
         value={value} 
         placeholder={placeholder}
+        disabled={!!disabled}
         style={{
           fontSize: `${(fontSize/37.5).toFixed(8)}rem`,
           textAlign: !!alignLeft ? "left" : undefined
