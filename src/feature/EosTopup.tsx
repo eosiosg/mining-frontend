@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from 'styles/topup/topup.module.scss'
 import ContentWrapper from 'components/blockContent';
 import TextInput from 'components/inputElement';
 import { StateType, platformType } from 'pages/topupPage';
+import classnames from 'classnames'
 const EosTopup: React.FC<{
   transactionInfo: StateType,
   onchange: (value: string | number) => void
 }> = (props) => {
+  const [shown, setShown] = useState(false)
   return (
     <div>
     <ContentWrapper>
@@ -16,9 +18,14 @@ const EosTopup: React.FC<{
         value={platformType[props.transactionInfo.platform]}
         onchange={props.onchange}
         fontSize={14}
-        prefix={<div>aaa</div>}
+        prefix={<Selection shown={shown} onClick={() => setShown(!shown)}/>}
         disabled={true}
       />
+      <div className={styles.selectionWrapper}>
+        <span className={classnames(styles.selection,styles.hide, {[styles.shown]: shown})}>
+        {Object.values(platformType).map(platform => <div key={platform}>{platform}</div>)}
+        </span>
+      </div>
       <div className={styles.midImage}>
         <div className={styles.imgContainer}>
           <img src={'qrCode'} alt="qrcode"/>
@@ -57,3 +64,12 @@ const EosTopup: React.FC<{
 }
 
 export default EosTopup;
+
+const Selection: React.SFC<{shown: boolean, onClick: () => void}> = (props) => {
+  return (
+    <div>
+      <span style={{paddingRight: '15px'}} onClick={props.onClick}>切换</span>
+      
+    </div>
+  )
+}

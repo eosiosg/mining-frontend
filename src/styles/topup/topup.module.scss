@@ -116,3 +116,34 @@
   color:rgba(255,255,255,1);
   line-height:13px;
 }
+.selectionWrapper {
+  padding: 0 12px;
+  z-index: 1;
+  text-align: right;
+}
+.selection {
+  display: inline-block;
+  width: 70px;
+  position: absolute;
+  transform: translateX(-100%);
+  text-align: left;
+  right: 0;
+  div {
+    font-size:12px;
+    font-weight:500;
+    color:rgba(26,25,25,1);
+    line-height:13px;
+    padding: 8px 0;
+    text-align: center;
+    background:rgba(244,246,249,1);
+    border: 1px solid #FFFFFF;
+    
+  }
+  
+}
+.hide {
+  display:none;
+}
+.shown {
+  display: block;
+}

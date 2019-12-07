@@ -22,8 +22,7 @@ const BosTopup: React.FC<{
         placeholder="最小充值数量10"
         onchange={props.onchange}
         fontSize={14}
-        prefix={<div>aaa</div>}
-   
+        prefix={null}
       />
       <div className={styles.bosRemain}>{`当前账户可用 3000.0000 BOS`}</div>
       <div className={styles.btnWrapper}>
