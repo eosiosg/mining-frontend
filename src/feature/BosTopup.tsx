@@ -25,6 +25,10 @@ const BosTopup: React.FC<{
         prefix={<div>aaa</div>}
    
       />
+      <div className={styles.bosRemain}>{`当前账户可用 3000.0000 BOS`}</div>
+      <div className={styles.btnWrapper}>
+        <button onClick={() => alert('挖')}>立刻挖矿</button>
+      </div>
   
       </ContentWrapper>
       </div>

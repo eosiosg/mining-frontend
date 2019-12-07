@@ -94,3 +94,25 @@
     padding: 0 4px;
   }
 }
+.btnWrapper {
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 12px;
+  button {
+    display: inline-block;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    width: 100%;
+    background:rgba(82,248,235,1);
+  }
+}
+.bosRemain {
+  margin-top: 12px 0 25px;
+  font-size:10px;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:13px;
+}
