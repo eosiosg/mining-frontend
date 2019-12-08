@@ -21,6 +21,7 @@ import NavBar from "components/navLink";
 import Rules from "./rules";
 import RecentTrades from './RecentTrade'
 import { Sticky } from "componentDecorator/stickyComponent";
+import { meltbos } from "transaction/boseosmining";
 
 interface ForgePageProps {
 
@@ -33,7 +34,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     forgePageInfo,
     userName
   } = props;
-  const [bosCount, setBosCount] = useState<number | string>("");
+  const [bosCount, setBosCount] = useState<number>(0);
   let { path, url } = useRouteMatch();
   const [timer, setTimer] = useState<number[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(true);
@@ -72,6 +73,13 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     }
     setBosCount(value)
   }
+  const handleForge = () => {
+    if (bosCount <=0 ) {
+      alert("Please enter the amount")
+      return
+    }
+    meltbos(props.userName, `${bosCount.toFixed(4)} BOS`)
+  }
   return (
     <div>
       <ContentWrapper>
@@ -109,7 +117,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
         </div>
         {/*todo: slider here*/}
         <div className={styles.btnWrapper}>
-          <button onClick={() => alert('挖')}>立刻投入</button>
+          <button onClick={handleForge}>立刻投入</button>
         </div>
 
         <div className={styles.warnning}>

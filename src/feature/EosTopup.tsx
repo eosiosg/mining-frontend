@@ -6,6 +6,7 @@ import { StateType, platformType } from 'pages/topupPage';
 import classnames from 'classnames'
 type TypePlatform = typeof platformType;
 type PlatFormkeys = keyof TypePlatform | string;
+
 const EosTopup: React.FC<{
   transactionInfo: StateType,
   onchange: (value: string | number) => void
@@ -77,7 +78,6 @@ const Selection: React.SFC<{shown: boolean, onClick: () => void}> = (props) => {
   return (
     <div>
       <span style={{paddingRight: '15px'}} onClick={props.onClick}>切换</span>
-      
     </div>
   )
 }

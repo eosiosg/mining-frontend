@@ -3,8 +3,29 @@ import { Dispatch } from "redux";
 import { AppState } from "../../store/configureStore";
 import * as ActionTyps from './constants';
 import {AccountInfo, PageMinerInfo, MinerTradeInfo, PageMinerTradeInfo} from '../../typings/api/api'
+
+function getQueryVariable() {
+  let query = window.location.search.substring(1);
+  let vars = query.split('&');
+  let res : {
+    [key: string]: string
+  }= {};
+  for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split('=');
+      res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1])
+  }
+  return res;
+
+}
 // 4 hook up types to redux actions
-export const setUserInfo = (accountInfo: AccountInfo): AppAction => ({
+type QueryObject = {
+  query? : {
+    refer?: string,
+  account?: string
+  }
+}
+export type TypeAccountInfo = AccountInfo & QueryObject
+export const setUserInfo = (accountInfo: TypeAccountInfo): AppAction => ({
   type: ActionTyps.GET_USER_INFO_SUCCESS,
   data: accountInfo
 });
@@ -13,8 +34,12 @@ export const setUserInfo = (accountInfo: AccountInfo): AppAction => ({
 
 export const getUserInfo = () => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
+    let urlQuery = getQueryVariable();
     dispatch(
-      setUserInfo({accountName: 'mytestalice1'})
+      setUserInfo({
+        accountName: urlQuery.account || 'mytestalice1',
+        query: urlQuery
+      })
     );
   };
 };

@@ -24,13 +24,11 @@ function EOSCreator () {
     verbose: false, // API activity
     sign: true,
   }
-  eos = Eos(config)
-  return eos
+  return Eos(config)
 }
 
 
-eos = EOSCreator()
-
+const eos = EOSCreator()
 export const transfereos = (from, to, quantity, memo) => {
   eos.transaction({
     actions: [
@@ -115,6 +113,7 @@ export const sellminer = (seller, miners) => {
 }
 
 export const meltbos = (user, quantity) => {
+  debugger
   eos.transaction({
     actions: [
       {

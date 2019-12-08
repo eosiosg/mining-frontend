@@ -49,7 +49,7 @@ const MeInfo: React.FC<Props> = (props) => {
           <span style={{paddingLeft: '20px'}}><Link to="/soldminer">已销毁矿机</Link></span>
         </span>
         <span className={styles.tradeItem}>
-          <span><Link to="/cashout">提币</Link></span>
+          <span><Link to="/retrieval">提币</Link></span>
           <span style={{marginLeft: '16px', background: '#52F8EB'}}><Link to="/topup">充值</Link></span>
         </span>
       </div>

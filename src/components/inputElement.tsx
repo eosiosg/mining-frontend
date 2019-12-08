@@ -3,8 +3,8 @@ import classnames from 'classnames';
 import styles from '../styles/commonComponent.module.scss';
 type Props = {
   value: number | string;
-  onchange: (value: number | string) => void;
-  prefix: React.ReactNode;
+  onchange: (value: string) => void;
+  prefix?: React.ReactNode;
   fontSize: number;
   alignLeft?: boolean;
   placeholder?: string;

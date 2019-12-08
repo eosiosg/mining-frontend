@@ -3,7 +3,9 @@ import {
   Router, 
   Route, 
   Switch, 
-  Redirect } from "react-router-dom";
+  Redirect, 
+  useParams,
+  useLocation} from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
 import HomeContainer from "../pages/HomeContainer";
 import SoldMinerContainer from "../pages/SoldMinerContainer";
@@ -18,6 +20,7 @@ import { NoPage } from "pages/NoPage";
 import { MinerRewardDetailPage } from "pages/MinerReward";
 import MinerTradeContainer from "pages/MinerTradePage";
 import TopupPage from "pages/topupPage";
+import Retrieval from "pages/Retrieval";
 
 export const history = createHistory();
 
@@ -25,12 +28,10 @@ export const history = createHistory();
 // but we pass in a customer history to it.
 type Props = LinkDispatchProps & LinkStateProps;
 const AppRouter: React.FC<Props> = (props) => {
-
   useEffect(() => {
     if (props.userName) return
     props.getUserInfo()
   }, [props.userName])
-
   return  (
     <div>
       
@@ -49,6 +50,7 @@ const AppRouter: React.FC<Props> = (props) => {
             <Route path={'/miner/:minerId'} component={MinerRewardDetailPage} />
             <Route path={'/minertrade'} component={MinerTradeContainer} />
             <Route path={'/topup'} component={TopupPage} />
+            <Route path={'/retrieval'} component={Retrieval} />
             <Route component={NoPage} />
           </Switch>
         </div>

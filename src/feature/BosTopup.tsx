@@ -29,9 +29,9 @@ const BosTopup: React.FC<{
         fontSize={14}
         prefix={null}
       />
-      <div className={styles.bosRemain}>{`当前账户可用 ${props.accountInfo.bosBalance}`}</div>
+      <div className={styles.bosRemain}>{`当前账户可用 ${props.accountInfo!.bosBalance}`}</div>
       <div className={styles.btnWrapper}>
-        <button onClick={() => alert('挖')}>立刻挖矿</button>
+        <button onClick={() => alert('挖')}>充值</button>
       </div>
   
       </ContentWrapper>
@@ -41,7 +41,7 @@ const BosTopup: React.FC<{
 
 
 interface LinkStateProps {
-  accountInfo: AccountInfo,
+  accountInfo?: AccountInfo,
 }
 const mapStateToProps = (state: AppState): LinkStateProps => ({
   accountInfo: state.accountInfo,

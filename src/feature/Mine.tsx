@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { setUserInfo } from "../actions/account/effects";
+import { setUserInfo, TypeAccountInfo } from "../actions/account/effects";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
@@ -20,6 +20,7 @@ import RecentTrades from './RecentTrade'
 import { ReactComponent as MineSVG } from '../static/svg/mine3.svg';
 import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
 import { Sticky } from "componentDecorator/stickyComponent";
+import { buyminer } from "transaction/boseosmining";
 interface HomePageProps {
   id?: string;
   color?: string;
@@ -42,6 +43,9 @@ const HomePage: React.FC<Props> = (props) => {
       if (isNaN(value)) return
     }
     setBuyMinerCount(value)
+  }
+  const handleBuyMiner = () => {
+    buyminer(props.userName, buyMinerCount, props.accountInfo!.query!.refer)
   }
   return (
     <div>
@@ -89,7 +93,7 @@ const HomePage: React.FC<Props> = (props) => {
         {/*todo: slider here*/}
         <span className={styles.estimate}>*预计收益增加</span>
         <div className={styles.btnWrapper}>
-          <button onClick={() => alert('挖')}>立刻挖矿</button>
+          <button onClick={handleBuyMiner}>立刻挖矿</button>
         </div>
 
         <div className={styles.warnning}>
@@ -141,7 +145,7 @@ const HomePage: React.FC<Props> = (props) => {
 
 interface LinkStateProps {
   userName?: string;
-  accountInfo: AccountInfo;
+  accountInfo: TypeAccountInfo;
 }
 
 interface LinkDispatchProps {

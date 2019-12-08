@@ -84,7 +84,7 @@
   font-weight:400;
   color:rgba(255,255,255,1);
   line-height:14px;
-  margin-bottom: 9px;
+  margin: 9px 0;
   text-align: left;
 }
 .extraAction {
@@ -146,4 +146,13 @@
 }
 .shown {
   display: block;
+}
+
+.address {
+  font-size:14px;
+  color:rgba(255,255,255,1);
+  line-height:1;
+  padding: 15px;
+  background: rgba(244,246,249, 0.3);
+  border-radius:4px;
 }
