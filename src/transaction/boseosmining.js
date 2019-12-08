@@ -2,7 +2,7 @@
 * EOS JS init
 * */
 
-Eos = require('eosjs')
+const Eos = require('eosjs')
 
 let bostestnet_chainid = '33cc2426f1b258ef8c798c34c0360b31732ea27a2d7e35a65797850a86d1ba85'
 let bostestnet_endpoint = 'http://3.0.56.177:8883'
@@ -31,7 +31,7 @@ function EOSCreator () {
 
 eos = EOSCreator()
 
-const transfereos = (from, to, quantity, memo) => {
+export const transfereos = (from, to, quantity, memo) => {
   eos.transaction({
     actions: [
       {
@@ -52,7 +52,7 @@ const transfereos = (from, to, quantity, memo) => {
   })
 }
 
-const transferbos = (from, to, quantity, memo) => {
+export const transferbos = (from, to, quantity, memo) => {
   eos.transaction({
     actions: [
       {
@@ -75,7 +75,7 @@ const transferbos = (from, to, quantity, memo) => {
 
 
 
-const buyminer = (buyer, count, channel) => {
+export const buyminer = (buyer, count, channel) => {
   eos.transaction({
     actions: [
       {
@@ -95,7 +95,7 @@ const buyminer = (buyer, count, channel) => {
   })
 }
 
-const sellminer = (seller, miners) => {
+export const sellminer = (seller, miners) => {
   eos.transaction({
     actions: [
       {
@@ -114,7 +114,7 @@ const sellminer = (seller, miners) => {
   })
 }
 
-const meltbos = (user, quantity) => {
+export const meltbos = (user, quantity) => {
   eos.transaction({
     actions: [
       {
@@ -133,7 +133,7 @@ const meltbos = (user, quantity) => {
   })
 }
 
-const delegatech = (from, channel, quantity) => {
+export const delegatech = (from, channel, quantity) => {
   eos.transaction({
     actions: [
       {
@@ -153,7 +153,7 @@ const delegatech = (from, channel, quantity) => {
   })
 }
 
-const undelegatech = (from, channel, quantity) => {
+export const undelegatech = (from, channel, quantity) => {
   eos.transaction({
     actions: [
       {
@@ -173,8 +173,10 @@ const undelegatech = (from, channel, quantity) => {
   })
 }
 
-transfereos(alice, contract, "100.0000 EOS", "")
-transferbos(alice, contract, "100.0000 BOS", "")
+// transfereos(alice, contract, "100.0000 EOS", "")
+// transferbos(alice, contract, "100.0000 BOS", "")
+
+
 // buyminer(alice, 10, bob);
 // sellminer(alice, [500])
 // meltbos(alice, "100.0000 BOS")

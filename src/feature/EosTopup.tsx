@@ -4,11 +4,17 @@ import ContentWrapper from 'components/blockContent';
 import TextInput from 'components/inputElement';
 import { StateType, platformType } from 'pages/topupPage';
 import classnames from 'classnames'
+type TypePlatform = typeof platformType;
+type PlatFormkeys = keyof TypePlatform | string;
 const EosTopup: React.FC<{
   transactionInfo: StateType,
   onchange: (value: string | number) => void
 }> = (props) => {
   const [shown, setShown] = useState(false)
+  const handleSelection = (value: string | number) => () => {
+    setShown(false);
+    props.onchange(value);
+  }
   return (
     <div>
     <ContentWrapper>
@@ -23,7 +29,9 @@ const EosTopup: React.FC<{
       />
       <div className={styles.selectionWrapper}>
         <span className={classnames(styles.selection,styles.hide, {[styles.shown]: shown})}>
-        {Object.values(platformType).map(platform => <div key={platform}>{platform}</div>)}
+        {Object.keys(platformType).map((platform: PlatFormkeys) => 
+          <div key={platform} onClick={handleSelection(platform)}>{platformType[platform]}</div>)
+        }
         </span>
       </div>
       <div className={styles.midImage}>

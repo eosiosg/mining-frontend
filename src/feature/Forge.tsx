@@ -65,7 +65,13 @@ const ForgePageContainer: React.FC<Props> = (props) => {
       }
     }
   }, [endTime]);
-  
+  const handleBosAmount = (value : string | number) => {
+    if (typeof value == "string") {
+      value = value !== "" ? parseInt(value, 10) : 0;
+      if (isNaN(value)) return
+    }
+    setBosCount(value)
+  }
   return (
     <div>
       <ContentWrapper>
@@ -92,7 +98,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
         <TextInput
           prefix={<InputPrefix />}
           value={bosCount}
-          onchange={(value) => setBosCount(value)}
+          onchange={handleBosAmount}
           fontSize={12}
           placeholder="输入BOS数量"
         />

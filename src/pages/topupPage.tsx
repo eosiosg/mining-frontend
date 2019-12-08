@@ -11,7 +11,9 @@ import ContentWrapper from 'components/blockContent';
 import EosTopup from 'feature/EosTopup'
 import BosTopup from 'feature/BosTopup'
 import { platform } from 'os';
-export const platformType = {
+export const platformType: {
+  [key: string]: string;
+} = {
   "1": "钱包",
   "2": "交易所"
 }

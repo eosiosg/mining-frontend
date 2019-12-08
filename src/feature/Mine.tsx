@@ -36,6 +36,13 @@ const HomePage: React.FC<Props> = (props) => {
     accountCtrl.getAccountInfoUsingGET(props.userName, {})
     .then(res => props.dispatch(setUserInfo(res)));
   }, [props.userName])
+  const handleMinerAccount = (value : string | number) => {
+    if (typeof value == "string") {
+      value = value !== "" ? parseInt(value, 10) : 0;
+      if (isNaN(value)) return
+    }
+    setBuyMinerCount(value)
+  }
   return (
     <div>
       <ContentWrapper>
@@ -70,7 +77,7 @@ const HomePage: React.FC<Props> = (props) => {
         <TextInput
           prefix={<InputPrefix />}
           value={buyMinerCount}
-          onchange={(value) => setBuyMinerCount(value)}
+          onchange={handleMinerAccount}
           fontSize={12}
           placeholder="输入购买矿机数量"
         />
