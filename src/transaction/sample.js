@@ -101,6 +101,7 @@ export const connectScatter = () => dispatch => {
 
 }
 
+// getScatter connection
 const getConnection = () => ScatterJS.scatter.connect("Findex").then((connected) => {
   // User does not have Scatter Desktop, Mobile or Classic installed.
   if(!connected) return false;
@@ -110,6 +111,7 @@ const getConnection = () => ScatterJS.scatter.connect("Findex").then((connected)
   console.log('err when connect with scatter', err);
 });
 
+// get identity
 const selectedIdentity = (scatter) => scatter.getIdentity({ accounts: [{ chainId: chainId, blockchain:'eos' }] }).then((res) => {
   return true
 }).catch((error) => {

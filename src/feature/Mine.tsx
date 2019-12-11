@@ -20,7 +20,7 @@ import RecentTrades from './RecentTrade'
 import { ReactComponent as MineSVG } from '../static/svg/mine3.svg';
 import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
 import { Sticky } from "componentDecorator/stickyComponent";
-import { buyminer } from "transaction/boseosmining";
+import scatterEos from '../transaction/ScatterService'
 interface HomePageProps {
   id?: string;
   color?: string;
@@ -45,8 +45,17 @@ const HomePage: React.FC<Props> = (props) => {
     setBuyMinerCount(value)
   }
   const handleBuyMiner = () => {
-    buyminer(props.userName, buyMinerCount, props.accountInfo!.query!.refer)
+    scatterEos.buyminer(props.userName, buyMinerCount, props.accountInfo!.query!.refer)
   }
+  const connection = async () => {
+    const connected = await scatterEos.isConnected()
+    console.log("connected:", connected)
+    if (!connected) return false;
+    await scatterEos.login();
+  }
+  useEffect(() => {
+    connection()
+  },[])
   return (
     <div>
       <ContentWrapper>
