@@ -13,9 +13,9 @@ let bostoken_contract = 'mytestcoin12'
 let eostoken_contract = 'mytestcoin11'
 
 const eosNetwork = {
-    blockchain: 'eos',
+    blockchain: 'test',
     chainId: config.bostestnet_chainid, // 32 byte (64 char) hex string
-    keyProvider: [config.keyProvider], // WIF string or array of keys..
+    // keyProvider: [config.keyProvider], // WIF string or array of keys..
     httpEndpoint: config.bostestnet_endpoint,
     expireInSeconds: 60,
     broadcast: true,
@@ -41,12 +41,15 @@ const scatterEos = {
             .getIdentity(requiredFields)
             .then(() => {
                 const account = this.scatter.identity.accounts.find(
-                    x => x.blockchain === "eos"
+                    x => x.blockchain === "test"
                 );
                 this.pubKey = this.scatter.identity.publicKey;
                 this.currentAccount = account.name;
                 this.currentPermission = account.authority;
-                eosClient = this.scatter.eos(eosNetwork, Eos);
+                eosClient = this.scatter.eos(eosNetwork, Eos, {}, 'http');
+                // eosClient = Eos(eosNetwork);
+                eosClient.getInfo({}).then(result => alert(JSON.stringify(result)))
+                alert(JSON.stringify(account))
             })
             .catch(err => {
                 alert(JSON.stringify(err));
@@ -136,7 +139,7 @@ const scatterEos = {
         eosClient.transaction({
             actions: [
                 {
-                    account: bostoken_contract,
+                    account: config.bostoken_contract,
                     name: 'transfer',
                     authorization: [{
                         actor: from,
