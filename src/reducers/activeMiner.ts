@@ -33,6 +33,10 @@ export default (
         totalPages: action.data.totalPages
 
       }
+    case ActionConstant.EMPTY_ACTIVE_MINER_LIST:
+      return {
+        ...activeMinerListState
+      }
     default:
       return state;
   }

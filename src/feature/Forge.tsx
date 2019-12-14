@@ -21,7 +21,8 @@ import NavBar from "components/navLink";
 import Rules from "./rules";
 import RecentTrades from './RecentTrade'
 import { Sticky } from "componentDecorator/stickyComponent";
-import { meltbos } from "transaction/boseosmining";
+import scatterEos from "transaction/ScatterService";
+
 
 interface ForgePageProps {
 
@@ -78,7 +79,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
       alert("Please enter the amount")
       return
     }
-    meltbos(props.userName, `${bosCount.toFixed(4)} BOS`)
+    scatterEos.meltbos(props.userName, `${bosCount.toFixed(4)} BOS`)
   }
   return (
     <div>

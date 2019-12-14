@@ -4,8 +4,22 @@ import ContentWrapper from 'components/blockContent';
 import TextInput from 'components/inputElement';
 import { StateType, platformType } from 'pages/topupPage';
 import classnames from 'classnames'
+import config from '../config/config'
+import * as QRCode from 'qrcode.react'
 type TypePlatform = typeof platformType;
 type PlatFormkeys = keyof TypePlatform | string;
+const staticScanProtocal = {
+  protocol: 'ScanProtocol', 
+  action: 'transfer',
+  address: config.contract,  // 转账目标地址
+  contract: config.eostoken_contract,  // 可选，可以指定token，也可以由钱包扫码后自行选择转帐token，需要与字段symbol、precision保持匹配 
+  symbol: 'EOS',  // 可选，可以指定token，也可以由钱包扫码后自行选择转帐token，需要与字段contract、precision保持匹配
+  precision: 4,  // 可选，可以指定token，也可以由钱包扫码后自行选择转帐token，需要与字段contract、symbol保持匹配
+  blockchain: 'BOS', // BTC, ETH, EOS, BOS, MEET.ONE 
+  amount: '0', // 可选  真实转账数量
+  memo: 'something to say', // 可选 备注信息
+  chainid: config.bostestnet_chainid // 可选 
+}
 
 const EosTopup: React.FC<{
   transactionInfo: StateType,
@@ -15,6 +29,9 @@ const EosTopup: React.FC<{
   const handleSelection = (value: string | number) => () => {
     setShown(false);
     props.onchange(value);
+  }
+  const scanProtocal = {
+    ...staticScanProtocal,
   }
   return (
     <div>
@@ -37,7 +54,24 @@ const EosTopup: React.FC<{
       </div>
       <div className={styles.midImage}>
         <div className={styles.imgContainer}>
-          <img src={'qrCode'} alt="qrcode"/>
+          {/* <img src={'qrCode'} alt="qrcode"/> */}
+          <QRCode 
+            value={JSON.stringify(scanProtocal)}
+            size={128}
+            bgColor={"#ffffff"}
+            fgColor={"#000000"}
+            level={"L"}
+            includeMargin={true}
+            renderAs={"svg"}
+            imageSettings={{
+              src: "https://static.zpao.com/favicon.png",
+              x: null,
+              y: null,
+              height: 24,
+              width: 24,
+              excavate: true,
+            }}
+          />
         </div>
         <div className={styles.imgCaption}>点击保存图片</div>
       </div>
@@ -46,7 +80,7 @@ const EosTopup: React.FC<{
       <div className={styles.itemInfo}>
         <div className={styles.info}>
           <p>充值地址</p>
-          <span>topup@address</span>
+          <span>{config.contract}</span>
         </div>
         <span className={styles.action}>复制</span>
       </div>

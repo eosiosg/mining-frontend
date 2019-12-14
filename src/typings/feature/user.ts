@@ -13,6 +13,10 @@ export interface SetActiveMinerInfoAction {
   data: PageMinerInfo
 }
 
+export interface EmptyActiveMinerInfoAction {
+  type: typeof ActionTypes.EMPTY_ACTIVE_MINER_LIST;
+}
+
 export interface SetSoldMinerInfoAction {
   type: typeof ActionTypes.GET_SOLD_MINER_LIST;
   data: PageMinerInfo
@@ -33,4 +37,5 @@ export type UserInfoActionTypes =
   | SetActiveMinerInfoAction
   | SetSoldMinerInfoAction
   | SetRecentTradeInfoAction
-  | SetMinerTradeInfoAction;
+  | SetMinerTradeInfoAction
+  | EmptyActiveMinerInfoAction;

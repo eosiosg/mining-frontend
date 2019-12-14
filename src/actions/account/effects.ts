@@ -37,7 +37,6 @@ export const getUserInfo = () => {
     let urlQuery = getQueryVariable();
     dispatch(
       setUserInfo({
-        accountName: urlQuery.account || 'mytestalice1',
         query: urlQuery
       })
     );
@@ -47,6 +46,10 @@ export const getUserInfo = () => {
 export const setActiveMinerList = (minerContent: PageMinerInfo): AppAction => ({
   type: ActionTyps.GET_ACTIVE_MINER_LIST,
   data: minerContent
+})
+
+export const emptyActiveMinerList = (): AppAction => ({
+  type: ActionTyps.EMPTY_ACTIVE_MINER_LIST
 })
 
 export const setSoldMinerList = (minerContent: PageMinerInfo): AppAction => ({

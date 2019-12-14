@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from 'styles/topup/topup.module.scss'
 import ContentWrapper from 'components/blockContent';
 import TextInput from 'components/inputElement';
 import classnames from 'classnames'
+import {connect} from 'react-redux'
+import { AppState } from 'store/configureStore';
+import scatterEos from 'transaction/ScatterService';
 
 export const CoinType: {
   [key: string]: string;
@@ -11,7 +14,7 @@ export const CoinType: {
   "2": "BOS"
 }
 
-const Retrieval: React.FC<{}> = (props) => {
+const Retrieval: React.FC<LinkStateProps> = (props) => {
   const [shown, setShown] = useState(false)
 
   // user tage [option]
@@ -36,8 +39,16 @@ const Retrieval: React.FC<{}> = (props) => {
   }
 
   // address
-  const [address, setAddress] = useState('lalala')
-
+  const [address, setAddress] = useState('')
+  useEffect(() => {
+    if (props.userName) {
+      setAddress(props.userName)
+    }
+  }, [props.userName])
+  const handleWidraw = () => {
+    // scatterEos.withdraw(props.userName, amountCoin, CoinType[coinType])
+    scatterEos.withdraw(props.userName, `${amountCoin.toFixed(4)} ${CoinType[coinType]}`, CoinType[coinType])
+  }
   return (
     <div>
     <ContentWrapper>
@@ -71,7 +82,7 @@ const Retrieval: React.FC<{}> = (props) => {
         </span>
       </div>
       <div className={styles.btnWrapper}>
-        <button onClick={() => alert('挖')}>提币</button>
+        <button onClick={handleWidraw}>提币</button>
       </div>
       </ContentWrapper>
       
@@ -87,7 +98,20 @@ const Retrieval: React.FC<{}> = (props) => {
   )
 }
 
-export default Retrieval;
+interface LinkStateProps {
+  userName?: string;
+}
+
+const mapStateToProps = (state: AppState): LinkStateProps => ({
+  userName: state.accountInfo.accountName,
+
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(Retrieval);
+
 
 const Selection: React.SFC<{shown: boolean, onClick: () => void, display: string}> = (props) => {
   return (

@@ -23,7 +23,7 @@
     "css-loader": "2.1.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",
-    "eosjs": "^16.0.8",
+    "eosjs": "^16.0.9",
     "eslint": "^5.16.0",
     "eslint-config-react-app": "^4.0.1",
     "eslint-loader": "2.1.2",
@@ -56,6 +56,7 @@
     "postcss-normalize": "7.0.1",
     "postcss-preset-env": "6.6.0",
     "postcss-safe-parser": "4.0.1",
+    "qrcode.react": "^1.0.0",
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.1",
     "react-dev-utils": "^9.0.1",
@@ -116,7 +117,7 @@
     "px2rem-loader": "^0.1.9",
     "raw-loader": "^0.5.1"
   },
-  "proxy": "http://13.250.41.73:18080",
+  "proxy": "http://192.168.1.4:18080",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",

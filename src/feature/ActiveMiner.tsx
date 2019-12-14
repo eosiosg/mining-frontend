@@ -5,7 +5,7 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
-import { setActiveMinerList } from "../actions/account/effects";
+import { setActiveMinerList, emptyActiveMinerList } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
 import { MinerInfo, Pageable } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
@@ -48,6 +48,11 @@ const MinerList: React.FC<Props> = (props) => {
         : false )
     });
   }
+  useEffect(() => {
+    return () => {
+      props.dispatch(emptyActiveMinerList())
+    }
+  },[])
   const { activeMinerList } = props;
 
   return (
@@ -66,7 +71,7 @@ const MinerList: React.FC<Props> = (props) => {
         </div>
         </Sticky>
         {activeMinerList.map((miner, index) => (
-          <Link to={{pathname: `/miner/${miner.minerId}`, state: {from: 'activeMiner'}}}>
+          <Link key={index} to={{pathname: `/miner/${miner.minerId}`, state: {from: 'activeMiner'}}}>
             <div key={miner.minerId} className={styles.itemContainer}>
               <span>{miner.minerId}</span>
               <span>{miner.pow}</span>

@@ -11,6 +11,7 @@ import listStyles from '../styles/listItem.module.scss';
 import styles from '../styles/homepage.module.scss'
 import classnames from 'classnames'
 import { timeFormat } from "util/time";
+import { Link } from "react-router-dom";
 interface MinerListPageProps {
 
 }
@@ -31,16 +32,35 @@ const RecentTrades: React.FC<Props> = (props) => {
     <div className={styles.recentTrade}>
       
         {recentTradeList.map((trade, index) => (
-         
+            <a href={trade.link} target="_blank" key={index}>
             <div key={index} className={listStyles.itemContainer}>
               <span>{timeFormat(trade.tradeTimestamp)}</span>
               <span>{trade.account}</span>
-              <span 
-                className={classnames({
-                  [listStyles.buy]: !trade.buy
-                })}
-              >{trade.tradeEos}</span>
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center"
+              }}>
+                <p 
+                  className={classnames({
+                    [listStyles.buy]: !trade.buy
+                  })}
+                  style={{
+                    padding: '3px 0'
+                  }}
+                >{trade.tradeEos}</p>
+                <p 
+                  className={classnames({
+                    [listStyles.buy]: !trade.buy
+                  })}
+                  style={{
+                    padding: '3px 0'
+                  }}
+                >{trade.tradeBos}</p>
+              </div>
+              
             </div>
+            </a>
         ))}
     </div>
   );

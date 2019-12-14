@@ -14,6 +14,7 @@ import { Sticky } from 'componentDecorator/stickyComponent';
 import meStyle from 'styles/me.module.scss'
 import { timeFormat } from 'util/time';
 import { EndFlag, Loader } from 'components/loadingHolder';
+import scatterEos from 'transaction/ScatterService';
 type Props = LinkDispatchProps & LinkStateProps;
 
 export const MinerRewardDetailPage: React.FC<Props> = (props) => {
@@ -55,6 +56,9 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
       setIsFetching(false);
     });
   }
+  const handleSellMiner = () => {
+    scatterEos.sellminer(props.userName, [parseInt(minerId, 10)])
+  }
   return (
     <div>
       <div className={classnames(meStyle.infoPanel, meStyle.wrapper, meStyle.panelMargin)}>
@@ -88,6 +92,11 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
       ))}
     </InfiniteScroll>
     {isEnd && <EndFlag />}
+    <div className={meStyle.btmButton}>
+      <div className={meStyle.sellMiner} onClick={handleSellMiner}>销毁矿机</div>
+      <div className={meStyle.hint}>*每个矿机销毁后可得1500个BOS，操作不可逆。</div>
+    </div>
+    
     </div>
   );
 }

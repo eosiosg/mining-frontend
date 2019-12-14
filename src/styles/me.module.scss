@@ -149,3 +149,25 @@
     }
   }
 }
+.btmButton {
+  .sellMiner {
+    text-align: center;
+    font-size:12px;
+    font-weight:500;
+    color:#FFFFFF;
+    background: #FD4949;
+    border-radius: 5px;
+    line-height:1;
+    padding: 14px 0;
+  }
+  .hint {
+    font-size:12px;
+    color: #FFFFFF;
+    text-align: center;
+    margin-top: 10px;
+  }
+  padding-bottom: 47px 19px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

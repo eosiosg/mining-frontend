@@ -5,13 +5,23 @@ import TextInput from 'components/inputElement';
 import { StateType } from 'pages/topupPage';
 import {connect} from 'react-redux'
 import { AppAction } from 'typings/feature';
+import config from '../config/config'
 import { AppState } from 'store/configureStore';
 import { AccountInfo } from 'typings/api';
+import scatterEos from 'transaction/ScatterService';
 
 const BosTopup: React.FC<{
   transactionInfo: StateType,
   onchange: (value: string | number) => void
 } & LinkStateProps> = (props) => {
+  const handleTopUp = () => {
+    scatterEos.transferbos(
+      props.accountInfo.accountName, 
+      config.contract, 
+      `${props.transactionInfo.amountBos.toFixed(4)} BOS`,
+      ''
+    )
+  }
   return (
     <div>
     <ContentWrapper>
@@ -31,7 +41,7 @@ const BosTopup: React.FC<{
       />
       <div className={styles.bosRemain}>{`当前账户可用 ${props.accountInfo!.bosBalance}`}</div>
       <div className={styles.btnWrapper}>
-        <button onClick={() => alert('挖')}>充值</button>
+        <button onClick={handleTopUp}>充值</button>
       </div>
   
       </ContentWrapper>

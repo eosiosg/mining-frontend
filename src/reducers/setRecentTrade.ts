@@ -11,7 +11,7 @@ export default (
   ): StateType => {
   switch (action.type) {
     case ActionConstant.GET_RECENT_TRADE_LIST:
-      return state.concat(action.data)
+      return action.data
     default:
       return state;
   }

@@ -13,5 +13,5 @@ export const EndFlag: React.SFC<{}> = (props) =>
     style={{
       textAlign: "center", 
       lineHeight: 3,
-      marginBottom: `${(50/37.5).toFixed(8)}rem`
+      marginBottom: `${(20/37.5).toFixed(8)}rem`
     }}>我是有底线的</div>;

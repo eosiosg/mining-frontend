@@ -5,4 +5,7 @@ export default {
     bostoken_contract: process.env.REACT_APP_BOSTOKEN_CONTRACT,
     eostoken_contract: process.env.REACT_APP_EOSTOKEN_CONTRACT,
     keyProvider: process.env.REACT_APP_KEY_PROVIDER,
+    host: process.env.REACT_APP_BOS_NET_HOST,
+    port: process.env.REACT_APP_BOS_NET_PORT,
+    protocal: process.env.REACT_APP_BOS_NET_PROTOCAL,
 }

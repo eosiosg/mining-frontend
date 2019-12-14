@@ -50,8 +50,18 @@ const HomePage: React.FC<Props> = (props) => {
   const connection = async () => {
     const connected = await scatterEos.isConnected()
     console.log("connected:", connected)
-    if (!connected) return false;
-    await scatterEos.login();
+    if (!connected) {
+      if (process.env.NODE_ENV === "development") {
+        props.dispatch(setUserInfo({accountName: "mytestalice1"}))
+      }
+      return false;
+    }
+    await scatterEos.login().then((account) => {
+      // alert(JSON.stringify(account))
+      props.dispatch(setUserInfo({accountName: account.account}))
+      // scatterEos.transfereos('mytestalice1', 'mytestbob111', '10.0000 EOS', 'no meme');
+    })
+    
   }
   useEffect(() => {
     connection()
