@@ -83,7 +83,7 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
         </div>
       </Sticky>
       {rewardList.map((reward, index) => (
-        <a href={reward.link} target="_blank">
+        <a href={reward.link} target="_blank" rel="noopener noreferrer">
         <div key={index} className={listStyles.itemContainer}>
           <span>{timeFormat(reward.rewardTimestamp)}</span>
           <span className={classnames(listStyles.buy)}>{`+${reward.reward}`}</span>
