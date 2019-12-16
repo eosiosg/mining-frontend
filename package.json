@@ -117,7 +117,6 @@
     "px2rem-loader": "^0.1.9",
     "raw-loader": "^0.5.1"
   },
-  "proxy": "http://192.168.1.4:18080",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",

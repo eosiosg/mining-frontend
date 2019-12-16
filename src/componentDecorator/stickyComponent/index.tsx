@@ -108,7 +108,8 @@ export function Sticky(props: Props) {
     },[props.scrollTarget]);
     const render = () => {
         const { children } = props;
-        const { stuckBottom, stuckLeft, stuckRight, stuckTop } = stuck;
+        // const { stuckBottom, stuckLeft, stuckRight, stuckTop } = stuck;
+        const {stuckTop } = stuck;
     
         const stickyModifiers: string[]= [];
     

@@ -7,12 +7,11 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { bindActionCreators } from "redux";
-import { setForgeInfo, setForgePageInfo } from "../actions/pool/effects";
+import { setForgePageInfo } from "../actions/pool/effects";
 import { poolCtrl } from '../api/backendAPI';
 import { getUserInfo } from "../actions/account/effects";
 import { ForgeInfo, ForgePage } from "../typings/api";
 import { timeDiff } from "../util/time";
-import _ from 'lodash';
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import ContentWrapper from "components/blockContent";
 import styles from '../styles/homepage.module.scss'

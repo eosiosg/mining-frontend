@@ -56,7 +56,7 @@ const MinerTrade: React.FC<Props> = (props) => {
         </div>
         </Sticky>
         {minerTrade.map((miner, index) => (
-          <a href={miner.link} target="_blank" key={index}>
+          <a href={miner.link} target="_blank" key={index} rel="noopener noreferrer">
             <div className={styles.itemContainer}>
               <span>{timeFormat(miner.tradeTimestamp)}</span>
               {miner.buy ? <span>买入{miner.tradeAmount}个</span> : <span>卖出{miner.tradeAmount}个</span>}

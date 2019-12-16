@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
-import { bindActionCreators } from "redux";
 import { setActiveMinerList, emptyActiveMinerList } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
 import { MinerInfo, Pageable } from "../typings/api";

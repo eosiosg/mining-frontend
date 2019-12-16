@@ -3,14 +3,13 @@ import {
   useRouteMatch,
   Switch,
   Route,
-  Redirect
 } from 'react-router-dom'
 import HeaderBar from '../components/HeaderBar';
 import NavBar from '../components/navLink';
 import ContentWrapper from 'components/blockContent';
 import EosTopup from 'feature/EosTopup'
 import BosTopup from 'feature/BosTopup'
-import { platform } from 'os';
+
 export const platformType: {
   [key: string]: string;
 } = {
@@ -30,7 +29,7 @@ export const TopupPage: React.FC<{}> = () => {
     amountBos: 0
   });
   const handleChange = (field: keyof StateType) => (value: string | number) => {
-    if (field == "amountBos" && typeof value == "string") {
+    if (field === "amountBos" && typeof value === "string") {
       value = value !== "" ? parseInt(value, 10) : 0;
       if (isNaN(value)) return
     }

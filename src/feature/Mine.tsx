@@ -13,7 +13,6 @@ import {
 import { accountCtrl } from '../api/backendAPI';
 import styles from '../styles/homepage.module.scss'
 import ContentWrapper from "components/blockContent";
-import { AccountInfo } from "typings/api";
 import TextInput from "components/inputElement";
 import Rules from "./rules";
 import RecentTrades from './RecentTrade'

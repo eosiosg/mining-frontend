@@ -4,7 +4,6 @@ import styles from 'styles/topup/topup.module.scss'
 import TextInput from 'components/inputElement';
 import { StateType } from 'pages/topupPage';
 import {connect} from 'react-redux'
-import { AppAction } from 'typings/feature';
 import config from '../config/config'
 import { AppState } from 'store/configureStore';
 import { AccountInfo } from 'typings/api';

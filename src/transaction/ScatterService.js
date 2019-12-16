@@ -3,10 +3,10 @@ import ScatterEOS from 'scatterjs-plugin-eosjs';
 import Eos from 'eosjs';
 import config from '../config/config'
 
-const contractMap = {
-    "BOS": config.bostoken_contract,
-    "EOS": config.eostoken_contract
-}
+// const contractMap = {
+//     "BOS": config.bostoken_contract,
+//     "EOS": config.eostoken_contract
+// }
 const network = ScatterJS.Network.fromJson({
     blockchain:'eos',
     chainId: config.bostestnet_chainid,
@@ -22,7 +22,10 @@ const scatterEos = {
 
     isConnected: async function () {
         const connected = await ScatterJS.scatter.connect('BOS-EOS-Mining', {network})
-        if (!connected) return false;
+        if (!connected) {
+            alert('No scatter app found')
+            return false;
+        }
         window.scatter = null;
         window.ScatterJS = null;
         this.scatter = ScatterJS.scatter;
@@ -46,7 +49,7 @@ const scatterEos = {
                 return {account: this.currentAccount}
             })
             .catch(err => {
-                alert(JSON.stringify(err));
+                alert("Getting identity error");
             });
     },
     logout() {
@@ -72,11 +75,12 @@ const scatterEos = {
                 },
             ],
         }).then(data => {
-            alert("succeed");
-            alert(JSON.stringify(data));
-          }).catch(err => {
-              alert(JSON.stringify(err))
-          })
+            alert("Succeed");
+            return true
+        }).catch(err => {
+            alert("Error Occured")
+            return false
+        })
     },
     sellminer(seller, miners) {
         eosClient.transaction({
@@ -95,11 +99,12 @@ const scatterEos = {
                 },
             ],
         }).then(data => {
-            alert("succeed");
-            alert(JSON.stringify(data));
-          }).catch(err => {
-              alert(JSON.stringify(err))
-          })
+            alert("Succeed");
+            return true
+        }).catch(err => {
+            alert("Error Occured")
+            return false
+        })
     },
     meltbos(user, quantity) {
         eosClient.transaction({
@@ -118,11 +123,12 @@ const scatterEos = {
                 },
             ],
         }).then(data => {
-            alert("succeed");
-            alert(JSON.stringify(data));
-          }).catch(err => {
-              alert(JSON.stringify(err))
-          })
+            alert("Succeed");
+            return true
+        }).catch(err => {
+            alert("Error Occured")
+            return false
+        })
     },
     transfereos(from, to, quantity, memo = '') {
         eosClient.transaction({
@@ -143,11 +149,12 @@ const scatterEos = {
                 }
             ]
         }).then(data => {
-            alert("succeed");
-            alert(JSON.stringify(data));
-          }).catch(err => {
-              alert(JSON.stringify(err))
-          })
+            alert("Succeed");
+            return true
+        }).catch(err => {
+            alert("Error Occured")
+            return false
+        })
     },
     transferbos(from, to, quantity, memo) {
         eosClient.transaction({
@@ -168,11 +175,12 @@ const scatterEos = {
                 }
             ]
         }).then(data => {
-            alert("succeed");
-            alert(JSON.stringify(data));
-          }).catch(err => {
-              alert(JSON.stringify(err))
-          })
+            alert("Succeed");
+            return true
+        }).catch(err => {
+            alert("Error Occured")
+            return false
+        })
     },
     withdraw(user, quantity, type) {
         eosClient.transaction({
@@ -191,11 +199,12 @@ const scatterEos = {
                 },
             ],
         }).then(data => {
-            alert("succeed");
-            alert(JSON.stringify(data));
-          }).catch(err => {
-              alert(JSON.stringify(err))
-          })
+            alert("Succeed");
+            return true
+        }).catch(err => {
+            alert("Error Occured")
+            return false
+        })
     },
     // getEosAccount: async function () {
     //     const scatter = this.scatter;

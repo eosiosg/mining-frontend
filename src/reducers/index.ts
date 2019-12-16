@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux'
-import {routerReducer} from 'react-router-redux'
 import expensesReducer from './expenses'
 import accountInfoReducer from './account'
 import forgeInfoReducer from './forge'

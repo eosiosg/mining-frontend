@@ -24,6 +24,7 @@ const TextInput: React.FC<Props> = ({
     onchange(value)
   }
   return (
+    <label>
     <span className={styles.inputContainer}>
       <input 
         className={classnames(styles.inputHtml, {[styles.affix]: !!prefix})} 
@@ -39,6 +40,7 @@ const TextInput: React.FC<Props> = ({
       />
       <span className={styles.prefixEle}>{prefix}</span>
     </span>
+    </label>
   )
 }
 

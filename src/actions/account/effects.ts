@@ -2,7 +2,12 @@ import { AppAction } from '../../typings/feature';
 import { Dispatch } from "redux";
 import { AppState } from "../../store/configureStore";
 import * as ActionTyps from './constants';
-import {AccountInfo, PageMinerInfo, MinerTradeInfo, PageMinerTradeInfo} from '../../typings/api/api'
+import {
+  AccountInfo, 
+  PageMinerInfo, 
+  MinerTradeInfo, 
+  PageMinerTradeInfo
+} from '../../typings/api/api'
 
 function getQueryVariable() {
   let query = window.location.search.substring(1);

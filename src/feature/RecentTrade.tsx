@@ -1,5 +1,5 @@
 // 个人中心下面矿机列表
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
@@ -11,7 +11,6 @@ import listStyles from '../styles/listItem.module.scss';
 import styles from '../styles/homepage.module.scss'
 import classnames from 'classnames'
 import { timeFormat } from "util/time";
-import { Link } from "react-router-dom";
 interface MinerListPageProps {
 
 }
@@ -32,7 +31,7 @@ const RecentTrades: React.FC<Props> = (props) => {
     <div className={styles.recentTrade}>
       
         {recentTradeList.map((trade, index) => (
-            <a href={trade.link} target="_blank" key={index}>
+            <a href={trade.link} target="_blank" key={index} rel="noopener noreferrer">
             <div key={index} className={listStyles.itemContainer}>
               <span>{timeFormat(trade.tradeTimestamp)}</span>
               <span>{trade.account}</span>
