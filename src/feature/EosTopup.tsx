@@ -6,9 +6,14 @@ import { StateType, platformType } from 'pages/topupPage';
 import classnames from 'classnames'
 import config from '../config/config'
 import * as QRCode from 'qrcode.react'
+import {connect} from 'react-redux'
+import { AppState } from 'store/configureStore';
 type TypePlatform = typeof platformType;
 type PlatFormkeys = keyof TypePlatform | string;
-const staticScanProtocal = {
+
+// bosibc.io:deadlock2bos@bos
+// wallet
+const staticScanProtocalPocket = () => ({
   protocol: 'ScanProtocol', 
   action: 'transfer',
   address: config.contract,  // 转账目标地址
@@ -17,21 +22,35 @@ const staticScanProtocal = {
   precision: 4,  // 可选，可以指定token，也可以由钱包扫码后自行选择转帐token，需要与字段contract、symbol保持匹配
   blockchain: 'BOS', // BTC, ETH, EOS, BOS, MEET.ONE 
   amount: '0', // 可选  真实转账数量
-  memo: 'something to say', // 可选 备注信息
+  memo: '', // 可选 备注信息
   chainid: config.bostestnet_chainid // 可选 
-}
+})
+// exchange
+
+const staticScanProtocalExchange = (user) => ({
+  protocol: 'ScanProtocol', 
+  action: 'transfer',
+  address: 'bosibc.io',  
+  contract: config.eostoken_contract,
+  symbol: 'EOS', 
+  precision: 4, 
+  blockchain: 'BOS', 
+  amount: '0', 
+  memo: `${config.contract}@bos ${user}`, 
+  chainid: config.bostestnet_chainid 
+});
 
 const EosTopup: React.FC<{
   transactionInfo: StateType,
   onchange: (value: string | number) => void
-}> = (props) => {
+} & LinkStateProps> = (props) => {
   const [shown, setShown] = useState(false)
   const handleSelection = (value: string | number) => () => {
     setShown(false);
     props.onchange(value);
   }
   const scanProtocal = {
-    ...staticScanProtocal,
+    ...props.transactionInfo.platform === "1" ? staticScanProtocalPocket() : staticScanProtocalExchange(props.userName),
   }
   return (
     <div>
@@ -106,7 +125,14 @@ const EosTopup: React.FC<{
   )
 }
 
-export default EosTopup;
+interface LinkStateProps {
+  userName?: string;
+}
+const mapStateToProps = (state: AppState): LinkStateProps => ({
+  userName: state.accountInfo.accountName,
+})
+
+export default connect(mapStateToProps, null)(EosTopup);
 
 const Selection: React.SFC<{shown: boolean, onClick: () => void}> = (props) => {
   return (
