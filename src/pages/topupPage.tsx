@@ -3,6 +3,8 @@ import {
   useRouteMatch,
   Switch,
   Route,
+  RouteComponentProps,
+  useHistory,
 } from 'react-router-dom'
 import HeaderBar from '../components/HeaderBar';
 import NavBar from '../components/navLink';
@@ -24,6 +26,7 @@ export type StateType = {
 // export class HomePage extends React.Component<{}> {
 export const TopupPage: React.FC<{}> = () => {
   let { path, url } = useRouteMatch();
+  let history = useHistory();
   const [transactionInfo, setTransactionInfo] = useState<StateType>({
     platform: "1",
     amountBos: 0
@@ -40,7 +43,7 @@ export const TopupPage: React.FC<{}> = () => {
   }
     return (
       <div>
-        <HeaderBar title="充值" hasGoback />
+        <HeaderBar title="充值" hasGoback={() => history.replace("/me")} />
         <ContentWrapper>
           <NavBar
             routes={[

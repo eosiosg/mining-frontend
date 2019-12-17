@@ -10,7 +10,7 @@ type Props = {} & RouteComponentProps
 const MeContainer: React.FC<Props> = (props) => {
     return (
       <div>
-        <HeaderBar title="个人中心" hasGoback/>
+        <HeaderBar title="个人中心" hasGoback={() => props.history.replace("/")}/>
         <MeInfo />
         <ActiveMiner />
       </div>

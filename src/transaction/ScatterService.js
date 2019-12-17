@@ -33,7 +33,7 @@ const scatterEos = {
     },
     login() {
         if (process.env.NODE_ENV === "development") {
-            return Promise({
+            return Promise.resolve({
                 account: 'mytestalice1'
             })
         }
