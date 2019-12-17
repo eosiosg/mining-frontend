@@ -45,6 +45,13 @@ const HomePage: React.FC<Props> = (props) => {
   }
   const handleBuyMiner = () => {
     scatterEos.buyminer(props.userName, buyMinerCount, props.accountInfo!.query!.refer)
+    .then(res => {
+      if(res) {
+        setBuyMinerCount(0)
+        accountCtrl.getAccountInfoUsingGET(props.userName, {})
+          .then(res => props.dispatch(setUserInfo(res)));
+      }
+    })
   }
   const connection = async () => {
     const connected = await scatterEos.isConnected()

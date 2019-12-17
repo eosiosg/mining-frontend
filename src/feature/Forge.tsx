@@ -79,6 +79,14 @@ const ForgePageContainer: React.FC<Props> = (props) => {
       return
     }
     scatterEos.meltbos(props.userName, `${bosCount.toFixed(4)} BOS`)
+    .then(res => {
+      if (res) {
+        poolCtrl.getForgePageUsingGET(userName)
+        .then(res => {
+          props.dispatch(setForgePageInfo(res));
+        });
+      }
+    })
   }
   return (
     <div>

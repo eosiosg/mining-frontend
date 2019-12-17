@@ -15,6 +15,7 @@ import meStyle from 'styles/me.module.scss'
 import { timeFormat } from 'util/time';
 import { EndFlag, Loader } from 'components/loadingHolder';
 import scatterEos from 'transaction/ScatterService';
+import { setSoldMiner } from 'actions/account/effects';
 type Props = LinkDispatchProps & LinkStateProps;
 
 export const MinerRewardDetailPage: React.FC<Props> = (props) => {
@@ -58,6 +59,11 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
   }
   const handleSellMiner = () => {
     scatterEos.sellminer(props.userName, [parseInt(minerId, 10)])
+    .then(res => {
+      if (res) {
+        props.dispatch(setSoldMiner(minerId))
+      }
+    })
   }
   return (
     <div>

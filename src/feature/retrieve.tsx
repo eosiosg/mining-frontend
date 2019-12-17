@@ -48,6 +48,11 @@ const Retrieval: React.FC<LinkStateProps> = (props) => {
   const handleWidraw = () => {
     // scatterEos.withdraw(props.userName, amountCoin, CoinType[coinType])
     scatterEos.withdraw(props.userName, `${amountCoin.toFixed(4)} ${CoinType[coinType]}`, CoinType[coinType])
+    .then(res => {
+      if (res) {
+        setAmountCoin(0)
+      }
+    })
   }
   return (
     <div>

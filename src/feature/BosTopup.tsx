@@ -19,7 +19,11 @@ const BosTopup: React.FC<{
       config.contract, 
       `${props.transactionInfo.amountBos.toFixed(4)} BOS`,
       ''
-    )
+    ).then(res => {
+      if (res) {
+        props.onchange(0)
+      }
+    })
   }
   return (
     <div>

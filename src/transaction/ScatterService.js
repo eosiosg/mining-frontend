@@ -58,7 +58,7 @@ const scatterEos = {
         this.currentPermission = null;
     },
     buyminer(buyer, count, channel='') {
-        eosClient.transaction({
+        return eosClient.transaction({
             actions: [
                 {
                     account: config.contract,
@@ -83,7 +83,7 @@ const scatterEos = {
         })
     },
     sellminer(seller, miners) {
-        eosClient.transaction({
+        return eosClient.transaction({
             actions: [
                 {
                     account: config.contract,
@@ -107,7 +107,7 @@ const scatterEos = {
         })
     },
     meltbos(user, quantity) {
-        eosClient.transaction({
+        return eosClient.transaction({
             actions: [
                 {
                     account: config.contract,
@@ -131,7 +131,7 @@ const scatterEos = {
         })
     },
     transfereos(from, to, quantity, memo = '') {
-        eosClient.transaction({
+        return eosClient.transaction({
             actions: [
                 {
                     account: config.eostoken_contract,
@@ -157,7 +157,7 @@ const scatterEos = {
         })
     },
     transferbos(from, to, quantity, memo) {
-        eosClient.transaction({
+        return eosClient.transaction({
             actions: [
                 {
                     account: config.bostoken_contract,
@@ -183,7 +183,7 @@ const scatterEos = {
         })
     },
     withdraw(user, quantity, type) {
-        eosClient.transaction({
+        return eosClient.transaction({
             actions: [
                 {
                     account: config.contract,

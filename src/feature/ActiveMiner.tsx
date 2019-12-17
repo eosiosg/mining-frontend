@@ -73,7 +73,7 @@ const MinerList: React.FC<Props> = (props) => {
           <Link key={index} to={{pathname: `/miner/${miner.minerId}`, state: {from: 'activeMiner'}}}>
             <div key={miner.minerId} className={styles.itemContainer}>
               <span>{miner.minerId}</span>
-              <span>{miner.pow}</span>
+              {props.currentSessionSoldMiner.includes(miner.minerId) ? <span>销毁确认中</span> : <span>{miner.pow}</span>}
               <span className={classnames({[styles.buy]: !miner.sold})}>+{miner.totalRewardInEos}</span>
             </div>
           </Link>
@@ -89,6 +89,7 @@ interface LinkStateProps {
   activeMinerList: MinerInfo[];
   pageInfo: Pageable;
   totalPages?: number;
+  currentSessionSoldMiner: string [];
 }
 
 interface LinkDispatchProps {
@@ -98,7 +99,8 @@ const mapStateToProps = (state: AppState, props: MinerListPageProps): LinkStateP
   userName: state.accountInfo.accountName,
   activeMinerList: state.activeMiner.content,
   pageInfo: state.activeMiner.pageable,
-  totalPages: state.activeMiner.totalPages
+  totalPages: state.activeMiner.totalPages,
+  currentSessionSoldMiner: state.currentSessionSoldMiner
 
 });
 

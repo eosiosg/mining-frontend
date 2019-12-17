@@ -29,7 +29,7 @@ const TextInput: React.FC<Props> = ({
       <input 
         className={classnames(styles.inputHtml, {[styles.affix]: !!prefix})} 
         type="text" 
-        value={value} 
+        value={value || ''} 
         placeholder={placeholder}
         disabled={!!disabled}
         style={{

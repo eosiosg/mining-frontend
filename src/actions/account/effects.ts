@@ -61,6 +61,10 @@ export const setSoldMinerList = (minerContent: PageMinerInfo): AppAction => ({
   type: ActionTyps.GET_SOLD_MINER_LIST,
   data: minerContent
 })
+export const setSoldMiner = (minerId: string): AppAction => ({
+  type: ActionTyps.SET_SOLD_MINER_ID,
+  data: minerId
+})
 
 export const setRecentTradeList = (MinerTradeInfo: MinerTradeInfo[]): AppAction => ({
   type: ActionTyps.GET_RECENT_TRADE_LIST,
