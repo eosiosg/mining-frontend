@@ -123,6 +123,12 @@ export interface AccountInfo {
      * @memberof AccountInfo
      */
     totalReward?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccountInfo
+     */
+    availableBosOutside?: string;
 }
 
 /**
@@ -155,6 +161,7 @@ export interface ForgeInfo {
      * @memberof ForgeInfo
      */
     totalBos?: string;
+    serverTimestamp?: number;
 }
 
 /**

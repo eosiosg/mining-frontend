@@ -6,7 +6,7 @@ import {
   AccountInfo, 
   PageMinerInfo, 
   MinerTradeInfo, 
-  PageMinerTradeInfo
+  PageMinerTradeInfo,
 } from '../../typings/api/api'
 
 function getQueryVariable() {
@@ -74,5 +74,8 @@ export const setMinerTrade = (MinerTradeInfo: PageMinerTradeInfo): AppAction => 
   type: ActionTyps.GET_MINER_TRADE_LIST,
   data: MinerTradeInfo
 })
+
+
+
 
 //pageMinerTrade

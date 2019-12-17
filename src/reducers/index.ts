@@ -7,6 +7,7 @@ import soldMinerReducer from './soldMiner'
 import recentTradeReducer from './setRecentTrade'
 import pageMinerTradeReducer from './minerTrade'
 import currentSessionSoldMinerReducer from './currentSessionSoldMiner'
+import poolInfoReducer from './poolInfo'
 export const rootReducer = combineReducers({
   expenses: expensesReducer,
   accountInfo: accountInfoReducer,
@@ -16,5 +17,5 @@ export const rootReducer = combineReducers({
   recentTrade: recentTradeReducer,
   pageMinerTrade: pageMinerTradeReducer,
   currentSessionSoldMiner: currentSessionSoldMinerReducer,
-
+  poolInfo: poolInfoReducer,
 });

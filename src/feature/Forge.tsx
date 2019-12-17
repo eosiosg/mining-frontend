@@ -120,10 +120,21 @@ const ForgePageContainer: React.FC<Props> = (props) => {
         />
         <div className={styles.balance}>
           当前已投入：
-          <span>{!isFetching && forgePageInfo.myBosInForge}，</span>
-          <span>{!isFetching && forgePageInfo.accountInfo!.bosBalance}</span>
+          <span style={{paddingRight: `${(5/37.5).toFixed(8)}rem`}}>{!isFetching && forgePageInfo.myBosInForge}</span>
+          余额：<span>{!isFetching && forgePageInfo.accountInfo!.availableBosOutside}</span>
         </div>
         {/*todo: slider here*/}
+        <span 
+          style={{
+            height: `${(12/37.5).toFixed(8)}rem`, 
+            display: "inline-block"
+            }} 
+          className={styles.estimate}
+        >
+         {bosCount > 0 && 
+          props.forgePageInfo.forgeInfo.estimatedRewardPerNewBos && 
+          <>*预计收益增加 {parseInt(props.forgePageInfo.forgeInfo.estimatedRewardPerNewBos,10) * bosCount}</>} 个EOS
+        </span>
         <div className={styles.btnWrapper}>
           <button onClick={handleForge}>立刻投入</button>
         </div>
