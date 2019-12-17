@@ -33,7 +33,7 @@ const MinerTrade: React.FC<Props> = (props) => {
     accountCtrl.getMinerTradeUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
     .then(res => {
       props.dispatch(setMinerTrade(res));
-      setIsEnd(props.totalPages
+      setIsEnd(typeof(props.totalPages) !== 'undefined'
         ? props.pageInfo!.pageNumber!+1 >= props.totalPages 
         : false )
     });

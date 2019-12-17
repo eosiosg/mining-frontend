@@ -42,7 +42,7 @@ const AppRouter: React.FC<Props> = (props) => {
               <Redirect to="/home/mine" />
             </Route>
             <Route exact path="/topup">
-              <Redirect to={`/topup/eos`} />
+              <Redirect to={`/topup/bos`} />
             </Route>
             <Route path="/home" component={HomeContainer} />
             <Route path="/soldminer" component={SoldMinerContainer} />

@@ -42,16 +42,16 @@ const MinerList: React.FC<Props> = (props) => {
     accountCtrl.getActiveMinerUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
     .then(res => {
       props.dispatch(setActiveMinerList(res));
-      setIsEnd(props.totalPages
+      setIsEnd(typeof(props.totalPages) !== 'undefined'
         ? props.pageInfo!.pageNumber!+1 >= props.totalPages 
         : false )
     });
   }
-  useEffect(() => {
-    return () => {
-      props.dispatch(emptyActiveMinerList())
-    }
-  },[])
+  // useEffect(() => {
+  //   return () => {
+  //     props.dispatch(emptyActiveMinerList())
+  //   }
+  // },[])
   const { activeMinerList } = props;
 
   return (

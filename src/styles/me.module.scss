@@ -150,6 +150,8 @@
   }
 }
 .btmButton {
+  background: #102956;
+  padding-bottom: 47px;
   .sellMiner {
     text-align: center;
     font-size:12px;
@@ -159,6 +161,8 @@
     border-radius: 5px;
     line-height:1;
     padding: 14px 0;
+    width: 90%;
+    margin: 0 auto;
   }
   .hint {
     font-size:12px;

@@ -30,7 +30,7 @@ const MinerList: React.FC<Props> = (props) => {
     accountCtrl.getSoldMinerUsingGET(props.userName, props.pageInfo.pageNumber, props.pageInfo.pageSize)
     .then(res => {
       props.dispatch(setSoldMinerList(res));
-      setIsEnd(props.totalPages
+      setIsEnd(typeof(props.totalPages) !== 'undefined'
         ? props.pageInfo!.pageNumber!+1 >= props.totalPages 
         : false )
     });

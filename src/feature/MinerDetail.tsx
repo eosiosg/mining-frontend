@@ -98,6 +98,7 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
       ))}
     </InfiniteScroll>
     {isEnd && <EndFlag />}
+    <div style={{height: `${(114/37.5).toFixed(8)}rem`}}></div>
     <div className={meStyle.btmButton}>
       <div className={meStyle.sellMiner} onClick={handleSellMiner}>销毁矿机</div>
       <div className={meStyle.hint}>*每个矿机销毁后可得1500个BOS，操作不可逆。</div>

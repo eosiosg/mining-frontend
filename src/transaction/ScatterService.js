@@ -32,6 +32,11 @@ const scatterEos = {
         return connected
     },
     login() {
+        if (process.env.NODE_ENV === "development") {
+            return Promise({
+                account: 'mytestalice1'
+            })
+        }
         return this.scatter
             .login()
             .then(() => {

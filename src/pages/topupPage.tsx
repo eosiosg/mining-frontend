@@ -45,13 +45,14 @@ export const TopupPage: React.FC<{}> = () => {
           <NavBar
             routes={[
               {
+                url: `${path}/bos`,
+                display: "BOS充值"
+              },
+              {
                 url: `${path}/eos`,
                 display: "EOS充值"
               },
-              {
-                url: `${path}/bos`,
-                display: "BOS充值"
-              }
+              
             ]}
           />
         </ContentWrapper>
