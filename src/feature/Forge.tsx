@@ -34,13 +34,30 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     forgePageInfo,
     userName
   } = props;
+
+  /**
+   * props parsing
+   */
+  // eos bos reward ratio
+  let eosRewardBosRatio = forgePageInfo.forgeInfo.estimatedRewardPerNewBos ?
+    parseInt(forgePageInfo.forgeInfo.estimatedRewardPerNewBos,10) : undefined;
+  // campagin end time
+  const endTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.endTimestamp : 0;
+  let serverTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.serverTimestamp : Date.now();
+  /**
+   * hooks
+   */
   const [bosCount, setBosCount] = useState<number>(0);
   let { path, url } = useRouteMatch();
   const [timer, setTimer] = useState<number[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const timerRef = useRef(timer);
+
   timerRef.current = timer;
 
+  /**
+   * user effects
+   */
   useEffect(() => {
     if (!userName) return;
     setIsFetching(true)
@@ -51,14 +68,14 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     });
   }, [props.userName]);
 
-  const endTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.endTimestamp : 0;
+  
   useEffect(() => {
     let intervalId: number | undefined;
     
     if (endTime) {
-      setTimer(timeDiff(new Date().valueOf(), endTime))
+      setTimer(timeDiff(serverTime, endTime))
       intervalId = window.setInterval(() => 
-        setTimer(timeDiff(new Date().valueOf(), endTime)), 1000);
+        setTimer(timeDiff((serverTime += 1000), endTime)), 1000);
     }
     return () => {
       if (intervalId) {
@@ -66,6 +83,8 @@ const ForgePageContainer: React.FC<Props> = (props) => {
       }
     }
   }, [endTime]);
+
+  // user action handler
   const handleBosAmount = (value : string | number) => {
     if (typeof value == "string") {
       value = value !== "" ? parseInt(value, 10) : 0;
@@ -96,8 +115,8 @@ const ForgePageContainer: React.FC<Props> = (props) => {
             {timer.some(number => number> -1) &&
               <div className={styles.timer}>
                 <p className={styles.title}>距离本轮结束</p>
-                <p>{timer[0]}天</p>
-                <p>{`${timer[1]}:${timer[2]}:${timer[3]}`}</p>
+                <p style={{color: '#52FFEA'}}>{timer[0]}天</p>
+                <p style={{color: '#52FFEA'}}>{`${timer[1]}:${timer[2]}:${timer[3]}`}</p>
               </div>}
           </div>
           
@@ -132,8 +151,8 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           className={styles.estimate}
         >
          {bosCount > 0 && 
-          props.forgePageInfo.forgeInfo.estimatedRewardPerNewBos && 
-          <>*预计收益增加 {parseInt(props.forgePageInfo.forgeInfo.estimatedRewardPerNewBos,10) * bosCount}</>} 个EOS
+          eosRewardBosRatio && 
+          <>*预计收益增加 {eosRewardBosRatio * bosCount} 个EOS</>}
         </span>
         <div className={styles.btnWrapper}>
           <button onClick={handleForge}>立刻投入</button>

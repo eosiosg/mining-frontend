@@ -10,14 +10,21 @@
     position: absolute;
     top: 50%;
     left: 22px;
+    width: 16px;
     transform: translate(0, -50%);
+    svg {
+      path {
+        color: #FFFFFF;
+        fill: currentColor;
+      }
+    }
   }
   .right {
     position: absolute;
     top: 50%;
     right: 22px;
     transform: translate(0, -50%);
-    width: 20px;
+    width: 25px;
     line-height: 0;
     svg {
       path {

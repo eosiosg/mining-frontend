@@ -6,6 +6,7 @@ import { StateType, platformType } from 'pages/topupPage';
 import classnames from 'classnames'
 import config from '../config/config'
 import * as QRCode from 'qrcode.react'
+import bosLogo from '../static/BOSCore.png';
 import {connect} from 'react-redux'
 import { AppState } from 'store/configureStore';
 type TypePlatform = typeof platformType;
@@ -83,7 +84,7 @@ const EosTopup: React.FC<{
             includeMargin={true}
             renderAs={"svg"}
             imageSettings={{
-              src: "https://static.zpao.com/favicon.png",
+              src: bosLogo,
               x: null,
               y: null,
               height: 24,
