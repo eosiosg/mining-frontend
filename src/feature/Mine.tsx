@@ -69,9 +69,7 @@ const HomePage: React.FC<Props> = (props) => {
       return false;
     }
     await scatterEos.login().then((account) => {
-      // alert(JSON.stringify(account))
       props.dispatch(setUserInfo({accountName: account.account}))
-      // scatterEos.transfereos('mytestalice1', 'mytestbob111', '10.0000 EOS', 'no meme');
     })
     
   }

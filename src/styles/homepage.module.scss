@@ -33,50 +33,47 @@
         }
       }
     }
-  }
-
-  // miner reward
-  .minerReward {
-    font-size: 14px;
-    font-weight: 500;
-    margin: 23px 0;
-    .content {
-      display: flex;
-      height: 65px;
-      align-items: center;
-      position: relative;
-      text-align: center;
-      .block {
-        width: 50%;
-        svg {
-          width: 38px;
-          height: 34px;
-          margin-right: 8px;
-          path {
-            color: #80E9FC;
-            fill: currentColor;
-        }
-        }
-        p {
-          text-align: left;
-          display: inline-block;  
-          span {
-            display: inline-block;
-            padding: 2px 0;
-          }
-        }
+  }  
+}
+// miner reward
+.minerReward {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 23px 0;
+  .content {
+    display: flex;
+    height: 65px;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    .block {
+      width: 50%;
+      svg {
+        width: 38px;
+        height: 34px;
+        margin-right: 8px;
+        path {
+          color: #80E9FC;
+          fill: currentColor;
       }
-      .sep {
-        position: absolute;
-        left: 50%;
-        top: 0;
-        height: 100%;
-        border-left: 1px solid #D8D8D8;
+      }
+      p {
+        text-align: left;
+        display: inline-block;  
+        span {
+          display: inline-block;
+          padding: 2px 0;
+        }
       }
     }
+    .sep {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      height: 100%;
+      border-left: 1px solid #D8D8D8;
+    }
   }
-
-  
 }
 
 // homapage balance

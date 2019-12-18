@@ -19,20 +19,20 @@ let eosClient = null;
 // const requiredFields = { accounts: [eosNetwork] };
 ScatterJS.plugins(new ScatterEOS());
 const scatterEos = {
-
+    connected: false,
     isConnected: async function () {
-        const connected = await ScatterJS.scatter.connect('BOS-EOS-Mining', {network})
-        if (!connected) {
+        this.connected = await ScatterJS.scatter.connect('BOS-EOS-Mining', {network})
+        if (!this.connected) {
             alert('No scatter app found')
             return false;
         }
         window.scatter = null;
         window.ScatterJS = null;
         this.scatter = ScatterJS.scatter;
-        return connected
+        return this.connected
     },
     login() {
-        if (process.env.NODE_ENV === "development") {
+        if (!this.connected && process.env.NODE_ENV === "development") {
             return Promise.resolve({
                 account: 'mytestalice1'
             })
@@ -47,10 +47,6 @@ const scatterEos = {
                 this.currentAccount = account.name;
                 this.currentPermission = account.authority;
                 eosClient = this.scatter.eos(network, Eos);
-                // eosClient = Eos(eosNetwork);
-                // eosClient.getInfo((error,result) => {
-                //     alert(JSON.stringify(result))
-                // })
                 return {account: this.currentAccount}
             })
             .catch(err => {

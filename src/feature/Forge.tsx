@@ -21,7 +21,8 @@ import Rules from "./rules";
 import RecentTrades from './RecentTrade'
 import { Sticky } from "componentDecorator/stickyComponent";
 import scatterEos from "transaction/ScatterService";
-
+import { ReactComponent as Inicon } from '../static/svg/current_in_bos.svg';
+import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
 
 interface ForgePageProps {
 
@@ -40,10 +41,14 @@ const ForgePageContainer: React.FC<Props> = (props) => {
    */
   // eos bos reward ratio
   let eosRewardBosRatio = forgePageInfo.forgeInfo.estimatedRewardPerNewBos ?
-    parseInt(forgePageInfo.forgeInfo.estimatedRewardPerNewBos,10) : undefined;
+    parseInt(forgePageInfo.forgeInfo.estimatedRewardPerNewBos,10) : 0;
   // campagin end time
   const endTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.endTimestamp : 0;
   let serverTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.serverTimestamp : Date.now();
+  const bosInForge = typeof forgePageInfo.myBosInForge !== "undefined" ? 
+    parseInt(forgePageInfo.myBosInForge.split(" ")[0],10) : 0;
+  const availableBos = forgePageInfo.accountInfo ? 
+    parseInt(forgePageInfo.accountInfo.availableBosOutside.split(" ")[0],10) : 0;
   /**
    * hooks
    */
@@ -84,6 +89,9 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     }
   }, [endTime]);
 
+  useEffect(() => {
+    setBosCount(availableBos)
+  },[availableBos])
   // user action handler
   const handleBosAmount = (value : string | number) => {
     if (typeof value == "string") {
@@ -121,14 +129,30 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           </div>
           
           <div className={styles.poolInfo}>
-            <p>熔币池总额</p>
-            <div className={styles.poolBalance}>
-              <span>{!isFetching && forgePageInfo.forgeInfo!.totalEos} </span>
+            <p className={styles.estimateReward}>
+              熔币池总额: <span style={{marginRight: "5px"}}>{!isFetching && forgePageInfo.forgeInfo!.totalEos} </span>
               <span>{!isFetching && forgePageInfo.forgeInfo!.totalBos} </span>
-            </div>
-            <p className={styles.estimateReward}>预计本轮收益 +{forgePageInfo.estimatedEos}</p>
+            </p>
           </div>
-
+          <div className={styles.minerReward}>
+            <div className={styles.content}>
+              <div className={styles.block}>
+              <Inicon />
+                <p>
+                  <span>当前投入</span><br/>
+                  <span>{`${bosInForge.toFixed(2)} BOS`}</span>
+                </p>
+              </div>
+              <div className={styles.sep}></div>
+              <div className={styles.block}>
+              <BenefitSVG />
+                <p>
+                  <span>预计收益</span><br/>
+                  <span>+{`${(bosInForge * eosRewardBosRatio).toFixed(2)} EOS`}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
         <TextInput
           prefix={<InputPrefix />}
@@ -138,21 +162,20 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           placeholder="输入BOS数量"
         />
         <div className={styles.balance}>
-          当前已投入：
-          <span style={{paddingRight: `${(5/37.5).toFixed(8)}rem`}}>{!isFetching && forgePageInfo.myBosInForge}</span>
-          余额：<span>{!isFetching && forgePageInfo.accountInfo!.availableBosOutside}</span>
+          余额：<span>{!isFetching && `${availableBos} BOS`}</span>
         </div>
         {/*todo: slider here*/}
         <span 
           style={{
             height: `${(12/37.5).toFixed(8)}rem`, 
-            display: "inline-block"
+            display: "inline-block",
+            whiteSpace: "nowrap"
             }} 
           className={styles.estimate}
         >
          {bosCount > 0 && 
           eosRewardBosRatio && 
-          <>*预计收益增加 {eosRewardBosRatio * bosCount} 个EOS</>}
+          <>{`*预计收益${eosRewardBosRatio * bosCount}个EOS (实时兑换比: +${(10000*eosRewardBosRatio).toFixed(2)}EOS/10000BOS)`}</>}
         </span>
         <div className={styles.btnWrapper}>
           <button onClick={handleForge}>立刻投入</button>
