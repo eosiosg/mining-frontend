@@ -129,7 +129,15 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           </div>
           
           <div className={styles.poolInfo}>
-            <p className={styles.estimateReward}>
+          <p style={{
+            color: '#FFC74F', 
+            fontSize:`${(10/37.5).toFixed(8)}rem`,
+            fontWeight: 'normal',
+            marginBottom: '5px'
+          }} className={styles.minerPrice}>
+            矿机收益：<span>{`(兑换比: ${(10000*eosRewardBosRatio).toFixed(2)}EOS/10000BOS)`}</span>
+          </p>
+            <p className={styles.estimateReward} style={{marginTop: '5px'}}>
               熔币池总额: <span style={{marginRight: "5px"}}>{!isFetching && forgePageInfo.forgeInfo!.totalEos} </span>
               <span>{!isFetching && forgePageInfo.forgeInfo!.totalBos} </span>
             </p>
@@ -174,8 +182,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           className={styles.estimate}
         >
          {bosCount > 0 && 
-          eosRewardBosRatio && 
-          <>{`*预计收益${eosRewardBosRatio * bosCount}个EOS (实时兑换比: +${(10000*eosRewardBosRatio).toFixed(2)}EOS/10000BOS)`}</>}
+          <>{`*预计收益${eosRewardBosRatio * bosCount}EOS`}</>}
         </span>
         <div className={styles.btnWrapper}>
           <button onClick={handleForge}>立刻投入</button>
