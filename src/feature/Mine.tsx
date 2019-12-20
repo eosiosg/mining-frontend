@@ -128,7 +128,7 @@ const HomePage: React.FC<Props> = (props) => {
             }} 
           className={styles.estimate}
         >
-         {buyMinerCount > 0 && <>*预计收益增加 {parseInt(props.poolInfo.estimatedRewardPerMiner.split(' ')[0],10) * buyMinerCount}</>}
+         {buyMinerCount > 0 && <>*预计收益增加 {(parseInt(props.poolInfo.estimatedRewardPerMiner.split(' ')[0],10) * buyMinerCount).toFixed(4) + '个EOS'}</>}
         </span>
         <div className={styles.btnWrapper}>
           <button onClick={handleBuyMiner}>立刻挖矿</button>
