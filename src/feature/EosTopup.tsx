@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from 'styles/topup/topup.module.scss'
 import ContentWrapper from 'components/blockContent';
 import TextInput from 'components/inputElement';
@@ -9,6 +9,8 @@ import * as QRCode from 'qrcode.react'
 import bosLogo from '../static/BOSCore.png';
 import {connect} from 'react-redux'
 import { AppState } from 'store/configureStore';
+import { HtmlAttributes } from 'csstype';
+import AnchorLink from 'antd/lib/anchor/AnchorLink';
 type TypePlatform = typeof platformType;
 type PlatFormkeys = keyof TypePlatform | string;
 
@@ -65,6 +67,15 @@ const EosTopup: React.FC<{
       document.body.removeChild(input);
       alert('copied')
   }
+  const downloadRef = useRef<HTMLAnchorElement>(null);
+  const downloadImg = ()=>{
+    const canvas: any = document.querySelector(`canvas`);
+    downloadRef.current.href = canvas.toDataURL();
+    
+  }
+
+  
+
   
   return (
     <div>
@@ -87,7 +98,6 @@ const EosTopup: React.FC<{
       </div>
       <div className={styles.midImage}>
         <div className={styles.imgContainer}>
-          {/* <img src={'qrCode'} alt="qrcode"/> */}
           <QRCode 
             value={JSON.stringify(scanProtocal)}
             size={128}
@@ -95,7 +105,7 @@ const EosTopup: React.FC<{
             fgColor={"#000000"}
             level={"L"}
             includeMargin={true}
-            renderAs={"svg"}
+            renderAs={"canvas"}
             imageSettings={{
               src: bosLogo,
               x: null,
@@ -106,7 +116,9 @@ const EosTopup: React.FC<{
             }}
           />
         </div>
-        <div className={styles.imgCaption}>点击保存图片</div>
+        <div className={styles.imgCaption}>
+          <a ref={downloadRef} onClick={() => downloadImg()} download = 'qrcodeEOS.png'>点击保存图片</a>
+        </div>
       </div>
       </ContentWrapper>
       <div style={{height: `${18/37.5}rem`}}></div>
