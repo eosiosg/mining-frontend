@@ -5,10 +5,12 @@ import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import NavBar from '../components/navLink';
+import { Slider } from 'antd';
 import { 
   useRouteMatch,
   Switch,
-  Route
+  Route,
+  Link
 } from 'react-router-dom'
 import { accountCtrl, poolCtrl } from '../api/backendAPI';
 import styles from '../styles/homepage.module.scss'
@@ -30,9 +32,39 @@ interface HomePageProps {
 
 type Props = HomePageProps & LinkDispatchProps & LinkStateProps;
 
+const digitMatch = /([0-9.]+)/g;
 const HomePage: React.FC<Props> = (props) => {
+  // props parse
+  let price = props.poolInfo.price ? props.poolInfo.price.match(digitMatch) : null
+  let coinAccount = [
+    props.accountInfo.bosBalance ? props.accountInfo.bosBalance.split(" ")[0]: '2500',
+    props.accountInfo.eosBalance ? props.accountInfo.eosBalance.split(" ")[0]: '500'
+  ]
+  
+  
   let { path, url } = useRouteMatch();
   const [buyMinerCount, setBuyMinerCount] = useState<number>(0);
+  const [smaller, setSmaller] = useState<number[]>([0, 0]);
+  const [isExceed,setIsExceed] = useState(false)
+  useEffect(() => {
+    let i = 0;
+    let p = 100;
+    if (price && buyMinerCount > 0) {
+      coinAccount.forEach((coin, index) => {
+        if ((parseFloat(price[index])*buyMinerCount * 100)/parseFloat(coin)<=p) {
+          p = parseFloat(coin)*100/(parseFloat(price[index])*buyMinerCount);
+          i = index;
+        } else {
+          p = 0;
+          setIsExceed(true)
+        }
+      })
+    } else {
+      p = 0;
+    }
+    setSmaller([i, p])
+  }, [buyMinerCount])
+  
   useEffect(() => {
     if (!props.userName) return;
     accountCtrl.getAccountInfoUsingGET(props.userName, {})
@@ -76,6 +108,10 @@ const HomePage: React.FC<Props> = (props) => {
   useEffect(() => {
     connection()
   },[])
+  //还需充值
+  let topupBos = isExceed ? buyMinerCount*parseFloat(price[0]) - parseFloat(coinAccount[0]) : 0;
+  let topupEos = isExceed ? buyMinerCount*parseFloat(price[1]) - parseFloat(coinAccount[1]) : 0;
+  console.log(topupEos)
   return (
     <div>
       <ContentWrapper>
@@ -115,12 +151,47 @@ const HomePage: React.FC<Props> = (props) => {
           fontSize={12}
           placeholder="输入购买矿机数量"
         />
+
         <div className={styles.balance}>
-          账户余额：
-          <span>{props.accountInfo.eosBalance}，</span>
-          <span>{props.accountInfo.bosBalance}</span>
+          {
+            isExceed ?
+            <div style={{color: '#FF4343'}}>余额不足！还需充值
+              <span>{topupBos>0 ? `${topupBos.toFixed(4)} BOS` : ''}</span>
+              <span>{topupEos>0 ? `& ${topupEos.toFixed(4)} EOS` : ''}</span>
+              {topupBos > 0 ? 
+                <Link to={{
+                  pathname: "/topup/bos",
+                  state: {
+                    coinValue: topupBos
+                  }
+                }}><span style={{color: '#52F8EB', textDecoration:'underline'}}>充值</span></Link> 
+                : (topupEos>0 ? 
+                  <Link to={{
+                    pathname: "/topup/eos",
+                    state: {
+                      coinValue: topupEos
+                    }
+                  }}><span style={{color: '#52F8EB', textDecoration:'underline'}}>充值</span></Link> : null)}
+            </div>
+            :
+            <>账户余额：
+              <span>{props.accountInfo.eosBalance}，</span>
+              <span>{props.accountInfo.bosBalance}</span>
+            </>
+          }
+          
         </div>
         {/*todo: slider here*/}
+        <Slider 
+          value={smaller[1]}
+          marks={{
+            0: '0%',
+            25: '25%',
+            50: '50%',
+            75: '75%',
+            100: '100%'
+          }}
+        />
         <span 
           style={{
             height: `${(12/37.5).toFixed(8)}rem`, 
@@ -128,7 +199,7 @@ const HomePage: React.FC<Props> = (props) => {
             }} 
           className={styles.estimate}
         >
-         {buyMinerCount > 0 && <>*预计收益增加 {(parseInt(props.poolInfo.estimatedRewardPerMiner.split(' ')[0],10) * buyMinerCount).toFixed(4) + '个EOS'}</>}
+         {buyMinerCount > 0 && <>*预计收益增加 {(parseFloat(props.poolInfo.estimatedRewardPerMiner.split(' ')[0]) * buyMinerCount).toFixed(4) + '个EOS'}</>}
         </span>
         <div className={styles.btnWrapper}>
           <button onClick={handleBuyMiner}>立刻挖矿</button>
