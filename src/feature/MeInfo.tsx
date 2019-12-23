@@ -30,6 +30,7 @@ const MeInfo: React.FC<Props> = (props) => {
             <p className={styles.contentWrapper}>
               <span>BOS总额</span>
               <p>{props.accountInfo.bosBalance}</p>
+              {props.accountInfo.bosBalanceInCny && <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5'}}>&asymp;{props.accountInfo.bosBalanceInCny}</p>}
             </p>
           </div>
           <div className={styles.sep}></div>
@@ -37,6 +38,7 @@ const MeInfo: React.FC<Props> = (props) => {
             <p className={styles.contentWrapper}>
               <span>EOS总额</span><br/>
               <p>{props.accountInfo.eosBalance}</p>
+              {props.accountInfo.eosBalanceInCny && <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5'}}>&asymp;{props.accountInfo.eosBalanceInCny}</p>}
             </p>
           </div>
         </div>
@@ -50,7 +52,7 @@ const MeInfo: React.FC<Props> = (props) => {
         </span>
         <span className={styles.tradeItem}>
           <span><Link to="/retrieval">提币</Link></span>
-          <span style={{marginLeft: '16px', background: '#52F8EB'}}><Link to="/topup">充值</Link></span>
+          <span style={{marginLeft: '16px', background: '#52F8EB'}}><Link to="/topup"><span style={{color: "#000000"}}>充值</span></Link></span>
         </span>
       </div>
 

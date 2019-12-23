@@ -28,3 +28,13 @@
   }
 
 }
+.backgroundBlock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height:189px;
+  background:linear-gradient(308deg,rgba(81,25,251,1) 0%,rgba(82,255,234,1) 100%);
+  border-radius:0px 0px 16px 16px;
+}

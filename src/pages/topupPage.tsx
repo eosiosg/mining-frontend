@@ -5,6 +5,7 @@ import {
   Route,
   RouteComponentProps,
   useHistory,
+  useLocation,
 } from 'react-router-dom'
 import HeaderBar from '../components/HeaderBar';
 import NavBar from '../components/navLink';
@@ -25,11 +26,12 @@ export type StateType = {
 }
 // export class HomePage extends React.Component<{}> {
 export const TopupPage: React.FC<{}> = () => {
-  let { path, url } = useRouteMatch();
+  let { path } = useRouteMatch();
+  let { state } = useLocation();
   let history = useHistory();
   const [transactionInfo, setTransactionInfo] = useState<StateType>({
     platform: "1",
-    amountBos: 0
+    amountBos: state ? state.topupBos : 0,
   });
   const handleChange = (field: keyof StateType) => (value: string | number) => {
     if (field === "amountBos" && typeof value === "string") {

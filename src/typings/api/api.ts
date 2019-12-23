@@ -98,12 +98,14 @@ export interface AccountInfo {
      * @type {string}
      * @memberof AccountInfo
      */
+    bosBalanceInCny?: string;
     bosBalance?: string;
     /**
      * 
      * @type {string}
      * @memberof AccountInfo
      */
+    eosBalanceInCny?: string;
     eosBalance?: string;
     /**
      * 

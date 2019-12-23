@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import styles from '../styles/commonComponent.module.scss';
 type Props = {
   value: number | string;
-  onchange: (value: string) => void;
+  onchange: (value: string) => void | number;
   prefix?: React.ReactNode;
   fontSize: number;
   alignLeft?: boolean;
@@ -21,7 +21,8 @@ const TextInput: React.FC<Props> = ({
 }) => {
   const onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
-    onchange(value)
+    let result = onchange(value)
+    if (result === -1) event.currentTarget.blur();
   }
   return (
     <label>

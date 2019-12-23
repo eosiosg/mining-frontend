@@ -23,6 +23,7 @@ import { Sticky } from "componentDecorator/stickyComponent";
 import scatterEos from "transaction/ScatterService";
 import { ReactComponent as Inicon } from '../static/svg/current_in_bos.svg';
 import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
+import { Slider } from "antd";
 
 interface ForgePageProps {
 
@@ -57,6 +58,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
   const [timer, setTimer] = useState<number[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const timerRef = useRef(timer);
+  const [sliderValue, setSliderValue] = useState(0)
 
   timerRef.current = timer;
 
@@ -94,15 +96,20 @@ const ForgePageContainer: React.FC<Props> = (props) => {
   },[availableBos])
   // user action handler
   const handleBosAmount = (value : string | number) => {
+    if (availableBos <= 0) {
+      alert('没有可用BOS')
+      return -1
+    }
     if (typeof value == "string") {
       value = value !== "" ? parseInt(value, 10) : 0;
       if (isNaN(value)) return
     }
     setBosCount(value)
+    setSliderValue(Math.floor(value/availableBos * 100))
   }
   const handleForge = () => {
     if (bosCount <=0 ) {
-      alert("Please enter the amount")
+      alert("请输入有效的BOS数额")
       return
     }
     scatterEos.meltbos(props.userName, `${bosCount.toFixed(4)} BOS`)
@@ -114,6 +121,14 @@ const ForgePageContainer: React.FC<Props> = (props) => {
         });
       }
     })
+  }
+  const handleSliderChange = (value: number) => {
+    if (availableBos <= 0) {
+      handleBosAmount(-1)
+      return
+    }
+    setSliderValue(value)
+    setBosCount(Math.floor((value/100)*availableBos))
   }
   return (
     <div>
@@ -173,6 +188,17 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           余额：<span>{!isFetching && `${availableBos} BOS`}</span>
         </div>
         {/*todo: slider here*/}
+        <Slider 
+          value={sliderValue}
+          marks={{
+            0: '0%',
+            25: '25%',
+            50: '50%',
+            75: '75%',
+            100: '100%'
+          }}
+          onChange={handleSliderChange}
+        />
         <span 
           style={{
             height: `${(12/37.5).toFixed(8)}rem`, 

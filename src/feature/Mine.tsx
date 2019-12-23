@@ -44,27 +44,28 @@ const HomePage: React.FC<Props> = (props) => {
   
   let { path, url } = useRouteMatch();
   const [buyMinerCount, setBuyMinerCount] = useState<number>(0);
-  const [smaller, setSmaller] = useState<number[]>([0, 0]);
   const [isExceed,setIsExceed] = useState(false)
-  useEffect(() => {
-    let i = 0;
-    let p = 100;
-    if (price && buyMinerCount > 0) {
-      coinAccount.forEach((coin, index) => {
-        if ((parseFloat(price[index])*buyMinerCount * 100)/parseFloat(coin)<=p) {
-          p = parseFloat(coin)*100/(parseFloat(price[index])*buyMinerCount);
-          i = index;
-        } else {
-          p = 0;
-          setIsExceed(true)
-        }
-      })
-    } else {
-      p = 0;
-    }
-    setSmaller([i, p])
-  }, [buyMinerCount])
+  const [sliderValue, setSliderValue] = useState(0)
+  // const [smaller, setSmaller] = useState<number[]>([0, 0]);
   
+  // useEffect(() => {
+  //   let i = 0;
+  //   let p = 100;
+  //   if (price && buyMinerCount > 0) {
+  //     coinAccount.forEach((coin, index) => {
+  //       if ((parseFloat(price[index])*buyMinerCount * 100)/parseFloat(coin)<=p) {
+  //         p = parseFloat(coin)*100/(parseFloat(price[index])*buyMinerCount);
+  //         i = index;
+  //       } else {
+  //         p = 0;
+  //         setIsExceed(true)
+  //       }
+  //     })
+  //   } else {
+  //     p = 0;
+  //   }
+  //   setSmaller([i, p])
+  // }, [buyMinerCount])
   useEffect(() => {
     if (!props.userName) return;
     accountCtrl.getAccountInfoUsingGET(props.userName, {})
@@ -72,16 +73,25 @@ const HomePage: React.FC<Props> = (props) => {
   }, [props.userName])
   useEffect(() => {
     poolCtrl.getPoolInfoUsingGET()
-    .then(res=> props.dispatch(setPoolMinerInfo(res)))
+    .then(res=> props.dispatch(setPoolMinerInfo({...res, availableMinerCount: 50})))
   },[])
   const handleMinerAccount = (value : string | number) => {
+    if (props.poolInfo.availableMinerCount < 1) {
+      alert('可用矿机数量为0')
+      return
+    }
     if (typeof value == "string") {
       value = value !== "" ? parseInt(value, 10) : 0;
       if (isNaN(value)) return
     }
     setBuyMinerCount(value)
+    setSliderValue(Math.floor(value/props.poolInfo.availableMinerCount * 100))
   }
   const handleBuyMiner = () => {
+    if (isExceed) {
+      alert('BOS/EOS余额不足')
+      return
+    }
     scatterEos.buyminer(props.userName, buyMinerCount, props.accountInfo!.query!.refer)
     .then(res => {
       if(res) {
@@ -109,9 +119,27 @@ const HomePage: React.FC<Props> = (props) => {
     connection()
   },[])
   //还需充值
-  let topupBos = isExceed ? buyMinerCount*parseFloat(price[0]) - parseFloat(coinAccount[0]) : 0;
-  let topupEos = isExceed ? buyMinerCount*parseFloat(price[1]) - parseFloat(coinAccount[1]) : 0;
-  console.log(topupEos)
+  let [topupBos, setTopupBos] = useState(0);
+  let [topupEos, setTopupEos] = useState(0);
+  useEffect(() => {
+      if (!price) {
+        setIsExceed(false)
+        return
+      }
+      topupBos =  buyMinerCount*parseFloat(price[0]) - parseFloat(coinAccount[0]);
+      topupEos =  buyMinerCount*parseFloat(price[1]) - parseFloat(coinAccount[1]);
+      setIsExceed(topupBos> 0 || topupEos > 0)
+      setTopupBos(topupBos)
+      setTopupEos(topupEos)
+  },[sliderValue, buyMinerCount])
+  const handleSliderChange = (value: number) => {
+    if (props.poolInfo.availableMinerCount < 1) {
+      alert('可用矿机数量为0')
+      return
+    }
+    setSliderValue(value)
+    setBuyMinerCount(Math.floor((value/100)*props.poolInfo.availableMinerCount))
+  }
   return (
     <div>
       <ContentWrapper>
@@ -162,14 +190,16 @@ const HomePage: React.FC<Props> = (props) => {
                 <Link to={{
                   pathname: "/topup/bos",
                   state: {
-                    coinValue: topupBos
+                    topupBos,
+                    topupEos
                   }
                 }}><span style={{color: '#52F8EB', textDecoration:'underline'}}>充值</span></Link> 
                 : (topupEos>0 ? 
                   <Link to={{
                     pathname: "/topup/eos",
                     state: {
-                      coinValue: topupEos
+                      amountBos: topupBos,
+                      platform: topupEos
                     }
                   }}><span style={{color: '#52F8EB', textDecoration:'underline'}}>充值</span></Link> : null)}
             </div>
@@ -183,7 +213,7 @@ const HomePage: React.FC<Props> = (props) => {
         </div>
         {/*todo: slider here*/}
         <Slider 
-          value={smaller[1]}
+          value={sliderValue}
           marks={{
             0: '0%',
             25: '25%',
@@ -191,6 +221,7 @@ const HomePage: React.FC<Props> = (props) => {
             75: '75%',
             100: '100%'
           }}
+          onChange={handleSliderChange}
         />
         <span 
           style={{
