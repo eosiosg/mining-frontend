@@ -53,6 +53,18 @@ const EosTopup: React.FC<{
   const scanProtocal = {
     ...props.transactionInfo.platform === "1" ? staticScanProtocalPocket() : staticScanProtocalExchange(props.userName),
   }
+  const clickCopy = (textContent) => () => {
+    const input = document.createElement('input');
+      input.setAttribute('readonly', 'readonly');
+      input.setAttribute('value', textContent);
+      document.body.appendChild(input);
+    input.setSelectionRange(0, 9999);
+    if (document.execCommand('copy')) {
+      document.execCommand('copy');
+    }
+      document.body.removeChild(input);
+  }
+  
   return (
     <div>
     <ContentWrapper>
@@ -102,14 +114,14 @@ const EosTopup: React.FC<{
           <p>充值地址</p>
           <span>{config.contract}</span>
         </div>
-        <span className={styles.action}>复制</span>
+        <span className={styles.action} onClick={clickCopy(config.contract)}>复制</span>
       </div>
       <div className={styles.itemInfo}>
         <div className={styles.info}>
           <p>备注</p>
           <span>this is a remark</span>
         </div>
-        <span className={styles.action}>复制</span>
+        <span className={styles.action} onClick={clickCopy('this is a remark')}>复制</span>
       </div>
       <div style={{height: `${18/37.5}rem`}}></div>
       <div className={styles.blockHeader}>
