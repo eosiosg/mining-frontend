@@ -6,7 +6,7 @@ import { StateType } from 'pages/topupPage';
 import {connect} from 'react-redux'
 import config from '../config/config'
 import { AppState } from 'store/configureStore';
-import { AccountInfo } from 'typings/api';
+import { AccountInfo, ForgePage } from 'typings/api';
 import scatterEos from 'transaction/ScatterService';
 
 const BosTopup: React.FC<{
@@ -42,7 +42,7 @@ const BosTopup: React.FC<{
         fontSize={14}
         prefix={null}
       />
-      <div className={styles.bosRemain}>{`当前账户可用 ${props.accountInfo!.bosBalance}`}</div>
+      <div className={styles.bosRemain}>{`当前账户可用 ${props.forgePageInfo!.accountInfo!.availableBosOutside}`}</div>
       <div className={styles.btnWrapper}>
         <button onClick={handleTopUp}>充值</button>
       </div>
@@ -55,9 +55,11 @@ const BosTopup: React.FC<{
 
 interface LinkStateProps {
   accountInfo?: AccountInfo,
+  forgePageInfo?: ForgePage
 }
 const mapStateToProps = (state: AppState): LinkStateProps => ({
   accountInfo: state.accountInfo,
+  forgePageInfo: state.forge.forgePageInfo
 });
 export default connect(
   mapStateToProps,

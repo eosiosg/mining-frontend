@@ -9,7 +9,6 @@ type State = {
 const userReducerDefaultState: State = {
   forgeInfo: {},
   forgePageInfo: {
-    forgeInfo: {}
   }
 }
 

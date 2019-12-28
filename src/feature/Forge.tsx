@@ -24,7 +24,7 @@ import scatterEos from "transaction/ScatterService";
 import { ReactComponent as Inicon } from '../static/svg/current_in_bos.svg';
 import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
 import { Slider } from "antd";
-
+import _ from 'lodash';
 interface ForgePageProps {
 
 }
@@ -41,15 +41,24 @@ const ForgePageContainer: React.FC<Props> = (props) => {
    * props parsing
    */
   // eos bos reward ratio
-  let eosRewardBosRatio = forgePageInfo.forgeInfo.estimatedRewardPerNewBos ?
-    parseInt(forgePageInfo.forgeInfo.estimatedRewardPerNewBos,10) : 0;
   // campagin end time
   const endTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.endTimestamp : 0;
   let serverTime = forgePageInfo.forgeInfo ? forgePageInfo.forgeInfo.serverTimestamp : Date.now();
-  const bosInForge = typeof forgePageInfo.myBosInForge !== "undefined" ? 
-    parseInt(forgePageInfo.myBosInForge.split(" ")[0],10) : 0;
-  const availableBos = forgePageInfo.accountInfo ? 
-    parseInt(forgePageInfo.accountInfo.availableBosOutside.split(" ")[0],10) : 0;
+  const [forgeInfo, setForgeInfo] = useState({
+    myBosInForge: "",
+    bosBalance: "",
+    eosBosRatio: "",
+    availableBos: 0
+  })
+  useEffect(() => {
+    if (_.isEmpty(forgePageInfo)) return
+    const myBosInForge = forgePageInfo.myBosInForge
+    const bosBalance = forgePageInfo.accountInfo.bosBalance
+    debugger
+    const eosBosRatio = forgePageInfo.forgeInfo.estimatedRewardPerNewBos
+    const availableBos = parseFloat(bosBalance.split(" ")[0])
+    setForgeInfo({myBosInForge, bosBalance, eosBosRatio, availableBos})
+  }, [forgePageInfo])
   /**
    * hooks
    */
@@ -66,9 +75,10 @@ const ForgePageContainer: React.FC<Props> = (props) => {
    * user effects
    */
   useEffect(() => {
-    if (!userName) return;
+    if (!props.userName) return;
+    debugger
     setIsFetching(true)
-    poolCtrl.getForgePageUsingGET(userName)
+    poolCtrl.getForgePageUsingGET(props.userName)
     .then(res => {
       props.dispatch(setForgePageInfo(res));
       setIsFetching(false)
@@ -91,13 +101,15 @@ const ForgePageContainer: React.FC<Props> = (props) => {
     }
   }, [endTime]);
 
-  useEffect(() => {
-    setBosCount(availableBos)
-  },[availableBos])
   // user action handler
+  const {
+    myBosInForge,
+    bosBalance,
+    eosBosRatio,
+    availableBos
+  } = forgeInfo;
   const handleBosAmount = (value : string | number) => {
     if (availableBos <= 0) {
-      alert('没有可用BOS')
       return -1
     }
     if (typeof value == "string") {
@@ -150,7 +162,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
             fontWeight: 'normal',
             marginBottom: '5px'
           }} className={styles.minerPrice}>
-            矿机收益：<span>{`(兑换比: ${(10000*eosRewardBosRatio).toFixed(2)}EOS/10000BOS)`}</span>
+            矿机收益：<span>{`(兑换比: ${eosBosRatio}EOS/10000BOS)`}</span>
           </p>
             <p className={styles.estimateReward} style={{marginTop: '5px'}}>
               熔币池总额: <span style={{marginRight: "5px"}}>{!isFetching && forgePageInfo.forgeInfo!.totalEos} </span>
@@ -163,7 +175,8 @@ const ForgePageContainer: React.FC<Props> = (props) => {
               <Inicon />
                 <p>
                   <span>当前投入</span><br/>
-                  <span>{`${bosInForge.toFixed(2)} BOS`}</span>
+                  {/* <span>{`${bosInForge.toFixed(2)} BOS`}</span> */}
+                  <span>{myBosInForge}</span>
                 </p>
               </div>
               <div className={styles.sep}></div>
@@ -171,7 +184,8 @@ const ForgePageContainer: React.FC<Props> = (props) => {
               <BenefitSVG />
                 <p>
                   <span>预计收益</span><br/>
-                  <span>+{`${(bosInForge * eosRewardBosRatio).toFixed(2)} EOS`}</span>
+                  {/* <span>+{`${(bosInForge * eosRewardBosRatio).toFixed(2)} EOS`}</span> */}
+                  <span>{`+${forgePageInfo.estimatedEos}`}</span>
                 </p>
               </div>
             </div>
@@ -185,11 +199,12 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           placeholder="输入BOS数量"
         />
         <div className={styles.balance}>
-          余额：<span>{!isFetching && `${availableBos} BOS`}</span>
+          余额：<span>{!isFetching && bosBalance}</span>
         </div>
         {/*todo: slider here*/}
         <Slider 
           value={sliderValue}
+          disabled={!(availableBos > 0)}
           marks={{
             0: '0%',
             25: '25%',
@@ -208,7 +223,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           className={styles.estimate}
         >
          {bosCount > 0 && 
-          <>{`*预计收益${eosRewardBosRatio * bosCount}EOS`}</>}
+          <>{`*预计收益${(parseFloat(eosBosRatio) * bosCount / 10000).toFixed(4)}EOS`}</>}
         </span>
         <div className={styles.btnWrapper}>
           <button onClick={handleForge}>立刻投入</button>
