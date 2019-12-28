@@ -24,6 +24,8 @@ import { Sticky } from "componentDecorator/stickyComponent";
 import scatterEos from '../transaction/ScatterService'
 import { setPoolMinerInfo } from "actions/pool/effects";
 import { PoolInfo } from "typings/api";
+
+import {useScatter, useMineSlider} from '../hooks'
 interface HomePageProps {
   id?: string;
   color?: string;
@@ -32,40 +34,36 @@ interface HomePageProps {
 
 type Props = HomePageProps & LinkDispatchProps & LinkStateProps;
 
-const digitMatch = /([0-9.]+)/g;
+
 const HomePage: React.FC<Props> = (props) => {
-  // props parse
-  let price = props.poolInfo.price ? props.poolInfo.price.match(digitMatch) : null
-  let coinAccount = [
-    props.accountInfo.bosBalance ? props.accountInfo.bosBalance.split(" ")[0]: '2500',
-    props.accountInfo.eosBalance ? props.accountInfo.eosBalance.split(" ")[0]: '500'
-  ]
-  
-  
   let { path, url } = useRouteMatch();
+
+  const {
+    maxMiner,
+    price,
+    balance
+  } = useMineSlider(
+    props.poolInfo.price, 
+    props.accountInfo,
+    props.poolInfo.availableMinerCount
+  );
+
+  
   const [buyMinerCount, setBuyMinerCount] = useState<number>(0);
   const [isExceed,setIsExceed] = useState(false)
   const [sliderValue, setSliderValue] = useState(0)
-  // const [smaller, setSmaller] = useState<number[]>([0, 0]);
   
-  // useEffect(() => {
-  //   let i = 0;
-  //   let p = 100;
-  //   if (price && buyMinerCount > 0) {
-  //     coinAccount.forEach((coin, index) => {
-  //       if ((parseFloat(price[index])*buyMinerCount * 100)/parseFloat(coin)<=p) {
-  //         p = parseFloat(coin)*100/(parseFloat(price[index])*buyMinerCount);
-  //         i = index;
-  //       } else {
-  //         p = 0;
-  //         setIsExceed(true)
-  //       }
-  //     })
-  //   } else {
-  //     p = 0;
-  //   }
-  //   setSmaller([i, p])
-  // }, [buyMinerCount])
+  const {connected, accountName, error, isLoading} = useScatter()
+  useEffect(() => {
+    if (!connected && !isLoading) {
+      if (process.env.NODE_ENV === "development") {
+        props.dispatch(setUserInfo({accountName: "mytestalice1"}))
+      }
+      return;
+    }
+    !isLoading && props.dispatch(setUserInfo({accountName}))
+  },[connected, accountName, isLoading])
+
   useEffect(() => {
     if (!props.userName) return;
     accountCtrl.getAccountInfoUsingGET(props.userName, {})
@@ -75,23 +73,16 @@ const HomePage: React.FC<Props> = (props) => {
     poolCtrl.getPoolInfoUsingGET()
     .then(res=> props.dispatch(setPoolMinerInfo({...res, availableMinerCount: 50})))
   },[])
+
   const handleMinerAccount = (value : string | number) => {
-    if (props.poolInfo.availableMinerCount < 1) {
-      alert('可用矿机数量为0')
-      return
-    }
     if (typeof value == "string") {
       value = value !== "" ? parseInt(value, 10) : 0;
       if (isNaN(value)) return
     }
     setBuyMinerCount(value)
-    setSliderValue(Math.floor(value/props.poolInfo.availableMinerCount * 100))
+    setSliderValue(Math.floor(value/maxMiner * 100))
   }
   const handleBuyMiner = () => {
-    if (isExceed) {
-      alert('BOS/EOS余额不足')
-      return
-    }
     scatterEos.buyminer(props.userName, buyMinerCount, props.accountInfo!.query!.refer)
     .then(res => {
       if(res) {
@@ -101,23 +92,7 @@ const HomePage: React.FC<Props> = (props) => {
       }
     })
   }
-  const connection = async () => {
-    const connected = await scatterEos.isConnected()
-    console.log("connected:", connected)
-    if (!connected) {
-      if (process.env.NODE_ENV === "development") {
-        props.dispatch(setUserInfo({accountName: "mytestalice1"}))
-      }
-      return false;
-    }
-    await scatterEos.login().then((account) => {
-      props.dispatch(setUserInfo({accountName: account.account}))
-    })
-    
-  }
-  useEffect(() => {
-    connection()
-  },[])
+  
   //还需充值
   let [topupBos, setTopupBos] = useState(0);
   let [topupEos, setTopupEos] = useState(0);
@@ -126,19 +101,15 @@ const HomePage: React.FC<Props> = (props) => {
         setIsExceed(false)
         return
       }
-      topupBos =  buyMinerCount*parseFloat(price[0]) - parseFloat(coinAccount[0]);
-      topupEos =  buyMinerCount*parseFloat(price[1]) - parseFloat(coinAccount[1]);
+      topupBos =  buyMinerCount * price[0] - balance[0];
+      topupEos =  buyMinerCount * price[1] - balance[1];
       setIsExceed(topupBos> 0 || topupEos > 0)
       setTopupBos(topupBos)
       setTopupEos(topupEos)
   },[sliderValue, buyMinerCount])
   const handleSliderChange = (value: number) => {
-    if (props.poolInfo.availableMinerCount < 1) {
-      alert('可用矿机数量为0')
-      return
-    }
     setSliderValue(value)
-    setBuyMinerCount(Math.floor((value/100)*props.poolInfo.availableMinerCount))
+    setBuyMinerCount(Math.floor((value/100)*maxMiner))
   }
   return (
     <div>
@@ -222,6 +193,7 @@ const HomePage: React.FC<Props> = (props) => {
             100: '100%'
           }}
           onChange={handleSliderChange}
+          disabled={maxMiner<1}
         />
         <span 
           style={{
