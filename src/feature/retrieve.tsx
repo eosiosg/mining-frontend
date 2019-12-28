@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import {connect} from 'react-redux'
 import { AppState } from 'store/configureStore';
 import scatterEos from 'transaction/ScatterService';
+import { AccountInfo } from 'typings/api';
 
 export const CoinType: {
   [key: string]: string;
@@ -22,12 +23,19 @@ const Retrieval: React.FC<LinkStateProps> = (props) => {
   const handleTagChange = (value: string) => setTag(value);
 
   // coin amount
-  const [amountCoin, setAmountCoin] = useState(0);
-  const handleCoinAmountChange = (value: string | number) => {
-    if (typeof value === 'string') {
-      value = value !== "" ? parseInt(value, 10) : 0;
-      if (isNaN(value)) return
-      setAmountCoin(value)
+  const [amountCoin, setAmountCoin] = useState("");
+  const handleCoinAmountChange = (value: string) => {
+      const reg = /^([0-9]*)(\.?)(\d{0,4})$/
+      if (!value.match(reg)) return
+      
+      let newValue = value.replace(reg, "$1$2$3")
+      setAmountCoin(newValue)
+  }
+  const handleSelectAll = () => {
+    if (coinType == "1") {
+      setAmountCoin(props.accountInfo.eosBalance.split(" ")[0])
+    } else if (coinType ==="2") {
+      setAmountCoin(props.accountInfo.bosBalance.split(" ")[0])
     }
   }
 
@@ -47,10 +55,11 @@ const Retrieval: React.FC<LinkStateProps> = (props) => {
   }, [props.userName])
   const handleWidraw = () => {
     // scatterEos.withdraw(props.userName, amountCoin, CoinType[coinType])
-    scatterEos.withdraw(props.userName, `${amountCoin.toFixed(4)} ${CoinType[coinType]}`, CoinType[coinType])
+    let amount = amountCoin == "" ? 0 : parseFloat(amountCoin)
+    scatterEos.withdraw(props.userName, `${amount.toFixed(4)} ${CoinType[coinType]}`, CoinType[coinType])
     .then(res => {
       if (res) {
-        setAmountCoin(0)
+        setAmountCoin("")
       }
     })
   }
@@ -77,7 +86,12 @@ const Retrieval: React.FC<LinkStateProps> = (props) => {
         value={amountCoin}
         onchange={handleCoinAmountChange}
         fontSize={14}
-        prefix={<Selection shown={shown} display={CoinType[coinType]}  onClick={() => setShown(!shown)}/>}
+        prefix={<Selection 
+                  shown={shown} 
+                  display={CoinType[coinType]}  
+                  onClick={() => setShown(!shown)}
+                  onSelectAll={handleSelectAll}
+                />}
       />
       <div className={styles.selectionWrapper}>
         <span className={classnames(styles.selection,styles.hide, {[styles.shown]: shown})}>
@@ -105,11 +119,12 @@ const Retrieval: React.FC<LinkStateProps> = (props) => {
 
 interface LinkStateProps {
   userName?: string;
+  accountInfo?: AccountInfo;
 }
 
 const mapStateToProps = (state: AppState): LinkStateProps => ({
   userName: state.accountInfo.accountName,
-
+  accountInfo: state.accountInfo
 });
 
 export default connect(
@@ -118,10 +133,19 @@ export default connect(
 )(Retrieval);
 
 
-const Selection: React.SFC<{shown: boolean, onClick: () => void, display: string}> = (props) => {
+const Selection: React.SFC<{
+  shown: boolean, 
+  onClick: () => void, 
+  display: string,
+  onSelectAll: () => void
+} > = (props) => {
+  const haldleAllBtn = (event: React.MouseEvent) => {
+    event.preventDefault();
+    props.onSelectAll()
+  }
   return (
     <div style={{display: "flex", alignItems: "center"}}>
-      <span style={{paddingRight: '5px'}} onClick={props.onClick}>{props.display}</span>|<span style={{padding: '0 5px'}}>全部</span>
+      <span style={{paddingRight: '5px'}} onClick={props.onClick}>{props.display}</span>|<span onClick={haldleAllBtn} style={{padding: '0 5px'}}>全部</span>
     </div>
   )
 }

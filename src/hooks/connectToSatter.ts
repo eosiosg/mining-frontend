@@ -10,6 +10,7 @@ export function useScatter() {
     const connection = async () => {
       const isconnected : unknown= await scatterEos.isConnected()
       setConnected(isconnected as boolean);
+      if (!isconnected) setIsLoading(false)
     }
     connection()
   },[])

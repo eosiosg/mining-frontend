@@ -29,16 +29,22 @@ const MeInfo: React.FC<Props> = (props) => {
           <div className={styles.block}>
             <p className={styles.contentWrapper}>
               <span>BOS总额</span>
-              <p>{props.accountInfo.bosBalance}</p>
-              {props.accountInfo.bosBalanceInCny && <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5'}}>&asymp;{props.accountInfo.bosBalanceInCny}</p>}
+              <p>{props.accountInfo.bosBalance.split(" ")[0]}</p>
+              {props.accountInfo.bosBalanceInCny && 
+              <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5'}}>
+                &asymp;{props.accountInfo.bosBalanceInCny}
+              </p>}
             </p>
           </div>
           <div className={styles.sep}></div>
           <div className={styles.block}>
             <p className={styles.contentWrapper}>
               <span>EOS总额</span><br/>
-              <p>{props.accountInfo.eosBalance}</p>
-              {props.accountInfo.eosBalanceInCny && <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5'}}>&asymp;{props.accountInfo.eosBalanceInCny}</p>}
+              <p>{props.accountInfo.eosBalance.split(" ")[0]}</p>
+              {props.accountInfo.eosBalanceInCny && 
+              <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5'}}>
+                &asymp;{props.accountInfo.eosBalanceInCny}
+              </p>}
             </p>
           </div>
         </div>

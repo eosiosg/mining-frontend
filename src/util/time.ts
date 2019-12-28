@@ -19,9 +19,12 @@ export function timeDiff (from: number, to: number): number[] {
   })
   return res;
 }
+function twoDigits(value: number) {
+  return value > 9 ? `${value}` : `0${value}`
+}
 
 export function timeFormat(time: number | undefined) {
   if(typeof time ==='undefined') return '';
   const date = new Date(time)
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+  return `${date.getFullYear()}-${twoDigits(date.getMonth())}-${twoDigits(date.getDate())} ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}:${twoDigits(date.getSeconds())}`
 }

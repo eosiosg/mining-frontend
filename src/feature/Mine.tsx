@@ -71,7 +71,7 @@ const HomePage: React.FC<Props> = (props) => {
   }, [props.userName])
   useEffect(() => {
     poolCtrl.getPoolInfoUsingGET()
-    .then(res=> props.dispatch(setPoolMinerInfo({...res, availableMinerCount: 50})))
+    .then(res=> props.dispatch(setPoolMinerInfo(res)))
   },[])
 
   const handleMinerAccount = (value : string | number) => {
@@ -80,8 +80,11 @@ const HomePage: React.FC<Props> = (props) => {
       if (isNaN(value)) return
     }
     setBuyMinerCount(value)
-    setSliderValue(Math.floor(value/maxMiner * 100))
+
+    let percentage =maxMiner<1 ? 0:  Math.floor((value/maxMiner) * 100) < 100 ? Math.floor((value/maxMiner) * 100) : 100
+    setSliderValue(percentage)
   }
+
   const handleBuyMiner = () => {
     scatterEos.buyminer(props.userName, buyMinerCount, props.accountInfo!.query!.refer)
     .then(res => {
@@ -111,6 +114,7 @@ const HomePage: React.FC<Props> = (props) => {
     setSliderValue(value)
     setBuyMinerCount(Math.floor((value/100)*maxMiner))
   }
+ 
   return (
     <div>
       <ContentWrapper>
