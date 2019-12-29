@@ -19,7 +19,7 @@ const HeaderBar: React.FC<Props> = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        {props.hasGoback && <span onClick={handleClick}><Arrow /></span>}
+        {props.hasGoback && <span style={{padding: '15px', paddingLeft: '0'}} onClick={handleClick}><Arrow /></span>}
       </div>
       <span>{props.title}</span>
       <div className={styles.right}>
