@@ -1,11 +1,11 @@
 // 最近交易 个人中心
 // 个人中心下面矿机列表
-import React, {useState } from "react";
+import React, {useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
-import { setMinerTrade } from "../actions/account/effects";
+import { setMinerTrade, emptyMinerTrade } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
 import {Pageable, MinerTradeInfo } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
@@ -14,7 +14,7 @@ import classnames from 'classnames'
 import { Sticky } from "componentDecorator/stickyComponent";
 import { timeFormat } from "util/time";
 import { Loader, EndFlag } from "components/loadingHolder";
-
+import listStyles from '../styles/listItem.module.scss';
 interface MinerListPageProps {
 
 }
@@ -38,6 +38,9 @@ const MinerTrade: React.FC<Props> = (props) => {
         : false )
     });
   }
+  useEffect(() => {
+    props.dispatch(emptyMinerTrade())
+  }, [])
   const { minerTrade } = props;
 
   return (
@@ -62,8 +65,12 @@ const MinerTrade: React.FC<Props> = (props) => {
               {miner.buy ? <span>买入{miner.tradeAmount}个</span> : <span>卖出{miner.tradeAmount}个</span>}
               <span>
                 <div className={styles.multilineWrapper}>
-                <p>{miner.tradeEos}</p>
-                <p>{miner.tradeBos}</p>
+                <p className={classnames({
+                    [listStyles.buy]: !miner.buy
+                  })}>{miner.tradeEos}</p>
+                <p className={classnames({
+                    [listStyles.buy]: !miner.buy
+                  })}>{miner.tradeBos}</p>
                 </div>
               </span>
             </div>

@@ -33,6 +33,14 @@ export default (
         totalPages: action.data.totalPages
 
       }
+    case ActionConstant.EMPTY_MINER_TRADE_LIST:
+      return {
+        content: [],
+          pageable: {
+            pageNumber: 0,
+            pageSize: 40
+          }
+      }
     default:
       return state;
   }

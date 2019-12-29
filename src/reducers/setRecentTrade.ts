@@ -12,6 +12,8 @@ export default (
   switch (action.type) {
     case ActionConstant.GET_RECENT_TRADE_LIST:
       return action.data
+    case ActionConstant.EMPTY_RECENT_TRADE_LIST:
+      return []
     default:
       return state;
   }

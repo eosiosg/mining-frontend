@@ -1,5 +1,5 @@
 // 单个矿机的收益详情
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {connect} from 'react-redux'
 import { AppAction } from 'typings/feature';
 import { AppState } from 'store/configureStore';
@@ -23,12 +23,13 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
   let { minerId } = useParams<{minerId: string}>();
   const location = useLocation();
   // minerSummary 是收益总结
-  const infoList = location.state.from === 'soldMiner'
-                    ? soldMinerList
-                    : location.state.from === 'activeMiner'
-                      ? minerInfoList : []
+  // const infoList = location.state.from === 'soldMiner'
+  //                   ? soldMinerList
+  //                   : location.state.from === 'activeMiner'
+  //                     ? minerInfoList : []
 
-  const minerSummary = infoList.find((miner) => miner.minerId === minerId);
+  // const minerSummary = infoList.find((miner) => miner.minerId === minerId);
+  const [minerSummary, setMinerSummary] = useState({totalRewardInEos: "", totalRewardInCny: "", shownSellBtn: false})
   const [rewardList, setRewardList] = useState<MinerRewardDetail[]>([])
   const [pageInfo, setPageInfo] = useState<Pageable & {totalPages?: number}>({
     pageSize: 40,
@@ -57,6 +58,16 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
       setIsFetching(false);
     });
   }
+  useEffect(() => {
+    accountCtrl.getMinerDetailPageUsingGET(props.userName,parseInt(minerId, 10))
+    .then((res) => {
+      setMinerSummary({
+        totalRewardInEos: res.minerInfo.totalRewardInEos,
+        totalRewardInCny: res.minerInfo.totalRewardInCny,
+        shownSellBtn: !res.minerInfo.sold
+      })
+    })
+  }, [props.userName, minerId])
   const handleSellMiner = () => {
     scatterEos.sellminer(props.userName, [parseInt(minerId, 10)])
     .then(res => {
@@ -99,10 +110,10 @@ export const MinerRewardDetailPage: React.FC<Props> = (props) => {
     </InfiniteScroll>
     {isEnd && <EndFlag />}
     <div style={{height: `${(114/37.5).toFixed(8)}rem`}}></div>
-    <div className={meStyle.btmButton}>
+    {minerSummary.shownSellBtn && <div className={meStyle.btmButton}>
       <div className={meStyle.sellMiner} onClick={handleSellMiner}>销毁矿机</div>
       <div className={meStyle.hint}>*每个矿机销毁后可得1500个BOS，操作不可逆。</div>
-    </div>
+    </div>}
     
     </div>
   );

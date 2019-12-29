@@ -35,9 +35,11 @@ export const TopupPage: React.FC<{}> = () => {
   });
   const handleChange = (field: keyof StateType) => (value: string | number) => {
     if (field === "amountBos" && typeof value === "string") {
-      value = value !== "" ? parseInt(value, 10) : 0;
-      if (isNaN(value)) return
+      const reg = /^([0-9]*)(\.?)(\d{0,4})$/
+      if (!value.match(reg)) return
+      value = value.replace(reg, "$1$2$3")
     }
+    
     setTransactionInfo({
       ...transactionInfo,
       [field]: value

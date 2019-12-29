@@ -40,6 +40,7 @@ export const setUserInfo = (accountInfo: TypeAccountInfo): AppAction => ({
 export const getUserInfo = () => {
   return (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
     let urlQuery = getQueryVariable();
+    // todo: 加入refer
     dispatch(
       setUserInfo({
         query: urlQuery
@@ -57,10 +58,16 @@ export const emptyActiveMinerList = (): AppAction => ({
   type: ActionTyps.EMPTY_ACTIVE_MINER_LIST
 })
 
+
 export const setSoldMinerList = (minerContent: PageMinerInfo): AppAction => ({
   type: ActionTyps.GET_SOLD_MINER_LIST,
   data: minerContent
 })
+
+export const emptySoldMinerList = (): AppAction => ({
+  type: ActionTyps.EMPTY_SOLD_MINER_LIST
+})
+
 export const setSoldMiner = (minerId: string): AppAction => ({
   type: ActionTyps.SET_SOLD_MINER_ID,
   data: minerId
@@ -70,9 +77,17 @@ export const setRecentTradeList = (MinerTradeInfo: MinerTradeInfo[]): AppAction 
   type: ActionTyps.GET_RECENT_TRADE_LIST,
   data: MinerTradeInfo
 })
+
+export const emptyRecentTradeList = (): AppAction => ({
+  type: ActionTyps.EMPTY_RECENT_TRADE_LIST
+})
+
 export const setMinerTrade = (MinerTradeInfo: PageMinerTradeInfo): AppAction => ({
   type: ActionTyps.GET_MINER_TRADE_LIST,
   data: MinerTradeInfo
+})
+export const emptyMinerTrade = (): AppAction => ({
+  type: ActionTyps.EMPTY_MINER_TRADE_LIST
 })
 
 

@@ -1,10 +1,10 @@
 // 个人中心下面矿机列表
-import React, {useState } from "react";
+import React, {useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { AppState } from "../store/configureStore";
 import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
-import { setSoldMinerList } from "../actions/account/effects";
+import { setSoldMinerList, emptySoldMinerList } from "../actions/account/effects";
 import { accountCtrl } from '../api/backendAPI';
 import { MinerInfo, Pageable } from "../typings/api";
 import InfiniteScroll from 'react-infinite-scroller';
@@ -35,6 +35,9 @@ const MinerList: React.FC<Props> = (props) => {
         : false )
     });
   }
+  useEffect(() => {
+    props.dispatch(emptySoldMinerList())
+  }, [])
   const { soldMinerList } = props;
 
   return (

@@ -9,7 +9,7 @@ import {
 import createHistory from "history/createBrowserHistory";
 import HomeContainer from "../pages/HomeContainer";
 import SoldMinerContainer from "../pages/SoldMinerContainer";
-import { getUserInfo } from "../actions/account/effects";
+import { getUserInfo, setUserInfo } from "../actions/account/effects";
 import { bindActionCreators } from "redux";
 import { AppAction } from "../typings/feature";
 import { ThunkDispatch } from "redux-thunk";
@@ -21,6 +21,9 @@ import { MinerRewardDetailPage } from "pages/MinerReward";
 import MinerTradeContainer from "pages/MinerTradePage";
 import TopupPage from "pages/topupPage";
 import Retrieval from "pages/Retrieval";
+import { accountCtrl, poolCtrl } from "api/backendAPI";
+import { setForgePageInfo } from "actions/pool/effects";
+import { useScatter } from "hooks";
 
 export const history = createHistory();
 
@@ -28,10 +31,31 @@ export const history = createHistory();
 // but we pass in a customer history to it.
 type Props = LinkDispatchProps & LinkStateProps;
 const AppRouter: React.FC<Props> = (props) => {
+  const {connected, accountName, error, isLoading} = useScatter()
   useEffect(() => {
-    if (props.userName) return
+    if (!connected && !isLoading) {
+      if (process.env.NODE_ENV === "development") {
+        props.dispatch(setUserInfo({accountName: "mytestalice1"}))
+      }
+      return;
+    }
+    !isLoading && props.dispatch(setUserInfo({accountName}))
+  },[connected, accountName, isLoading])
+  useEffect(() => {
     props.getUserInfo()
-  }, [props.userName])
+  }, [])
+  useEffect(() => {
+    if (!accountName) return;
+    accountCtrl.getAccountInfoUsingGET(accountName, {})
+    .then(res => props.dispatch(setUserInfo(res)));
+  }, [accountName])
+  useEffect(() => {
+    if (!accountName) return;
+    poolCtrl.getForgePageUsingGET(accountName)
+    .then(res => {
+      props.dispatch(setForgePageInfo(res));
+    });
+  }, [accountName]);
   return  (
     <div>
       
@@ -65,6 +89,7 @@ interface LinkStateProps {
 
 interface LinkDispatchProps {
   getUserInfo: () => void;
+  dispatch: (action: AppAction) => void;
 }
 
 const mapStateToProps = (state: AppState): LinkStateProps => ({
@@ -73,6 +98,7 @@ const mapStateToProps = (state: AppState): LinkStateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any,AppAction>): LinkDispatchProps => ({
   getUserInfo: bindActionCreators(getUserInfo, dispatch),
+  dispatch: dispatch
 });
 
 export default connect(

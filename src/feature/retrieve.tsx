@@ -7,6 +7,11 @@ import {connect} from 'react-redux'
 import { AppState } from 'store/configureStore';
 import scatterEos from 'transaction/ScatterService';
 import { AccountInfo } from 'typings/api';
+import { accountCtrl, poolCtrl } from 'api/backendAPI';
+import { setUserInfo } from 'actions/account/effects';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppAction } from 'typings/feature';
+import { setForgePageInfo } from 'actions/pool/effects';
 
 export const CoinType: {
   [key: string]: string;
@@ -15,7 +20,7 @@ export const CoinType: {
   "2": "BOS"
 }
 
-const Retrieval: React.FC<LinkStateProps> = (props) => {
+const Retrieval: React.FC<LinkStateProps & LinkDispatchProps> = (props) => {
   const [shown, setShown] = useState(false)
 
   // user tage [option]
@@ -60,6 +65,15 @@ const Retrieval: React.FC<LinkStateProps> = (props) => {
     .then(res => {
       if (res) {
         setAmountCoin("")
+        setTimeout(() => {
+          accountCtrl.getAccountInfoUsingGET(props.accountInfo.accountName, {})
+          .then(res => props.dispatch(setUserInfo(res)));
+          poolCtrl.getForgePageUsingGET(props.accountInfo.accountName)
+          .then(res => {
+            props.dispatch(setForgePageInfo(res));
+          });
+        }, 5000)
+        
       }
     })
   }
@@ -121,15 +135,20 @@ interface LinkStateProps {
   userName?: string;
   accountInfo?: AccountInfo;
 }
+interface LinkDispatchProps {
+  dispatch: (action: AppAction) => void;
+}
 
 const mapStateToProps = (state: AppState): LinkStateProps => ({
   userName: state.accountInfo.accountName,
   accountInfo: state.accountInfo
 });
-
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any,AppAction>): LinkDispatchProps => ({
+  dispatch: dispatch
+});
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Retrieval);
 
 

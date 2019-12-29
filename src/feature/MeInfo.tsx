@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {connect} from 'react-redux'
 import { AccountInfo } from 'typings/api';
 import { AppAction } from 'typings/feature';
@@ -15,36 +15,45 @@ type Props = LinkDispatchProps & LinkStateProps;
 
 const MeInfo: React.FC<Props> = (props) => {
   const { accountInfo } = props;
+  const [account, setAccount] = useState({
+    bosBalanceInCny: " ",
+    eosBalanceInCny: " ",
+    bosBalance: " ",
+    eosBalance: " ",
+    accountName: " ",
+  })
   useEffect(() => {
-    if (!accountInfo.accountName) return;
-    accountCtrl.getAccountInfoUsingGET(accountInfo.accountName, {})
-    .then(res => props.dispatch(setUserInfo(res)));
-  }, [accountInfo.accountName])
+    const bosBalanceInCny = accountInfo.bosBalanceCny || " ";
+    const eosBalanceInCny = accountInfo.eosBalanceCny || " ";
+    const eosBalance = accountInfo.eosBalance || " ";
+    const bosBalance = accountInfo.bosBalance || " ";
+    const accountName = accountInfo.accountName || " ";
+    setAccount({bosBalance, bosBalanceInCny, eosBalance, eosBalanceInCny, accountName})
+  }, [accountInfo])
+  const {bosBalance, bosBalanceInCny, eosBalance, eosBalanceInCny, accountName} = account;
   return (
     <div>
     <div className={styles.infoPanel}>
-      <p className={styles.accountName}>当前账户： {props.accountInfo.accountName}</p>
+      <p className={styles.accountName}>当前账户： {accountName}</p>
       <div className={styles.minerReward}>
         <div className={styles.content}>
           <div className={styles.block}>
             <p className={styles.contentWrapper}>
               <span>BOS总额</span>
-              <p>{props.accountInfo.bosBalance.split(" ")[0]}</p>
-              {props.accountInfo.bosBalanceInCny && 
-              <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5'}}>
-                &asymp;{props.accountInfo.bosBalanceInCny}
-              </p>}
+              <p style={{paddingBottom: "5px"}}>{bosBalance.split(" ")[0]}</p>
+              <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5)', padding: "0"}}>
+                &asymp;{bosBalanceInCny}
+              </p>
             </p>
           </div>
           <div className={styles.sep}></div>
           <div className={styles.block}>
             <p className={styles.contentWrapper}>
               <span>EOS总额</span><br/>
-              <p>{props.accountInfo.eosBalance.split(" ")[0]}</p>
-              {props.accountInfo.eosBalanceInCny && 
-              <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5'}}>
-                &asymp;{props.accountInfo.eosBalanceInCny}
-              </p>}
+              <p style={{paddingBottom: "5px"}}>{eosBalance.split(" ")[0]}</p>
+              <p style={{fontSize: '12px', color: 'rgba(0,0,0,0.5)', padding: "0"}}>
+                &asymp;{eosBalanceInCny}
+              </p>
             </p>
           </div>
         </div>
@@ -58,7 +67,7 @@ const MeInfo: React.FC<Props> = (props) => {
         </span>
         <span className={styles.tradeItem}>
           <span><Link to="/retrieval">提币</Link></span>
-          <span style={{marginLeft: '16px', background: '#52F8EB'}}><Link to="/topup"><span style={{color: "#000000"}}>充值</span></Link></span>
+          <span style={{marginLeft: '16px', background: '#52F8EB'}}><Link to="/topup"><i style={{fontStyle: "normal",color: "#000000"}}>充值</i></Link></span>
         </span>
       </div>
 

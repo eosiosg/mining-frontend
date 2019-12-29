@@ -8,20 +8,31 @@ import config from '../config/config'
 import { AppState } from 'store/configureStore';
 import { AccountInfo, ForgePage } from 'typings/api';
 import scatterEos from 'transaction/ScatterService';
+import { accountCtrl, poolCtrl } from 'api/backendAPI';
+import { setUserInfo } from 'actions/account/effects';
+import { AppAction } from 'typings/feature';
+import { ThunkDispatch } from 'redux-thunk';
+import { setForgePageInfo } from 'actions/pool/effects';
 
 const BosTopup: React.FC<{
   transactionInfo: StateType,
   onchange: (value: string | number) => void
-} & LinkStateProps> = (props) => {
+} & LinkStateProps & LinkDispatchProps> = (props) => {
   const handleTopUp = () => {
     scatterEos.transferbos(
       props.accountInfo.accountName, 
       config.contract, 
-      `${props.transactionInfo.amountBos.toFixed(4)} BOS`,
+      `${(+props.transactionInfo.amountBos).toFixed(4)} BOS`,
       ''
     ).then(res => {
       if (res) {
         props.onchange(0)
+        accountCtrl.getAccountInfoUsingGET(props.accountInfo.accountName, {})
+        .then(res => props.dispatch(setUserInfo(res)));
+        poolCtrl.getForgePageUsingGET(props.accountInfo.accountName)
+          .then(res => {
+            props.dispatch(setForgePageInfo(res));
+          });
       }
     })
   }
@@ -32,7 +43,7 @@ const BosTopup: React.FC<{
       <div className={styles.hintTips}>
         充值数量
         <span className={styles.extraAction}>
-          <span>BOS</span>|<span onClick={() => props.onchange(props.accountInfo!.bosBalance!.split(' ')[0])}>全部</span> 
+          <span>BOS</span>|<span onClick={() => props.onchange(props.forgePageInfo!.accountInfo!.availableBosOutside.split(' ')[0])}>全部</span> 
         </span>  
       </div>
       <TextInput
@@ -57,11 +68,18 @@ interface LinkStateProps {
   accountInfo?: AccountInfo,
   forgePageInfo?: ForgePage
 }
+interface LinkDispatchProps {
+  dispatch: (action: AppAction) => void;
+}
 const mapStateToProps = (state: AppState): LinkStateProps => ({
   accountInfo: state.accountInfo,
   forgePageInfo: state.forge.forgePageInfo
 });
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any,AppAction>): LinkDispatchProps => ({
+  dispatch: dispatch
+});
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(BosTopup);

@@ -47,11 +47,11 @@ const MinerList: React.FC<Props> = (props) => {
         : false )
     });
   }
-  // useEffect(() => {
-  //   return () => {
-  //     props.dispatch(emptyActiveMinerList())
-  //   }
-  // },[])
+  useEffect(() => {
+    return () => {
+      props.dispatch(emptyActiveMinerList())
+    }
+  },[])
   const { activeMinerList } = props;
 
   return (

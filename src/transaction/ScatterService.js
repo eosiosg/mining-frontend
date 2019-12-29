@@ -2,11 +2,21 @@ import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs';
 import Eos from 'eosjs';
 import config from '../config/config'
-
+import { message } from 'antd'
 // const contractMap = {
 //     "BOS": config.bostoken_contract,
 //     "EOS": config.eostoken_contract
 // }
+
+function onError(err) {
+    let errObject = JSON.parse(err)
+    let errMsg = errObject.error.details[0].message;
+    message.error(errMsg);
+    return false
+}
+function onSuccess() {
+    message.success("提交成功")
+}
 const network = ScatterJS.Network.fromJson({
     blockchain:'eos',
     chainId: config.bostestnet_chainid,
@@ -76,12 +86,9 @@ const scatterEos = {
                 },
             ],
         }).then(data => {
-            alert("Succeed");
+            onSuccess()
             return true
-        }).catch(err => {
-            alert("Error Occured")
-            return false
-        })
+        }).catch(onError)
     },
     sellminer(seller, miners) {
         return eosClient.transaction({
@@ -100,12 +107,9 @@ const scatterEos = {
                 },
             ],
         }).then(data => {
-            alert("Succeed");
+            onSuccess()
             return true
-        }).catch(err => {
-            alert("Error Occured")
-            return false
-        })
+        }).catch(onError)
     },
     meltbos(user, quantity) {
         return eosClient.transaction({
@@ -124,12 +128,9 @@ const scatterEos = {
                 },
             ],
         }).then(data => {
-            alert("Succeed");
+            onSuccess()
             return true
-        }).catch(err => {
-            alert("Error Occured")
-            return false
-        })
+        }).catch(onError)
     },
     transfereos(from, to, quantity, memo = '') {
         return eosClient.transaction({
@@ -150,12 +151,9 @@ const scatterEos = {
                 }
             ]
         }).then(data => {
-            alert("Succeed");
+            onSuccess()
             return true
-        }).catch(err => {
-            alert("Error Occured")
-            return false
-        })
+        }).catch(onError)
     },
     transferbos(from, to, quantity, memo) {
         return eosClient.transaction({
@@ -176,12 +174,9 @@ const scatterEos = {
                 }
             ]
         }).then(data => {
-            alert("Succeed");
+            onSuccess()
             return true
-        }).catch(err => {
-            alert("Error Occured")
-            return false
-        })
+        }).catch(onError)
     },
     withdraw(user, quantity, type) {
         return eosClient.transaction({
@@ -200,12 +195,9 @@ const scatterEos = {
                 },
             ],
         }).then(data => {
-            alert("Succeed");
+            onSuccess()
             return true
-        }).catch(err => {
-            alert("Error Occured")
-            return false
-        })
+        }).catch(onError)
     },
     // getEosAccount: async function () {
     //     const scatter = this.scatter;

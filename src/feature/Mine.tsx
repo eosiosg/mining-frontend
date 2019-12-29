@@ -22,7 +22,7 @@ import { ReactComponent as MineSVG } from '../static/svg/mine3.svg';
 import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
 import { Sticky } from "componentDecorator/stickyComponent";
 import scatterEos from '../transaction/ScatterService'
-import { setPoolMinerInfo } from "actions/pool/effects";
+import { setPoolMinerInfo, setForgePageInfo } from "actions/pool/effects";
 import { PoolInfo } from "typings/api";
 
 import {useScatter, useMineSlider} from '../hooks'
@@ -53,22 +53,29 @@ const HomePage: React.FC<Props> = (props) => {
   const [isExceed,setIsExceed] = useState(false)
   const [sliderValue, setSliderValue] = useState(0)
   
-  const {connected, accountName, error, isLoading} = useScatter()
-  useEffect(() => {
-    if (!connected && !isLoading) {
-      if (process.env.NODE_ENV === "development") {
-        props.dispatch(setUserInfo({accountName: "mytestalice1"}))
-      }
-      return;
-    }
-    !isLoading && props.dispatch(setUserInfo({accountName}))
-  },[connected, accountName, isLoading])
+  // const {connected, accountName, error, isLoading} = useScatter()
+  // useEffect(() => {
+  //   if (!connected && !isLoading) {
+  //     if (process.env.NODE_ENV === "development") {
+  //       props.dispatch(setUserInfo({accountName: "mytestalice1"}))
+  //     }
+  //     return;
+  //   }
+  //   !isLoading && props.dispatch(setUserInfo({accountName}))
+  // },[connected, accountName, isLoading])
 
   useEffect(() => {
     if (!props.userName) return;
     accountCtrl.getAccountInfoUsingGET(props.userName, {})
     .then(res => props.dispatch(setUserInfo(res)));
   }, [props.userName])
+  useEffect(() => {
+    if (!props.userName) return;
+    poolCtrl.getForgePageUsingGET(props.userName)
+    .then(res => {
+      props.dispatch(setForgePageInfo(res));
+    });
+  }, [props.userName]);
   useEffect(() => {
     poolCtrl.getPoolInfoUsingGET()
     .then(res=> props.dispatch(setPoolMinerInfo(res)))

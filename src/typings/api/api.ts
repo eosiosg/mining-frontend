@@ -98,14 +98,14 @@ export interface AccountInfo {
      * @type {string}
      * @memberof AccountInfo
      */
-    bosBalanceInCny?: string;
+    bosBalanceCny?: string;
     bosBalance?: string;
     /**
      * 
      * @type {string}
      * @memberof AccountInfo
      */
-    eosBalanceInCny?: string;
+    eosBalanceCny?: string;
     eosBalance?: string;
     /**
      * 
@@ -150,7 +150,7 @@ export interface ForgeInfo {
      * @type {string}
      * @memberof ForgeInfo
      */
-    estimatedRewardPerNewBos?: string;
+    estimatedRewardPer10KBos?: string;
     /**
      * 
      * @type {string}
