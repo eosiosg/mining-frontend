@@ -10,23 +10,25 @@ import {
 } from '../../typings/api/api'
 
 export function getQueryVariable() {
-  let query = window.location.search.substring(1);
-  let vars = query.length > 0 ? query.split('&') : [];
-
   let res : {
     [key: string]: string
   }= {};
+  let refer = localStorage.getItem('refer')
+  if (refer) {
+    res['refer'] = refer;
+    return res;
+  }
+  
+  let query = window.location.search.substring(1);
+  let vars = query.length > 0 ? query.split('&') : [];
+
+  
   for (var i = 0; i < vars.length; i++) {
       var pair = vars[i].split('=');
       res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1])
   }
   if (res['refer']) {
     localStorage.setItem('refer', res['refer'])
-  } else {
-    let refer = localStorage.getItem('refer')
-    if (refer) {
-      res['refer'] = refer;
-    }
   }
   return res;
 
