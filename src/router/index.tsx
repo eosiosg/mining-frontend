@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   Router, 
   Route, 
@@ -9,7 +9,7 @@ import {
 import createHistory from "history/createBrowserHistory";
 import HomeContainer from "../pages/HomeContainer";
 import SoldMinerContainer from "../pages/SoldMinerContainer";
-import { getUserInfo, setUserInfo } from "../actions/account/effects";
+import { getUserInfo, setUserInfo, getQueryVariable } from "../actions/account/effects";
 import { bindActionCreators } from "redux";
 import { AppAction } from "../typings/feature";
 import { ThunkDispatch } from "redux-thunk";
@@ -32,6 +32,8 @@ export const history = createHistory();
 type Props = LinkDispatchProps & LinkStateProps;
 const AppRouter: React.FC<Props> = (props) => {
   const {connected, accountName, error, isLoading} = useScatter()
+  const [urlQuery, setUrlQuery] = useState(getQueryVariable());
+
   useEffect(() => {
     if (!connected && !isLoading) {
       if (process.env.NODE_ENV === "development") {
@@ -41,14 +43,17 @@ const AppRouter: React.FC<Props> = (props) => {
     }
     !isLoading && props.dispatch(setUserInfo({accountName}))
   },[connected, accountName, isLoading])
-  useEffect(() => {
-    props.getUserInfo()
-  }, [])
+  // useEffect(() => {
+  //   props.getUserInfo()
+  // }, [])
   useEffect(() => {
     if (!accountName) return;
     accountCtrl.getAccountInfoUsingGET(accountName, {})
-    .then(res => props.dispatch(setUserInfo(res)));
-  }, [accountName])
+    .then(res => props.dispatch(setUserInfo({
+      ...res,
+      query: urlQuery
+    })));
+  }, [accountName, urlQuery])
   useEffect(() => {
     if (!accountName) return;
     poolCtrl.getForgePageUsingGET(accountName)
