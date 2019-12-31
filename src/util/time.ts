@@ -26,5 +26,5 @@ function twoDigits(value: number) {
 export function timeFormat(time: number | undefined) {
   if(typeof time ==='undefined') return '';
   const date = new Date(time)
-  return `${date.getFullYear()}-${twoDigits(date.getMonth())}-${twoDigits(date.getDate())} ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}:${twoDigits(date.getSeconds())}`
+  return `${date.getFullYear()}-${twoDigits(date.getMonth()+1)}-${twoDigits(date.getDate())} ${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}:${twoDigits(date.getSeconds())}`
 }
