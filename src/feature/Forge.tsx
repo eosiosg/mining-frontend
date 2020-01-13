@@ -18,7 +18,8 @@ import styles from '../styles/homepage.module.scss'
 import TextInput from "components/inputElement";
 import NavBar from "components/navLink";
 import Rules from "./ForgeRules";
-import RecentTrades from './RecentTrade'
+import MineRecentTrades from './RecentTrade'
+import ForgeRecentTrades from './ForgeRecentTrade'
 import { Sticky } from "componentDecorator/stickyComponent";
 import scatterEos from "transaction/ScatterService";
 import { ReactComponent as Inicon } from '../static/svg/current_in_bos.svg';
@@ -271,7 +272,7 @@ const ForgePageContainer: React.FC<Props> = (props) => {
           </div>
         </Route>
         <Route path={`${path}/recenttrade`}>
-          <RecentTrades />
+          <ForgeRecentTrades />
         </Route>
       </Switch>
     </div>

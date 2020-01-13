@@ -19,7 +19,7 @@ const BosTopup: React.FC<{
   onchange: (value: string | number) => void
 } & LinkStateProps & LinkDispatchProps> = (props) => {
   const handleTopUp = () => {
-    scatterEos.transferbos(
+    scatterEos.transfereos(
       props.accountInfo.accountName, 
       config.contract, 
       `${(+props.transactionInfo.amountBos).toFixed(4)} BOS`,
@@ -53,7 +53,7 @@ const BosTopup: React.FC<{
         fontSize={14}
         prefix={null}
       />
-      <div className={styles.bosRemain}>{`当前账户可用 ${props.forgePageInfo!.accountInfo!.availableBosOutside}`}</div>
+      <div className={styles.bosRemain}>{`当前账户仍可充值 ${props.forgePageInfo!.accountInfo!.availableBosOutside}`}</div>
       <div className={styles.btnWrapper}>
         <button onClick={handleTopUp}>充值</button>
       </div>

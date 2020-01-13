@@ -307,6 +307,49 @@ export interface MinerRewardDetail {
      */
     rewardTimestamp?: number;
 }
+/**
+ * 
+ * @export
+ * @interface ForgeTradeInfo
+ */
+export interface ForgeTradeInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgeTradeInfo
+     */
+    account?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgeTradeInfo
+     */
+    link?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ForgeTradeInfo
+     */
+    melt?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgeTradeInfo
+     */
+    tradeBos?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgeTradeInfo
+     */
+    tradeEos?: string;    
+    /**
+    * 
+    * @type {number}
+    * @memberof ForgeTradeInfo
+    */
+   tradeTimestamp?: number;
+}
 
 /**
  * 
@@ -1601,8 +1644,31 @@ export const PoolControllerApiFetchParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRecentTradesUsingGET(options: any = {}): FetchArgs {
+        getMineRecentTradesUsingGET(options: any = {}): FetchArgs {
             const localVarPath = `/pool/mine/recentTrades`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary getForgeRecentTrades
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getForgeRecentTradesUsingGET(options: any = {}): FetchArgs {
+            const localVarPath = `/pool/forge/recentTrades`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1707,8 +1773,26 @@ export const PoolControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRecentTradesUsingGET(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<MinerTradeInfo>> {
-            const localVarFetchArgs = PoolControllerApiFetchParamCreator(configuration).getRecentTradesUsingGET(options);
+        getMineRecentTradesUsingGET(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<ForgeTradeInfo>> {
+            const localVarFetchArgs = PoolControllerApiFetchParamCreator(configuration).getMineRecentTradesUsingGET(options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+                /**
+         * 
+         * @summary getRecentTrades
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getForgeRecentTradesUsingGET(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<ForgeTradeInfo>> {
+            const localVarFetchArgs = PoolControllerApiFetchParamCreator(configuration).getForgeRecentTradesUsingGET(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1772,8 +1856,17 @@ export const PoolControllerApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRecentTradesUsingGET(options?: any) {
-            return PoolControllerApiFp(configuration).getRecentTradesUsingGET(options)(fetch, basePath);
+        getMineRecentTradesUsingGET(options?: any) {
+            return PoolControllerApiFp(configuration).getMineRecentTradesUsingGET(options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @summary getRecentTrades
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getForgeRecentTradesUsingGET(options?: any) {
+            return PoolControllerApiFp(configuration).getForgeRecentTradesUsingGET(options)(fetch, basePath);
         },
     };
 };
@@ -1838,8 +1931,19 @@ export class PoolControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PoolControllerApi
      */
-    public getRecentTradesUsingGET(options?: any) {
-        return PoolControllerApiFp(this.configuration).getRecentTradesUsingGET(options)(this.fetch, this.basePath);
+    public getMineRecentTradesUsingGET(options?: any) {
+        return PoolControllerApiFp(this.configuration).getMineRecentTradesUsingGET(options)(this.fetch, this.basePath);
+    }
+
+        /**
+     * 
+     * @summary getRecentTrades
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PoolControllerApi
+     */
+    public getForgeRecentTradesUsingGET(options?: any) {
+        return PoolControllerApiFp(this.configuration).getForgeRecentTradesUsingGET(options)(this.fetch, this.basePath);
     }
 
 }

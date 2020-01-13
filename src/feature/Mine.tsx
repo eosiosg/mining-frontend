@@ -17,7 +17,7 @@ import styles from '../styles/homepage.module.scss'
 import ContentWrapper from "components/blockContent";
 import TextInput from "components/inputElement";
 import Rules from "./rules";
-import RecentTrades from './RecentTrade'
+import MineRecentTrades from './RecentTrade'
 import { ReactComponent as MineSVG } from '../static/svg/mine3.svg';
 import { ReactComponent as BenefitSVG } from '../static/svg/benefit3.svg';
 import { Sticky } from "componentDecorator/stickyComponent";
@@ -181,7 +181,8 @@ const HomePage: React.FC<Props> = (props) => {
                     pathname: "/topup/eos",
                     state: {
                       amountBos: topupBos,
-                      platform: topupEos
+                      // platform: topupEos
+                      amountEos: topupEos
                     }
                   }}><span style={{color: '#52F8EB', textDecoration:'underline'}}>充值</span></Link> : null)}
             </div>
@@ -258,7 +259,7 @@ const HomePage: React.FC<Props> = (props) => {
           </div>
         </Route>
         <Route path={`${path}/recenttrade`}>
-          <RecentTrades  />
+          <MineRecentTrades  />
         </Route>
         
       </Switch>
