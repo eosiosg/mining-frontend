@@ -6,21 +6,21 @@ import { ThunkDispatch } from "redux-thunk";
 import { AppAction } from "../typings/feature";
 import { setRecentTradeList } from "../actions/account/effects";
 import { poolCtrl } from '../api/backendAPI';
-import {MinerTradeInfo } from "../typings/api";
+import {ForgeTradeInfo } from "../typings/api";
 import listStyles from '../styles/listItem.module.scss';
 import styles from '../styles/homepage.module.scss'
 import classnames from 'classnames'
 import { timeFormat } from "util/time";
-interface MinerListPageProps {
+interface ForgeListPageProps {
 
 }
 
-type Props = MinerListPageProps & LinkDispatchProps & LinkStateProps;
+type Props = ForgeListPageProps & LinkDispatchProps & LinkStateProps;
 
-const MineRecentTrades: React.FC<Props> = (props) => {
+const ForgeRecentTrades: React.FC<Props> = (props) => {
   useEffect(() => {
     if (!props.userName) return;
-    poolCtrl.getMineRecentTradesUsingGET(props.userName)
+    poolCtrl.getForgeRecentTradesUsingGET(props.userName)
     .then(res => {
       props.dispatch(setRecentTradeList(res));
     });
@@ -42,7 +42,7 @@ const MineRecentTrades: React.FC<Props> = (props) => {
               }}>
                 <p 
                   className={classnames({
-                    [listStyles.buy]: !trade.buy
+                    [listStyles.buy]: !trade.melt
                   })}
                   style={{
                     padding: '3px 0'
@@ -50,7 +50,7 @@ const MineRecentTrades: React.FC<Props> = (props) => {
                 >{trade.tradeEos}</p>
                 <p 
                   className={classnames({
-                    [listStyles.buy]: !trade.buy
+                    [listStyles.buy]: !trade.melt
                   })}
                   style={{
                     padding: '3px 0'
@@ -67,22 +67,22 @@ const MineRecentTrades: React.FC<Props> = (props) => {
 
 interface LinkStateProps {
   userName?: string;
-  recentTradeList: MinerTradeInfo[];
+  recentTradeList: ForgeTradeInfo[];
 }
 
 interface LinkDispatchProps {
   dispatch: (action: AppAction) => void
 }
-const mapStateToProps = (state: AppState, props: MinerListPageProps): LinkStateProps => ({
+const mapStateToProps = (state: AppState, props: ForgeListPageProps): LinkStateProps => ({
   userName: state.accountInfo.accountName,
   recentTradeList: state.recentTrade,
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any,AppAction>, props: MinerListPageProps): LinkDispatchProps => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any,AppAction>, props: ForgeListPageProps): LinkDispatchProps => ({
   dispatch: dispatch
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MineRecentTrades);
+)(ForgeRecentTrades);
